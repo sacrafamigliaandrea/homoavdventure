@@ -115,7 +115,7 @@ function rS(){
     b=`<div class="hf" style="font-size:10px;color:var(--stone);letter-spacing:2px;margin-bottom:14px;text-transform:uppercase">Riflessione ${G.ss+1} di ${SC.length}</div>
     <p style="font-size:17px;margin-bottom:14px">${SC[G.ss]}</p>
     <textarea id="sta" rows="3" placeholder="Scrivi la tua risposta..." style="width:100%;padding:12px;font-size:15px;font-family:var(--bf);background:#0e0c0888;border:1px solid #3a3228;border-radius:6px;color:var(--bone);resize:vertical">${v}</textarea>
-    <div style="margin-top:10px">${B('Conferma (+'+XV.r+' XP)','cS(event)','#C4A24E',!ok)}</div>`;
+    <div style="margin-top:10px"><button id="cbtn" class="b" style="color:${ok?'#C4A24E':'#444'};border-color:${ok?'#C4A24E66':'#2a2318'}" ${ok?'':'disabled'} onclick="cS(event)">Conferma (+${XV.r} XP)</button></div>`;
   } else {
     b=`<div style="text-align:center">
       <svg width="44" height="44" viewBox="0 0 48 48" style="margin-bottom:8px"><circle cx="24" cy="24" r="18" fill="none" stroke="var(--moss)" stroke-width="1.5"/><path d="M16 24l6 6 10-10" stroke="var(--moss)" stroke-width="2" fill="none"/></svg>
@@ -127,7 +127,7 @@ function rS(){
   const ch=G.ss>0?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">${Array.from({length:Math.min(G.ss,SC.length)}).map((_,i)=>`<div style="background:#1e1a14;border:1px solid #2a221844;border-radius:4px;padding:4px 10px;font-size:12px;color:#5a4d3a;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic">${(G.sr[i]||'').slice(0,28)}...</div>`).join('')}</div>`:'';
   app.innerHTML=hd('Fase I','Conosci te stesso — La tua vita oggi')+P(b)+ch;
   const ta=document.getElementById('sta');
-  if(ta){ta.focus();ta.addEventListener('input',()=>{G.sr[G.ss]=ta.value})}
+  if(ta){ta.focus();ta.addEventListener('input',()=>{G.sr[G.ss]=ta.value;const b=document.getElementById('cbtn');if(b){if(ta.value.trim().length>5){b.disabled=false;b.style.color='#C4A24E';b.style.borderColor='#C4A24E66'}else{b.disabled=true;b.style.color='#444';b.style.borderColor='#2a2318'}}})}
 }
 
 function cS(e){if((G.sr[G.ss]||'').trim().length>5){ax(XV.r,e);G.ss++;R()}}
