@@ -7,220 +7,457 @@
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--hf:'Cinzel',serif;--bf:'Crimson Pro',serif;--bone:#E8DCC8;--sand:#C4A24E;--earth:#8B6914;--clay:#A0522D;--moss:#6B7F3B;--mossL:#9AAF5C;--stone:#6b5d4a;--char:#1a1510;--deep:#0e0c08}
-body{font-family:var(--bf);color:var(--bone);background:linear-gradient(180deg,var(--deep),var(--char) 50%,var(--deep));min-height:100vh;line-height:1.6;font-size:15px}
-textarea:focus,input:focus{outline:none;border-color:var(--sand)!important}
+:root{--hf:'Cinzel',serif;--bf:'Crimson Pro',serif;--bone:#E8DCC8;--sand:#C4A24E;--earth:#8B6914;--clay:#A0522D;--moss:#6B7F3B;--mossL:#9AAF5C;--stone:#6b5d4a;--char:#1a1510;--deep:#0e0c08;--ice:#5A7D8B;--iceL:#8AABB8;--fire:#D2845A}
+body{font-family:var(--bf);color:var(--bone);background:linear-gradient(180deg,var(--deep),var(--char) 50%,var(--deep));min-height:100vh;line-height:1.6;font-size:15px;overflow-x:hidden}
+input:focus,textarea:focus{outline:none;border-color:var(--sand)!important}
 .hf{font-family:var(--hf)}
-.wrap{max-width:720px;margin:0 auto;padding:20px}
-.p{background:linear-gradient(170deg,#2a2218,#1e1a14 60%,#252015);border-radius:8px;padding:22px;position:relative;box-shadow:inset 0 0 40px #00000044,0 2px 8px #00000033;overflow:hidden;margin-bottom:14px}
-.p::before{content:'';position:absolute;inset:0;border-radius:8px;opacity:.03;background-image:repeating-conic-gradient(var(--sand) 0% 25%,transparent 0% 50%);background-size:4px 4px;pointer-events:none}
-.p>.i{position:relative;z-index:1}
-.xpb{display:flex;align-items:center;gap:10px;padding:8px 0}
-.xpt{flex:1;height:10px;background:var(--char);border-radius:5px;border:1px solid #3a3228;overflow:hidden}
-.xpf{height:100%;background:linear-gradient(90deg,var(--earth),var(--sand),var(--earth));border-radius:4px;transition:width .6s}
-.b{font-family:var(--hf);font-size:11px;padding:10px 24px;letter-spacing:1.5px;background:transparent;border:1.5px solid;border-radius:6px;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block}
-.b:disabled{color:#444;border-color:#2a2318;cursor:default}
-.b:not(:disabled):hover{background:#ffffff08}
-.sp{display:flex;gap:3px;margin-bottom:14px}
-.sp div{flex:1;height:5px;border-radius:3px;transition:background .4s}
-.tt{display:flex;gap:5px;flex-wrap:wrap;margin-top:14px}
-.tt div{padding:5px 10px;border-radius:4px;font-size:12px;display:flex;align-items:center;gap:4px;border:1px solid transparent}
-.ob{flex:1;min-width:130px;padding:10px 8px;font-family:var(--hf);font-size:10px;letter-spacing:1px;background:transparent;border:1px solid;border-radius:6px;cursor:pointer;transition:all .2s}
-.ob:hover{background:#ffffff06}
-.fcc{perspective:800px;margin-bottom:18px;cursor:pointer}
-.fci{position:relative;min-height:360px;transition:transform .7s;transform-style:preserve-3d}
-.fci.fl{transform:rotateY(180deg)}
-.fcf{position:absolute;inset:0;backface-visibility:hidden;border-radius:10px;padding:24px;overflow:auto}
-.fcb{transform:rotateY(180deg)}
-.qo{padding:8px 10px;font-size:13px;font-family:var(--bf);background:transparent;border:1px solid #2a2218;border-radius:4px;color:var(--stone);cursor:pointer;text-align:left;transition:all .15s}
-.qo.s{background:#C4A24E18;border-color:#C4A24E66;color:var(--sand)}
-.qo:hover:not(.s){border-color:#3a3228}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.sb{background:#0e0c0866;border-radius:4px;padding:6px 8px}
-.fx{position:fixed;color:var(--sand);font-family:var(--hf);font-size:13px;font-weight:700;pointer-events:none;z-index:9999;animation:fu 1.2s ease-out forwards}
-@keyframes fu{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-60px)}}
-@keyframes br{0%,100%{opacity:.5}50%{opacity:1}}
-.br{animation:br 3s infinite}
-.mta{width:100%;font-size:14px;font-family:var(--bf);background:transparent;border:1px solid #2a2218;border-radius:4px;color:var(--bone);padding:8px;resize:vertical}
-.hb{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}
+#app{max-width:720px;margin:0 auto;padding:20px}
+
+/* Card */
+.card{background:linear-gradient(170deg,#2a2218,#1e1a14 60%,#252015);border-radius:12px;padding:24px;position:relative;box-shadow:inset 0 0 30px #00000044,0 4px 12px #00000044;overflow:hidden;margin-bottom:16px;border:1px solid #ffffff08}
+
+/* XP bar */
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid #ffffff08}
+.xpt{flex:1;height:8px;background:#0e0c08;border-radius:4px;overflow:hidden}
+.xpf{height:100%;background:linear-gradient(90deg,var(--earth),var(--sand));border-radius:4px;transition:width .8s}
+
+/* Survival hearts */
+.hearts{display:flex;gap:4px}
+.heart{width:22px;height:22px;transition:all .3s}
+.heart.lost{opacity:.2;transform:scale(.8)}
+
+/* Choices */
+.choices{display:grid;gap:10px;margin-top:16px}
+.choice{padding:14px 16px;border-radius:10px;border:1.5px solid #ffffff10;background:#0e0c0888;cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:12px;text-align:left;font-family:var(--bf);font-size:15px;color:var(--bone)}
+.choice:hover{border-color:var(--sand);background:#C4A24E0a;transform:translateX(4px)}
+.choice .icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+
+/* Feedback overlay */
+.feedback{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .3s}
+.feedback-card{background:#1e1a14;border-radius:16px;padding:32px;max-width:440px;width:90%;text-align:center;border:2px solid;box-shadow:0 20px 60px #00000088}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.pop{animation:pop .4s ease-out}
+.shake{animation:shake .4s}
+
+/* Scene */
+.scene{width:100%;height:180px;border-radius:10px;margin-bottom:16px;overflow:hidden;position:relative}
+
+/* Flash card */
+.fc{perspective:800px;cursor:pointer;margin:20px auto;max-width:400px}
+.fc-inner{position:relative;height:320px;transition:transform .6s;transform-style:preserve-3d}
+.fc-inner.flipped{transform:rotateY(180deg)}
+.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.fc-back{transform:rotateY(180deg);overflow:auto;justify-content:flex-start!important;align-items:stretch!important}
+
+/* Btn */
+.btn{font-family:var(--hf);font-size:12px;padding:12px 28px;letter-spacing:2px;background:transparent;border:1.5px solid var(--sand);color:var(--sand);border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block}
+.btn:hover{background:#C4A24E12}
+.btn:disabled{opacity:.3;cursor:default}
+.btn.solid{background:var(--sand);color:var(--deep)}
+.btn.solid:hover{background:var(--earth)}
+
+/* Progress dots */
+.dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
+.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid #ffffff15;transition:all .3s}
+.dot.done{background:var(--sand);border-color:var(--sand)}
+.dot.active{border-color:var(--sand);box-shadow:0 0 8px #C4A24E44}
+
+/* Inventory */
+.inv{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.inv-item{background:#0e0c0888;border:1px solid #ffffff10;border-radius:8px;padding:6px 10px;font-size:13px;display:flex;align-items:center;gap:6px;animation:pop .3s}
+
+/* Float XP */
+.fxp{position:fixed;color:var(--sand);font-family:var(--hf);font-size:16px;font-weight:700;pointer-events:none;z-index:999;animation:floatUp 1s ease-out forwards}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(1.3)}}
+@keyframes breathe{0%,100%{opacity:.4}50%{opacity:1}}
+
+/* Modern grid */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+.mcard{background:#0e0c0888;border:1px solid #ffffff10;border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .3s}
+.mcard:hover{border-color:var(--sand)}
+.mcard.checked{border-color:var(--sand);background:#C4A24E0a}
+.mcard .big{font-size:28px;margin-bottom:6px}
+
+/* Quiz */
+.qopt{padding:10px 14px;border-radius:8px;border:1.5px solid #ffffff10;background:#0e0c0888;cursor:pointer;transition:all .2s;font-family:var(--bf);font-size:14px;color:var(--bone);text-align:left}
+.qopt:hover{border-color:var(--sand)}
+.qopt.sel{border-color:var(--sand);background:#C4A24E15}
+.qopt.ok{border-color:var(--moss);background:#6B7F3B15;color:var(--mossL)}
+.qopt.no{border-color:var(--clay);background:#A0522D15;color:var(--fire)}
+
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meta-box{background:#0e0c0866;border-radius:8px;padding:14px;border-left:3px solid #7B5E3E33;margin-bottom:10px}
+.meta-box textarea{width:100%;font-size:14px;font-family:var(--bf);background:transparent;border:1px solid #2a2218;border-radius:6px;color:var(--bone);padding:8px;resize:vertical}
 </style>
 </head>
 <body>
-<div class="wrap" id="app"></div>
+<div id="app"></div>
 <script>
-const SP=[
-{id:"australopithecus",n:"Australopiteco",per:"4–2 milioni di anni fa",c:"#8B6914",a:"#C4A24E",bg:"#3D2B1F",hab:"Savana africana",tools:"Nessuno strumento",food:"Frutta, radici, insetti",fire:0,lang:0,brain:"400 cm³",h:"1–1,3 m",
-facts:["Camminava eretto ma era piccolo (1–1,3 m)","Viveva sugli alberi e nella savana","Non usava strumenti, solo mani e denti","Il suo cervello era grande come un'arancia"],
-lim:{eat:"Puoi solo raccogliere frutta e radici con le mani nude. Niente cottura, niente coltello!",dress:"Nessun vestito! Solo il tuo corpo contro il freddo della notte e il sole cocente.",communicate:"Solo gesti e piccoli versi gutturali. Niente parole, niente frasi!",shelter:"Dormi sotto gli alberi o in anfratti rocciosi. I predatori sono sempre in agguato.",travel:"Cammini scalzo sulla terra arida. Ogni spostamento è un rischio."}},
-{id:"habilis",n:"Homo Habilis",per:"2,5–1,5 milioni di anni fa",c:"#6B7F3B",a:"#9AAF5C",bg:"#2E3422",hab:"Africa orientale",tools:"Pietre scheggiate (chopper)",food:"Frutta, radici, carne cruda",fire:0,lang:0,brain:"600 cm³",h:"1,2–1,4 m",
-facts:["Il primo a usare strumenti di pietra!","Scheggiava le pietre per tagliare la carne","Viveva in piccoli gruppi per proteggersi","Il suo nome significa 'uomo abile'"],
-lim:{eat:"Puoi tagliare carne e radici con pietre scheggiate. Ma niente cottura!",dress:"Forse pelli grezze sulle spalle, ma niente cuciture.",communicate:"Gesti e suoni semplici per avvisare il gruppo. Niente frasi!",shelter:"Ripari di rami e pietre ammucchiate. Fragili e temporanei.",travel:"A piedi, ma ora hai strumenti per difenderti dai predatori."}},
-{id:"erectus",n:"Homo Erectus",per:"1,8 milioni–300.000 anni fa",c:"#A0522D",a:"#D2845A",bg:"#3A2215",hab:"Africa, Asia, Europa",tools:"Amigdala (bifacciale)",food:"Carne cotta, vegetali",fire:1,lang:0,brain:"900 cm³",h:"fino a 1,8 m",
-facts:["Il primo a usare il FUOCO!","Ha lasciato l'Africa per esplorare il mondo","Costruiva strumenti più raffinati: l'amigdala","Alto quasi come noi (fino a 1,8 m)"],
-lim:{eat:"Puoi cuocere la carne sul fuoco! Una conquista enorme!",dress:"Pelli di animali più lavorate, ma niente tessuti.",communicate:"Suoni più articolati, forse un proto-linguaggio.",shelter:"Capanne di rami e il fuoco per scaldarti e tenere lontani i predatori.",travel:"Grandi migrazioni a piedi, attraversando interi continenti!"}},
-{id:"neanderthal",n:"Homo di Neanderthal",per:"400.000–40.000 anni fa",c:"#5A7D8B",a:"#8AABB8",bg:"#1F2E34",hab:"Europa e Asia occidentale",tools:"Strumenti complessi, lance",food:"Carne cotta, erbe medicinali",fire:1,lang:1,brain:"1400 cm³",h:"1,5–1,7 m",
-facts:["Cervello grande quanto (o più) del nostro!","Seppelliva i morti: aveva sentimenti profondi","Viveva nel freddo delle ere glaciali","Sapeva curare ferite e malattie con le erbe"],
-lim:{eat:"Cucini la carne alla perfezione e conosci le erbe medicinali.",dress:"Pellicce cucite con aghi d'osso. Protetto anche nel gelo!",communicate:"Linguaggio semplice ma efficace, gesti e forse canti.",shelter:"Grotte ben organizzate con fuoco, giacigli di pelli, magazzini.",travel:"Conosci il territorio a memoria e cacci in gruppo organizzato."}},
-{id:"sapiens",n:"Homo Sapiens",per:"300.000 anni fa – oggi",c:"#7B5E3E",a:"#BFA57A",bg:"#2A2218",hab:"Tutto il pianeta",tools:"Dalla selce al computer",food:"Tutto, coltivato e allevato",fire:1,lang:1,brain:"1350 cm³",h:"media 1,7 m",
-facts:["Siamo noi! L'unica specie umana rimasta","Abbiamo inventato arte, scrittura e musica","Abbiamo colonizzato tutto il pianeta","Il nostro segreto? Cooperazione e linguaggio complesso"],
-lim:{eat:"Cucini qualsiasi cosa, hai inventato l'agricoltura e l'allevamento!",dress:"Tessuti, colori, moda. I vestiti raccontano chi sei.",communicate:"Linguaggio complesso, scrittura, stampa, internet!",shelter:"Case, città, grattacieli. Sicurezza e comfort totale.",travel:"Auto, treni, aerei, razzi. Il mondo è piccolo per te!"}}
+/* ═══════════════════ DATA ═══════════════════ */
+const SPECIES=[
+{id:"australo",name:"Australopiteco",short:"Australopiteco",period:"4 milioni di anni fa",color:"#8B6914",accent:"#C4A24E",bg:"#3D2B1F",brain:"400 cm³",height:"1,3 m",tool:"Nessuno",fire:false,lang:false,
+icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="16" r="7" fill="none" stroke="#C4A24E" stroke-width="1.5"/><path d="M18 26l6 14M30 26l-6 14" stroke="#C4A24E" stroke-width="1.5" fill="none"/><path d="M15 18c-2-3-1-8 3-10M33 18c2-3 1-8-3-10" stroke="#C4A24E" stroke-width="1" fill="none" opacity=".5"/><circle cx="22" cy="15" r="1" fill="#C4A24E"/><circle cx="27" cy="15" r="1" fill="#C4A24E"/></svg>`,
+scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D4A06A"/><stop offset="1" stop-color="#8B6914" stop-opacity=".3"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky0)"/><circle cx="620" cy="40" r="30" fill="#E8B84A" opacity=".6"/><ellipse cx="360" cy="170" rx="400" ry="40" fill="#6B5A30"/><path d="M100 160c10-40 20-60 30-80s15-20 10-10c5-20 15-30 20-20l-5 30c10-15 20-10 15 5l-10 25c15-10 20 5 10 20l-30 30z" fill="#4a6620" opacity=".4"/><path d="M500 130l5-40 3-20 8 25 4-15 6 30 3-10 5 30z" fill="#7a6830" opacity=".3"/></svg>`,
+scenarios:[
+  {text:"Hai fame! Cosa fai?",choices:[
+    {text:"Salgo sull'albero a cercare frutta",icon:"🌳",correct:true,fb:"Perfetto! Gli Australopitechi erano bravissimi ad arrampicarsi e mangiavano soprattutto frutta e radici!",item:"Frutta selvatica"},
+    {text:"Accendo il fuoco e cucino",icon:"🔥",correct:false,fb:"Il fuoco non esiste ancora! Mancano più di 2 milioni di anni alla sua scoperta!"},
+    {text:"Apro il frigorifero",icon:"🧊",correct:false,fb:"Il frigo?! Non esiste nemmeno una capanna! Siamo nella savana africana!"}
+  ]},
+  {text:"Arriva un leopardo! Come ti salvi?",choices:[
+    {text:"Chiamo la polizia",icon:"📞",correct:false,fb:"Il telefono non esisterà per altri 4 milioni di anni! E nemmeno la polizia!"},
+    {text:"Scappo sugli alberi col mio gruppo",icon:"🌿",correct:true,fb:"Giusto! Gli Australopitechi vivevano in gruppo e si rifugiavano sugli alberi dai predatori!",item:"Rifugio sugli alberi"},
+    {text:"Lo affronto con una lancia",icon:"🗡️",correct:false,fb:"Nessun'arma! L'Australopiteco non sapeva ancora costruire strumenti!"}
+  ]},
+  {text:"Vuoi dire al tuo gruppo che hai trovato cibo. Come fai?",choices:[
+    {text:"Mando un messaggio vocale",icon:"🎤",correct:false,fb:"Niente telefono, niente lingua parlata! Solo gesti e versi!"},
+    {text:"Scrivo un biglietto",icon:"✉️",correct:false,fb:"La scrittura arriverà tra quasi 4 milioni di anni!"},
+    {text:"Faccio gesti e grido versi",icon:"🙌",correct:true,fb:"Esatto! L'Australopiteco comunicava con gesti e suoni semplici, come fanno ancora oggi le scimmie!",item:"Comunicazione gestuale"}
+  ]}
+]},
+{id:"habilis",name:"Homo Habilis",short:"Habilis",period:"2,5 milioni di anni fa",color:"#6B7F3B",accent:"#9AAF5C",bg:"#2E3422",brain:"600 cm³",height:"1,4 m",tool:"Chopper (pietra scheggiata)",fire:false,lang:false,
+icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="14" r="8" fill="none" stroke="#9AAF5C" stroke-width="1.5"/><path d="M20 30l4 14M28 30l-4 14" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><path d="M32 28l6-2" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><polygon points="38,24 40,28 36,27" fill="#9AAF5C" opacity=".5"/><circle cx="22" cy="13" r="1" fill="#9AAF5C"/><circle cx="27" cy="13" r="1" fill="#9AAF5C"/></svg>`,
+scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A9A4A"/><stop offset="1" stop-color="#3E4A20" stop-opacity=".5"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky1)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#4A5030"/><ellipse cx="200" cy="140" rx="60" ry="25" fill="#6B6850" opacity=".5"/><ellipse cx="500" cy="130" rx="40" ry="20" fill="#7A7060" opacity=".5"/><polygon points="280,155 290,130 300,155" fill="#8A8A70" opacity=".4"/><polygon points="310,155 315,135 325,150 320,155" fill="#7A7A60" opacity=".5"/></svg>`,
+scenarios:[
+  {text:"Trovi un animale morto. Come prendi la carne?",choices:[
+    {text:"La strappo con le mani",icon:"🤲",correct:false,fb:"Troppo dura! Ma hai un'idea migliore..."},
+    {text:"Scheggio una pietra e la uso per tagliare",icon:"🪨",correct:true,fb:"Bravissimo! L'Homo Habilis è il PRIMO a usare strumenti! Scheggia le pietre per creare i 'chopper', i primi coltelli della storia!",item:"Chopper di pietra"},
+    {text:"La cucino sul fuoco",icon:"🔥",correct:false,fb:"Il fuoco non è stato ancora scoperto! Dovrai mangiare la carne cruda..."}
+  ]},
+  {text:"La notte fa freddo. Come ti proteggi?",choices:[
+    {text:"Mi costruisco un riparo con rami e pietre",icon:"🏕️",correct:true,fb:"Bravo! L'Habilis costruiva ripari semplici. Niente case, ma meglio di dormire all'aperto!",item:"Riparo di rami"},
+    {text:"Accendo il riscaldamento",icon:"🌡️",correct:false,fb:"Non esiste il riscaldamento! E nemmeno il fuoco! Brrr!"},
+    {text:"Mi metto il pigiama",icon:"👔",correct:false,fb:"I vestiti come li conosciamo non esistono ancora! Solo il tuo corpo e forse qualche foglia..."}
+  ]},
+  {text:"Il tuo chopper si è rotto. Cosa fai?",choices:[
+    {text:"Vado al negozio a comprarne uno nuovo",icon:"🏪",correct:false,fb:"I negozi non esisteranno per altri 2 milioni di anni!"},
+    {text:"Piango e rinuncio",icon:"😢",correct:false,fb:"No! L'Habilis non si arrende! È 'abile' nel costruire!"},
+    {text:"Cerco un'altra pietra e ne faccio uno nuovo",icon:"💪",correct:true,fb:"Esatto! L'Homo Habilis (uomo abile!) sapeva scegliere le pietre giuste e lavorarle. Era il primo artigiano della storia!",item:"Abilità artigianale"}
+  ]}
+]},
+{id:"erectus",name:"Homo Erectus",short:"Erectus",period:"1,8 milioni di anni fa",color:"#A0522D",accent:"#D2845A",bg:"#3A2215",brain:"900 cm³",height:"1,8 m",tool:"Amigdala (bifacciale)",fire:true,lang:false,
+icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#D2845A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#D2845A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#D2845A"/><circle cx="27" cy="11" r="1" fill="#D2845A"/><circle cx="38" cy="30" r="4" fill="#D2845A" opacity=".25"/><circle cx="37" cy="29" r="2" fill="#D2845A" opacity=".5"/></svg>`,
+scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C07840"/><stop offset="1" stop-color="#5A3018" stop-opacity=".5"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky2)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#5A4030"/><circle cx="550" cy="150" r="18" fill="#FF6B20" opacity=".3"/><circle cx="550" cy="148" r="12" fill="#FFa040" opacity=".4"/><circle cx="550" cy="145" r="7" fill="#FFcc60" opacity=".5"/><path d="M100 170c20-10 40-30 50-50s10-20 20-10c-5-15 10-20 15-5l5 20c5-10 15 0 10 15l-5 30z" fill="#6a5a30" opacity=".3"/></svg>`,
+scenarios:[
+  {text:"Hai scoperto qualcosa di incredibile: il FUOCO! Cosa ne fai?",choices:[
+    {text:"Lo spengo, mi fa paura!",icon:"💨",correct:false,fb:"Che errore! Il fuoco è la scoperta più importante della preistoria!"},
+    {text:"Lo uso per cuocere la carne e scaldarmi",icon:"🔥",correct:true,fb:"GENIALE! L'Homo Erectus è il primo a dominare il fuoco! Cuocere il cibo lo rende più nutriente e aiuta il cervello a crescere!",item:"Dominio del fuoco"},
+    {text:"Lo fotografo e lo metto su Instagram",icon:"📸",correct:false,fb:"Instagram?! Mancano 1,8 milioni di anni! Ma l'idea di condividere scoperte non è male..."}
+  ]},
+  {text:"Il cibo qui scarseggia. Cosa decidi?",choices:[
+    {text:"Ordino una pizza a domicilio",icon:"🍕",correct:false,fb:"La pizza arriverà tra circa 1,8 milioni di anni... a Napoli! Pazienza!"},
+    {text:"Parto con il mio gruppo verso nuove terre",icon:"🌍",correct:true,fb:"Proprio così! L'Homo Erectus è il PRIMO a lasciare l'Africa! Ha camminato fino in Asia e in Europa. Il primo grande esploratore!",item:"Spirito esploratore"},
+    {text:"Resto qui e aspetto",icon:"⏳",correct:false,fb:"Aspettare non funziona quando il cibo finisce! Bisogna muoversi!"}
+  ]},
+  {text:"Costruisci un nuovo strumento. Quale forma gli dai?",choices:[
+    {text:"Rotonda come una palla",icon:"⚽",correct:false,fb:"Una palla non taglia! Serve qualcosa di più furbo..."},
+    {text:"A goccia, lavorata su entrambi i lati",icon:"💧",correct:true,fb:"Perfetto! L'amigdala (bifacciale) è lo strumento simbolo dell'Erectus: lavorata su due lati, a forma di goccia. Potevi tagliare, raschiare, scavare!",item:"Amigdala bifacciale"},
+    {text:"Quadrata come un mattone",icon:"🧱",correct:false,fb:"Troppo pesante e poco pratica! La forma a goccia è molto più efficace."}
+  ]}
+]},
+{id:"neander",name:"Homo di Neanderthal",short:"Neanderthal",period:"400.000 anni fa",color:"#5A7D8B",accent:"#8AABB8",bg:"#1F2E34",brain:"1400 cm³",height:"1,65 m",tool:"Lance, aghi d'osso",fire:true,lang:true,
+icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><ellipse cx="24" cy="13" rx="8" ry="9" fill="none" stroke="#8AABB8" stroke-width="1.5"/><path d="M16 13c-1-5 2-10 8-11s9 6 8 11" stroke="#8AABB8" stroke-width="1" fill="none" opacity=".4"/><path d="M20 28l4 16M28 28l-4 16" stroke="#8AABB8" stroke-width="1.5" fill="none"/><circle cx="21" cy="13" r="1.2" fill="#8AABB8"/><circle cx="27" cy="13" r="1.2" fill="#8AABB8"/><path d="M21 17h6" stroke="#8AABB8" stroke-width="1" fill="none"/></svg>`,
+scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6080A0"/><stop offset="1" stop-color="#2A3A4A" stop-opacity=".6"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky3)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#D8D8E0"/><path d="M0 140l80-20 60 10 100-30 80 15 60-10 100-25 80 20 60-5 100-15v100H0z" fill="#A0A8B8" opacity=".3"/><path d="M150 170c10-40 30-70 50-80 10 5 20 30 25 80z" fill="#4A5A68" opacity=".4"/><ellipse cx="170" cy="150" rx="35" ry="20" fill="#3A4A58" opacity=".5"/></svg>`,
+scenarios:[
+  {text:"È inverno e fa un freddo terribile. Come sopravvivi?",choices:[
+    {text:"Cucio pellicce con aghi d'osso",icon:"🧥",correct:true,fb:"Esatto! Il Neanderthal sapeva cucire le pelli con aghi d'osso! Era il primo 'sarto' della preistoria, sopravvivendo alle ere glaciali!",item:"Pellicce cucite"},
+    {text:"Alzo il riscaldamento a 22 gradi",icon:"🌡️",correct:false,fb:"Il termostato arriverà tra 400.000 anni! Il Neanderthal usava pellicce, fuoco e grotte."},
+    {text:"Mi metto i pantaloni e la felpa",icon:"👖",correct:false,fb:"I tessuti non esistono ancora! Solo pelli di animale, cucite con grande abilità!"}
+  ]},
+  {text:"Un membro del tuo gruppo è morto. Cosa fai?",choices:[
+    {text:"Lo seppellisco con cura e fiori",icon:"🌸",correct:true,fb:"Commovente e vero! Il Neanderthal seppelliva i morti con fiori e oggetti. Aveva sentimenti profondi e rispetto per chi non c'era più.",item:"Sepoltura rituale"},
+    {text:"Non mi importa, vado avanti",icon:"🚶",correct:false,fb:"Il Neanderthal non la pensava così! Aveva un cuore grande e seppelliva i suoi cari con rispetto."},
+    {text:"Chiamo un'ambulanza",icon:"🚑",correct:false,fb:"Le ambulanze arriveranno molto dopo! Ma il Neanderthal sapeva curare i feriti con le erbe medicinali!"}
+  ]},
+  {text:"Trovi un compagno ferito. Come lo aiuti?",choices:[
+    {text:"Lo porto in ospedale",icon:"🏥",correct:false,fb:"Gli ospedali non esistono! Ma il Neanderthal aveva il suo rimedio..."},
+    {text:"Uso erbe medicinali per curarlo",icon:"🌿",correct:true,fb:"Proprio così! Il Neanderthal conosceva le proprietà curative delle piante! Era il primo 'dottore' della storia!",item:"Erbe medicinali"},
+    {text:"Gli do una pastiglia",icon:"💊",correct:false,fb:"Le medicine in pillola arriveranno molto dopo! Ma le erbe funzionavano davvero!"}
+  ]}
+]},
+{id:"sapiens",name:"Homo Sapiens",short:"Sapiens",period:"300.000 anni fa → oggi",color:"#7B5E3E",accent:"#BFA57A",bg:"#2A2218",brain:"1350 cm³",height:"1,7 m",tool:"Tutti!",fire:true,lang:true,
+icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#BFA57A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#BFA57A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#BFA57A"/><circle cx="27" cy="11" r="1" fill="#BFA57A"/><path d="M22 15c1 1 3 1 4 0" stroke="#BFA57A" stroke-width="1" fill="none"/><path d="M18 8c0-4 4-6 6-6s6 2 6 6" stroke="#BFA57A" stroke-width="1" fill="none" opacity=".4"/></svg>`,
+scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A7050"/><stop offset="1" stop-color="#4A3820" stop-opacity=".4"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky4)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#5A4A30"/><rect x="200" y="100" width="40" height="60" rx="3" fill="#6A5A40" opacity=".4"/><rect x="260" y="80" width="50" height="80" rx="3" fill="#7A6A50" opacity=".3"/><rect x="330" y="110" width="35" height="50" rx="3" fill="#6A5A40" opacity=".35"/><circle cx="500" cy="120" r="15" fill="#BFA57A" opacity=".15"/><path d="M480 140l10-30 8 10 12-20 6 15 10-10 5 35z" fill="#9A8A60" opacity=".2"/></svg>`,
+scenarios:[
+  {text:"Hai inventato il linguaggio! Cosa fai con questo superpotere?",choices:[
+    {text:"Racconto storie e insegno ai giovani",icon:"📖",correct:true,fb:"Il linguaggio è il nostro superpotere! Grazie alle storie, trasmettiamo conoscenze. Nessun altro animale può farlo così!",item:"Linguaggio complesso"},
+    {text:"Lo uso solo per dire 'ciao'",icon:"👋",correct:false,fb:"Troppo poco! Il linguaggio ci permette di trasmettere tutto: storie, istruzioni, sentimenti, idee!"},
+    {text:"Non mi serve, preferisco i gesti",icon:"🤷",correct:false,fb:"I gesti funzionano, ma il linguaggio ti permette di spiegare il passato, il futuro, i sogni!"}
+  ]},
+  {text:"Il tuo gruppo cresce. Come vi organizzate?",choices:[
+    {text:"Ognuno pensa per sé",icon:"🧍",correct:false,fb:"Da soli siamo deboli! Il segreto del Sapiens è la cooperazione!"},
+    {text:"Ci dividiamo i compiti e cooperiamo",icon:"🤝",correct:true,fb:"QUESTO è il segreto dell'Homo Sapiens! La cooperazione ci ha permesso di costruire villaggi, poi città, poi civiltà intere!",item:"Cooperazione"},
+    {text:"Eleggo un re che comanda tutti",icon:"👑",correct:false,fb:"I primi gruppi di Sapiens erano più democratici! La collaborazione veniva prima del comando."}
+  ]},
+  {text:"Vuoi lasciare un segno del tuo passaggio. Come?",choices:[
+    {text:"Dipingo sulle pareti della grotta",icon:"🎨",correct:true,fb:"L'arte rupestre! I Sapiens hanno inventato l'arte: dipinti, sculture, musica. Esprimere sé stessi è ciò che ci rende unici!",item:"Arte rupestre"},
+    {text:"Faccio una foto",icon:"📸",correct:false,fb:"La fotografia arriverà molto dopo! Ma l'idea è giusta: voler lasciare un ricordo. I Sapiens lo facevano con l'arte!"},
+    {text:"Non mi interessa",icon:"😐",correct:false,fb:"L'Homo Sapiens ha sempre voluto lasciare un segno! L'arte rupestre di 40.000 anni fa è ancora lì, nelle grotte!"}
+  ]}
+]}
 ];
-const TK=[{id:"eat",l:"Mangiare",m:"Apro il frigo e preparo la colazione"},{id:"dress",l:"Vestirsi",m:"Scelgo i vestiti dal mio armadio"},{id:"communicate",l:"Comunicare",m:"Parlo, scrivo, uso il telefono"},{id:"shelter",l:"Ripararsi",m:"Vivo in una casa calda e sicura"},{id:"travel",l:"Spostarsi",m:"Vado a scuola in auto o bus"}];
-const TI={eat:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><path d="M6 1v3M10 1v3M14 1v3"/></svg>`,dress:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M12 2l3 7h4l-3 4 2 7-6-4-6 4 2-7-3-4h4z"/></svg>`,communicate:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,shelter:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M3 12l9-9 9 9"/><path d="M5 10v10a1 1 0 001 1h12a1 1 0 001-1V10"/></svg>`,travel:c=>`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 014 10 15 15 0 01-4 10 15 15 0 01-4-10A15 15 0 0112 2z"/></svg>`};
-const SI={australopithecus:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="16" r="7" fill="none" stroke="#C4A24E" stroke-width="1.5"/><path d="M18 26c0 0 2 8 6 12M30 26c0 0-2 8-6 12" stroke="#C4A24E" stroke-width="1.5" fill="none"/><path d="M15 18c-2-3-1-8 3-10M33 18c2-3 1-8-3-10" stroke="#C4A24E" stroke-width="1" fill="none" opacity=".5"/><circle cx="22" cy="15" r="1" fill="#C4A24E"/><circle cx="27" cy="15" r="1" fill="#C4A24E"/></svg>`,habilis:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="14" r="8" fill="none" stroke="#9AAF5C" stroke-width="1.5"/><path d="M20 30l4 14M28 30l-4 14" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><path d="M32 28l6-2" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><polygon points="38,24 40,28 36,27" fill="#9AAF5C" opacity=".5"/><circle cx="22" cy="13" r="1" fill="#9AAF5C"/><circle cx="27" cy="13" r="1" fill="#9AAF5C"/></svg>`,erectus:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#D2845A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#D2845A" stroke-width="1.5" fill="none"/><path d="M34 30l4-6" stroke="#D2845A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#D2845A"/><circle cx="27" cy="11" r="1" fill="#D2845A"/><circle cx="38" cy="24" r="3" fill="#D2845A" opacity=".25"/><circle cx="37" cy="23" r="1.5" fill="#D2845A" opacity=".5"/></svg>`,neanderthal:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><ellipse cx="24" cy="13" rx="8" ry="9" fill="none" stroke="#8AABB8" stroke-width="1.5"/><path d="M16 13c-1-5 2-10 8-11s9 6 8 11" stroke="#8AABB8" stroke-width="1" fill="none" opacity=".4"/><path d="M20 28l4 16M28 28l-4 16" stroke="#8AABB8" stroke-width="1.5" fill="none"/><circle cx="21" cy="13" r="1.2" fill="#8AABB8"/><circle cx="27" cy="13" r="1.2" fill="#8AABB8"/><path d="M21 17h6" stroke="#8AABB8" stroke-width="1" fill="none"/></svg>`,sapiens:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#BFA57A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#BFA57A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#BFA57A"/><circle cx="27" cy="11" r="1" fill="#BFA57A"/><path d="M22 15c1 1 3 1 4 0" stroke="#BFA57A" stroke-width="1" fill="none"/><path d="M18 8c0-4 4-6 6-6s6 2 6 6" stroke="#BFA57A" stroke-width="1" fill="none" opacity=".4"/></svg>`};
-const QZ=[{q:"Chi è stato il primo a usare strumenti di pietra?",o:["Australopiteco","Homo Habilis","Homo Erectus","Homo Sapiens"],c:1},{q:"Chi ha imparato a usare il fuoco?",o:["Homo Habilis","Homo di Neanderthal","Homo Erectus","Australopiteco"],c:2},{q:"Chi seppelliva i propri morti?",o:["Homo Erectus","Australopiteco","Homo Sapiens","Homo di Neanderthal"],c:3},{q:"Cosa significa 'bipede'?",o:["Mangiare carne","Camminare su due gambe","Usare strumenti","Parlare"],c:1},{q:"Quale specie ha lasciato l'Africa per prima?",o:["Homo Sapiens","Homo Erectus","Australopiteco","Homo Habilis"],c:1},{q:"L'Australopiteco viveva...",o:["In città","Nella savana africana","Al Polo Nord","In montagna"],c:1},{q:"Quale Homo aveva il cervello grande come il nostro?",o:["Habilis","Australopiteco","Neanderthal","Erectus"],c:2},{q:"Cosa ci rende unici come Homo Sapiens?",o:["I muscoli","Linguaggio e cooperazione","La velocità","L'altezza"],c:1}];
-const SC=["Pensa alla tua giornata di oggi. Cosa fai appena ti svegli per la colazione?","Quali oggetti usi ogni giorno che ti rendono la vita più facile?","Come comunichi con le persone che ami? Come le raggiungi?","Com'è la tua casa? Cosa ti fa sentire al sicuro?","Come ti sposti ogni giorno? Quanto ci metti per arrivare a scuola?"];
-const XV={r:15,t:20,f:10,q:25};
-const TT=["Novizio","Raccoglitore","Scheggiatore","Domatore del Fuoco","Cacciatore","Sapiente"];
-const DO=[{l:"Facile per me!",v:"facile",c:"#6B7F3B"},{l:"Abbastanza difficile",v:"medio",c:"#C4A24E"},{l:"Impossibile!",v:"difficile",c:"#A0522D"}];
-const FB={facile:s=>`Interessante! Per ${s} era la normalità, ma confronta con la tua vita di oggi...`,medio:s=>`Hai ragione. ${s} doveva arrangiarsi con pochissimo. Ogni gesto semplice era una conquista.`,difficile:s=>`Esatto! La vita di ${s} era una sfida quotidiana per la sopravvivenza.`};
 
-let G={ph:"intro",nm:"",xp:0,sr:{},ss:0,si:0,ti:0,tr:{},ch:null,sc:false,fi:0,ff:{},qa:{},qd:false,qs:0};
+const QUIZ=[
+{q:"Chi ha usato per primo gli strumenti di pietra?",o:["Australopiteco","Homo Habilis","Homo Erectus"],c:1},
+{q:"Chi ha scoperto il fuoco?",o:["Homo Habilis","Homo Erectus","Neanderthal"],c:1},
+{q:"Chi seppelliva i morti con i fiori?",o:["Homo Erectus","Neanderthal","Homo Sapiens"],c:1},
+{q:"Cosa significa 'bipede'?",o:["Mangiare carne","Camminare su due gambe","Usare il fuoco"],c:1},
+{q:"Qual è il superpotere dell'Homo Sapiens?",o:["La forza","Il linguaggio e la cooperazione","La velocità"],c:1}
+];
+
+const MODERN=[
+{icon:"🍳",text:"Fai colazione dal frigo"},{icon:"👕",text:"Scegli i vestiti dall'armadio"},{icon:"📱",text:"Parli e scrivi con tutti"},{icon:"🏠",text:"Vivi in una casa sicura"},{icon:"🚗",text:"Vai a scuola in auto"},{icon:"💡",text:"Accendi la luce con un click"}
+];
+
+/* ═══════ STATE ═══════ */
+let G={ph:"intro",nm:"",xp:0,hearts:5,sp:0,sc:0,inv:[],fb:null,modern:[],fcIdx:0,fcFlip:{},qa:{},qDone:false};
 const app=document.getElementById('app');
 
-function ax(a,e){G.xp+=a;if(e){const d=document.createElement('div');d.className='fx';d.textContent='+'+a+' XP';d.style.left=e.clientX+'px';d.style.top=e.clientY+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),1300)}}
+function fx(a,e){
+  G.xp+=a;
+  if(e){const d=document.createElement('div');d.className='fxp';d.textContent='+'+a+' XP';d.style.left=(e.clientX||200)+'px';d.style.top=(e.clientY||200)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),1100)}
+}
 
-function xb(){const p=Math.min(G.xp/500*100,100),lv=Math.floor(G.xp/100)+1;return`<div class="xpb"><span class="hf" style="font-size:10px;color:var(--sand);letter-spacing:1px">LV.${lv}</span><div class="xpt"><div class="xpf" style="width:${p}%"></div></div><span class="hf" style="font-size:9px;color:var(--sand)">${G.xp} XP</span><span style="font-size:11px;color:var(--stone);font-style:italic">${TT[Math.min(lv-1,5)]}</span></div>`}
-function hd(t,s){return`<div class="hb"><span class="hf" style="font-size:11px;color:var(--sand);letter-spacing:2px">${G.nm}</span><span class="hf" style="font-size:9px;color:#4a3d2e;letter-spacing:1.5px;text-transform:uppercase">${t}</span></div>${xb()}${s?`<p class="hf" style="font-size:10px;color:var(--stone);text-align:center;margin:2px 0 16px;letter-spacing:1px">${s}</p>`:''}`}
-function P(h,a){return`<div class="p" style="border-color:${a||'var(--sand)'}33"><div class="i">${h}</div></div>`}
-function B(t,o,a,d){return`<button class="b" style="color:${d?'#444':a||'#C4A24E'};border-color:${d?'#2a2318':(a||'#C4A24E')+'66'}" ${d?'disabled':''} onclick="${o}">${t}</button>`}
+function heartSVG(full){return`<svg class="heart ${full?'':'lost'}" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${full?'#C4A24E':'#3a3228'}"/></svg>`}
+
+function topbar(){
+  const pct=Math.min(G.xp/400*100,100);
+  return`<div class="topbar">
+    <div class="hearts">${Array.from({length:5}).map((_,i)=>heartSVG(i<G.hearts)).join('')}</div>
+    <div class="xpt"><div class="xpf" style="width:${pct}%"></div></div>
+    <span class="hf" style="font-size:11px;color:var(--sand)">${G.xp} XP</span>
+  </div>`;
+}
+
+function dots(){
+  return`<div class="dots">${SPECIES.map((_,i)=>`<div class="dot ${i<G.sp?'done':''} ${i===G.sp?'active':''}"></div>`).join('')}</div>`;
+}
 
 function R(){
   switch(G.ph){
-    case'intro':rI();break;case'self':rS();break;case'time':rT();break;case'fc':rF();break;case'quiz':rQ();break;case'res':rR();break;
+    case'intro':rI();break;
+    case'modern':rM();break;
+    case'play':rP();break;
+    case'fc':rFC();break;
+    case'quiz':rQ();break;
+    case'end':rE();break;
   }
-  window.scrollTo({top:0,behavior:'smooth'});
 }
 
+/* ═══════ INTRO ═══════ */
 function rI(){
-  app.innerHTML=`<div style="text-align:center;max-width:620px;margin:0 auto">
-    <div style="margin-top:30px;margin-bottom:12px">
-      <svg width="72" height="72" viewBox="0 0 72 72" style="opacity:.7"><circle cx="36" cy="36" r="30" fill="none" stroke="var(--sand)" stroke-width="1" stroke-dasharray="3 4"/><path d="M36 14c-6 10-18 16-14 34 3 10 18 14 24 8s8-16 0-30c-2 6-6 10-10 8s-5-8-2-20z" fill="var(--earth)" opacity=".2"/><path d="M32 32l4-14 4 14-6 4z" fill="var(--sand)" opacity=".4"/></svg>
+  app.innerHTML=`
+  <div style="text-align:center;padding-top:30px">
+    <svg width="80" height="80" viewBox="0 0 80 80" style="opacity:.7;margin-bottom:12px"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--sand)" stroke-width="1" stroke-dasharray="3 4"/><path d="M40 16c-7 12-20 18-16 38 3 12 20 16 28 10s9-18 0-34c-2 7-7 11-11 9s-6-10-1-23z" fill="var(--earth)" opacity=".25"/></svg>
+    <h1 class="hf" style="font-size:20px;color:var(--sand);letter-spacing:3px;margin-bottom:4px">IL VIAGGIO DELL'UOMO</h1>
+    <p class="hf" style="font-size:9px;color:#4a3d2e;letter-spacing:4px;margin-bottom:28px;animation:breathe 3s infinite">UN'AVVENTURA NELLA PREISTORIA</p>
+    <div class="card" style="text-align:left;max-width:500px;margin:0 auto 24px">
+      <p style="font-size:16px;line-height:1.8;margin-bottom:16px">Stai per viaggiare indietro nel tempo di <strong style="color:var(--sand)">4 milioni di anni</strong>. Dovrai sopravvivere come i nostri antenati: trovare cibo, ripararti, comunicare... senza nulla di quello che hai oggi!</p>
+      <p style="font-size:14px;color:var(--stone);margin-bottom:20px">Fai le scelte giuste per sopravvivere. Ogni errore ti costa un cuore!</p>
+      <div style="text-align:center">
+        <input id="ni" type="text" placeholder="Come ti chiami, esploratore?" style="width:100%;max-width:280px;padding:10px 16px;font-size:16px;font-family:var(--bf);background:transparent;border:1.5px solid #3a3228;border-radius:8px;color:var(--bone);text-align:center;margin-bottom:16px">
+        <br><button class="btn solid" onclick="go()">Inizia il viaggio</button>
+      </div>
     </div>
-    <h1 class="hf" style="font-size:22px;color:var(--sand);letter-spacing:4px;margin-bottom:4px">IL VIAGGIO DELL'UOMO</h1>
-    <p class="hf br" style="font-size:10px;color:#4a3d2e;letter-spacing:5px;margin-bottom:32px">DALL'ALBA DELLA PREISTORIA A OGGI</p>
-    ${P(`<p style="font-size:17px;line-height:1.8;margin-bottom:14px">Stai per intraprendere un viaggio straordinario attraverso <strong style="color:var(--sand)">milioni di anni</strong> di evoluzione. Camminerai nella savana africana, scheggerai le prime pietre, accenderai il fuoco per la prima volta.</p>
-    <p style="font-size:15px;color:#8a7b66;margin-bottom:22px">Ma prima di partire, fermati un momento. Guarda la tua vita di <em style="color:#D2845A">oggi</em>. Solo conoscendo il presente potrai davvero capire quanto è stato lungo e difficile il cammino.</p>
-    <div style="text-align:center"><input id="ni" type="text" placeholder="Il tuo nome, esploratore..." style="width:100%;max-width:300px;padding:10px 16px;font-size:16px;font-family:var(--bf);background:transparent;border:1px solid #3a3228;border-radius:6px;color:var(--bone);text-align:center;margin-bottom:16px;letter-spacing:1px"/><br>${B('Inizia il viaggio','sG()')}</div>`)}
-    <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px">${SP.map(s=>`<div style="background:${s.bg};border:1px solid ${s.c}33;border-radius:6px;padding:5px 10px;display:flex;align-items:center;gap:6px">${SI[s.id](18)}<span class="hf" style="font-size:8px;color:${s.a};letter-spacing:1px">${s.n.split(' ').pop()}</span></div>`).join('')}</div>
   </div>`;
 }
 
-function sG(){const v=document.getElementById('ni').value.trim();if(!v)return;G.nm=v;G.ph='self';R()}
+function go(){const v=document.getElementById('ni').value.trim();if(!v)return;G.nm=v;G.ph='modern';R()}
 
-function rS(){
-  const dn=G.ss>=SC.length,v=G.sr[G.ss]||'',ok=v.trim().length>5;
-  let b;
-  if(!dn){
-    b=`<div class="hf" style="font-size:10px;color:var(--stone);letter-spacing:2px;margin-bottom:14px;text-transform:uppercase">Riflessione ${G.ss+1} di ${SC.length}</div>
-    <p style="font-size:17px;margin-bottom:14px">${SC[G.ss]}</p>
-    <textarea id="sta" rows="3" placeholder="Scrivi la tua risposta..." style="width:100%;padding:12px;font-size:15px;font-family:var(--bf);background:#0e0c0888;border:1px solid #3a3228;border-radius:6px;color:var(--bone);resize:vertical">${v}</textarea>
-    <div style="margin-top:10px"><button id="cbtn" class="b" style="color:${ok?'#C4A24E':'#444'};border-color:${ok?'#C4A24E66':'#2a2318'}" ${ok?'':'disabled'} onclick="cS(event)">Conferma (+${XV.r} XP)</button></div>`;
-  } else {
-    b=`<div style="text-align:center">
-      <svg width="44" height="44" viewBox="0 0 48 48" style="margin-bottom:8px"><circle cx="24" cy="24" r="18" fill="none" stroke="var(--moss)" stroke-width="1.5"/><path d="M16 24l6 6 10-10" stroke="var(--moss)" stroke-width="2" fill="none"/></svg>
-      <p class="hf" style="font-size:12px;color:var(--mossL);letter-spacing:1px;margin-bottom:8px">ANALISI COMPLETATA</p>
-      <p style="font-size:15px;color:#8a7b66;margin-bottom:18px">Ottimo, ${G.nm}. Ora conosci bene le tue abitudini quotidiane. Sei pronto a scoprire come queste stesse azioni erano <em style="color:#D2845A">incredibilmente diverse</em> milioni di anni fa?</p>
-      ${B('Viaggia nel tempo',"G.ph='time';R()",'#D2845A')}
+/* ═══════ MODERN DAY ═══════ */
+function rM(){
+  app.innerHTML=`
+    ${topbar()}
+    <div style="text-align:center;margin-bottom:16px">
+      <p class="hf" style="font-size:12px;color:var(--sand);letter-spacing:2px;margin-bottom:8px">PRIMA DI PARTIRE...</p>
+      <p style="font-size:16px;color:var(--bone)">Ecco cosa fai ogni giorno <strong style="color:var(--sand)">oggi</strong>. Tocca per confermare:</p>
+    </div>
+    <div class="mgrid">${MODERN.map((m,i)=>`
+      <div class="mcard ${G.modern.includes(i)?'checked':''}" onclick="togM(${i},event)">
+        <div class="big">${m.icon}</div>
+        <div style="font-size:13px;color:${G.modern.includes(i)?'var(--sand)':'var(--stone)'}">${m.text}</div>
+      </div>`).join('')}
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <p style="font-size:14px;color:var(--stone);margin-bottom:12px">${G.modern.length<4?`Seleziona almeno 4 cose (${G.modern.length}/4)`:'Tutto questo tra poco non esisterà più...'}</p>
+      <button class="btn ${G.modern.length>=4?'solid':''}" ${G.modern.length<4?'disabled':''} onclick="G.ph='play';R()">Viaggia nel tempo</button>
     </div>`;
-  }
-  const ch=G.ss>0?`<div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px">${Array.from({length:Math.min(G.ss,SC.length)}).map((_,i)=>`<div style="background:#1e1a14;border:1px solid #2a221844;border-radius:4px;padding:4px 10px;font-size:12px;color:#5a4d3a;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-style:italic">${(G.sr[i]||'').slice(0,28)}...</div>`).join('')}</div>`:'';
-  app.innerHTML=hd('Fase I','Conosci te stesso — La tua vita oggi')+P(b)+ch;
-  const ta=document.getElementById('sta');
-  if(ta){ta.focus();ta.addEventListener('input',()=>{G.sr[G.ss]=ta.value;const b=document.getElementById('cbtn');if(b){if(ta.value.trim().length>5){b.disabled=false;b.style.color='#C4A24E';b.style.borderColor='#C4A24E66'}else{b.disabled=true;b.style.color='#444';b.style.borderColor='#2a2318'}}})}
 }
 
-function cS(e){if((G.sr[G.ss]||'').trim().length>5){ax(XV.r,e);G.ss++;R()}}
+function togM(i,e){const idx=G.modern.indexOf(i);if(idx>-1)G.modern.splice(idx,1);else{G.modern.push(i);fx(5,e)}R()}
 
-function rT(){
-  const s=SP[G.si],t=TK[G.ti],k=s.id+'-'+t.id,d=G.tr[k];
-  const pr=SP.map((x,i)=>`<div style="background:${i<G.si?x.a:i===G.si?'linear-gradient(90deg,'+x.a+','+x.c+')':'#1e1a14'}"></div>`).join('');
-  let aa;
-  if(!d){
-    aa=`<p class="hf" style="font-size:10px;color:var(--stone);margin-bottom:10px;letter-spacing:1px">Quanto sarebbe difficile per te vivere così?</p>
-    <div style="display:flex;gap:8px;flex-wrap:wrap">${DO.map((o,i)=>`<button class="ob" style="color:${o.c};border-color:${o.c}88" onclick="pD('${k}','${o.v}',${i},event)">${o.l}</button>`).join('')}</div>`;
-  } else if(G.sc&&G.ch){
-    aa=`<div style="text-align:center"><div style="background:${s.bg};border:1px solid ${s.a}22;border-radius:6px;padding:14px;margin-bottom:14px">
-      <span class="hf" style="font-size:10px;color:${s.a};letter-spacing:1px">Hai risposto: ${G.ch.l}</span>
-      <p style="color:#8a7b66;font-size:14px;margin-top:8px;line-height:1.6">${FB[G.ch.v](s.n)}</p>
-    </div>${B('Avanti','nT()',s.a)}</div>`;
-  } else {
-    aa=B('Avanti','nT()',s.a);
-  }
-  const tabs=TK.map((x,i)=>{const kk=s.id+'-'+x.id,iD=!!G.tr[kk],iC=i===G.ti;
-    return`<div class="tt" style="background:${iC?s.bg:'#1e1a14'};border-color:${iC?s.a+'55':iD?'#3a322833':'transparent'};color:${iC?s.a:iD?'var(--moss)':'#2a2218'};padding:5px 10px;border-radius:4px;border:1px solid ${iC?s.a+'55':'transparent'};display:flex;align-items:center;gap:4px;font-size:12px">${TI[x.id](iC?s.a:iD?'#6B7F3B':'#2a2218')}${iD?'<span style="font-size:10px;font-style:italic">fatto</span>':''}</div>`}).join('');
+/* ═══════ PLAY ═══════ */
+function rP(){
+  if(G.sp>=SPECIES.length){G.ph='fc';G.fcIdx=0;R();return}
+  const s=SPECIES[G.sp];
+  const sc=s.scenarios[G.sc];
+  if(!sc){G.sp++;G.sc=0;R();return}
 
-  app.innerHTML=hd('Fase II — '+s.n,s.per)+`<div class="sp">${pr}</div>`+P(`
-    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
-      <div style="width:64px;height:64px;border-radius:50%;background:radial-gradient(circle at 40% 40%,${s.c}33,transparent);border:1.5px solid ${s.a}33;display:flex;align-items:center;justify-content:center">${SI[s.id](44)}</div>
-      <div><div class="hf" style="font-size:14px;color:${s.a};letter-spacing:1px">${s.n}</div><div style="color:var(--stone);font-size:13px;margin-top:2px">${s.hab} — ${s.per}</div></div>
+  app.innerHTML=`
+    ${topbar()}${dots()}
+    <div class="scene">${s.scene()}</div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
+        ${s.icon(36)}
+        <div>
+          <div class="hf" style="font-size:13px;color:${s.accent};letter-spacing:1px">${s.name}</div>
+          <div style="font-size:12px;color:var(--stone)">${s.period}</div>
+        </div>
+      </div>
+      ${G.inv.length?`<div class="inv">${G.inv.map(x=>`<div class="inv-item"><span style="font-size:14px">✦</span> ${x}</div>`).join('')}</div>`:''}
     </div>
-    <div style="background:#0e0c0866;border-radius:6px;padding:16px;margin-bottom:16px;border-left:3px solid ${s.a}33">
-      <div class="hf" style="font-size:10px;color:${s.a};letter-spacing:2px;margin-bottom:10px;display:flex;align-items:center;gap:8px">${TI[t.id](s.a)}<span>MISSIONE: ${t.l.toUpperCase()}</span></div>
-      <p style="color:#7a6d5a;font-size:14px;margin-bottom:10px"><strong style="color:var(--bone)">Oggi tu:</strong> ${t.m}</p>
-      <p style="font-size:15px;line-height:1.7"><strong style="color:${s.a}">Come ${s.n}:</strong> ${s.lim[t.id]}</p>
-    </div>${aa}`,s.a)+`<div style="display:flex;gap:5px;flex-wrap:wrap;margin-top:14px">${tabs}</div>`;
+    <div class="card">
+      <p style="font-size:17px;font-weight:600;margin-bottom:4px;color:var(--bone)">${sc.text}</p>
+      <div class="choices">${sc.choices.map((ch,i)=>`
+        <div class="choice" onclick="pick(${i},event)">
+          <div class="icon" style="background:${s.bg};border:1px solid ${s.accent}33">${ch.icon}</div>
+          <div>${ch.text}</div>
+        </div>`).join('')}
+      </div>
+    </div>`;
 }
 
-function pD(k,v,i,e){G.tr[k]=v;G.ch={v,l:DO[i].l};G.sc=true;ax(XV.t,e);R()}
-function nT(){G.sc=false;G.ch=null;if(G.ti<TK.length-1)G.ti++;else if(G.si<SP.length-1){G.si++;G.ti=0}else G.ph='fc';R()}
-
-function rF(){
-  const s=SP[G.fi],fl=G.ff[G.fi];
-  const dots=SP.map((x,i)=>`<button onclick="G.fi=${i};R()" style="width:38px;height:38px;border-radius:50%;border:1.5px solid ${i===G.fi?x.a:'#2a2218'};background:${i===G.fi?x.bg:'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0">${SI[x.id](22)}</button>`).join('');
-  const st=[["Habitat",s.hab],["Cervello",s.brain],["Altezza",s.h],["Cibo",s.food],["Strumenti",s.tools],["Fuoco",s.fire?"Si":"No"],["Linguaggio",s.lang?"Si":"No"]];
-  const fr=`<div class="fcf" style="background:linear-gradient(160deg,${s.bg},var(--deep));border:1.5px solid ${s.a}33;display:flex;flex-direction:column;align-items:center;justify-content:center">
-    <div style="margin-bottom:16px">${SI[s.id](80)}</div>
-    <div class="hf" style="font-size:16px;color:${s.a};letter-spacing:2px;margin-bottom:6px">${s.n}</div>
-    <div class="hf" style="font-size:10px;color:var(--stone);letter-spacing:1px">${s.per}</div>
-    <div class="hf br" style="font-size:9px;color:#3a3228;margin-top:24px;letter-spacing:2px">TOCCA PER SCOPRIRE</div>
-  </div>`;
-  const bk=`<div class="fcf fcb" style="background:linear-gradient(160deg,var(--deep),${s.bg});border:1.5px solid ${s.a}33">
-    <div class="hf" style="font-size:13px;color:${s.a};letter-spacing:2px;margin-bottom:14px">${s.n}</div>
-    <div class="g2" style="margin-bottom:14px">${st.map(([l,v])=>`<div class="sb" style="border-left:2px solid ${s.a}22"><div class="hf" style="font-size:8px;color:var(--stone);letter-spacing:1px;margin-bottom:2px">${l}</div><div style="font-size:13px">${v}</div></div>`).join('')}</div>
-    <div class="hf" style="font-size:9px;color:${s.a};letter-spacing:1px;margin-bottom:8px">CURIOSITÀ</div>
-    ${s.facts.map(f=>`<p style="color:#8a7b66;font-size:13px;margin-bottom:5px;line-height:1.5;padding-left:10px;border-left:1px solid ${s.a}18">${f}</p>`).join('')}
-  </div>`;
-  const nb=G.fi<SP.length-1?B('Prossima scheda',`G.fi++;R()`,s.a):B('Verifica metacognitiva',"G.ph='quiz';R()",'#A0522D');
-  app.innerHTML=hd('Fase III — Schede',`${G.fi+1} di ${SP.length}`)+`<div style="display:flex;gap:8px;justify-content:center;margin-bottom:18px">${dots}</div>
-    <div class="fcc" onclick="fC(event)"><div class="fci ${fl?'fl':''}">${fr}${bk}</div></div>
-    <div style="text-align:center">${nb}</div>`;
+function pick(i,ev){
+  const s=SPECIES[G.sp];
+  const sc=s.scenarios[G.sc];
+  const ch=sc.choices[i];
+  if(ch.correct){fx(25,ev);if(ch.item&&!G.inv.includes(ch.item))G.inv.push(ch.item)}
+  else{G.hearts=Math.max(0,G.hearts-1)}
+  showFB(ch,s);
 }
 
-function fC(e){if(!G.ff[G.fi]){G.ff[G.fi]=true;ax(XV.f,e);R()}}
+function showFB(ch,s){
+  const ok=ch.correct;
+  const el=document.createElement('div');
+  el.className='feedback';
+  el.style.background='#0e0c08cc';
+  el.innerHTML=`<div class="feedback-card ${ok?'pop':'shake'}" style="border-color:${ok?'var(--moss)':'var(--clay)'}">
+    <div style="font-size:48px;margin-bottom:12px">${ok?'✓':'✗'}</div>
+    <p style="font-size:16px;line-height:1.7;color:var(--bone);margin-bottom:16px">${ch.fb}</p>
+    ${ch.item?`<div style="background:var(--moss);color:var(--deep);display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-family:var(--hf);letter-spacing:1px;margin-bottom:12px">✦ ${ch.item}</div>`:(!ok?`<div style="color:var(--clay);font-size:13px;margin-bottom:12px">-1 ❤️</div>`:'')}
+    <br><button class="btn" style="border-color:${ok?'var(--moss)':'var(--clay)'};color:${ok?'var(--mossL)':'var(--fire)'}" onclick="closeFB()">Avanti</button>
+  </div>`;
+  document.body.appendChild(el);
+}
 
+function closeFB(){
+  document.querySelector('.feedback')?.remove();
+  G.sc++;
+  if(G.sc>=SPECIES[G.sp].scenarios.length){G.sp++;G.sc=0}
+  R();
+}
+
+/* ═══════ FLASHCARDS ═══════ */
+function rFC(){
+  const s=SPECIES[G.fcIdx];
+  const fl=G.fcFlip[G.fcIdx];
+  const nav=G.fcIdx<SPECIES.length-1
+    ?`<button class="btn" onclick="G.fcIdx++;R()">Prossima</button>`
+    :`<button class="btn solid" onclick="G.ph='quiz';R()">Vai al quiz finale!</button>`;
+
+  app.innerHTML=`
+    ${topbar()}
+    <p class="hf" style="text-align:center;font-size:11px;color:var(--sand);letter-spacing:2px;margin-bottom:16px">SCHEDE — ${G.fcIdx+1}/${SPECIES.length}</p>
+    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">
+      ${SPECIES.map((x,i)=>`<div onclick="G.fcIdx=${i};R()" style="width:32px;height:32px;border-radius:50%;border:1.5px solid ${i===G.fcIdx?x.accent:'#2a2218'};background:${i===G.fcIdx?x.bg:'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center">${x.icon(18)}</div>`).join('')}
+    </div>
+    <div class="fc" onclick="flipFC(event)">
+      <div class="fc-inner ${fl?'flipped':''}">
+        <div class="fc-face" style="background:linear-gradient(160deg,${s.bg},var(--deep));border:1.5px solid ${s.accent}33">
+          <div style="margin-bottom:12px">${s.icon(72)}</div>
+          <div class="hf" style="font-size:16px;color:${s.accent};letter-spacing:2px;margin-bottom:4px">${s.name}</div>
+          <div style="font-size:13px;color:var(--stone)">${s.period}</div>
+          <div class="hf" style="font-size:9px;color:#3a3228;margin-top:20px;animation:breathe 3s infinite;letter-spacing:2px">TOCCA PER GIRARE</div>
+        </div>
+        <div class="fc-face fc-back" style="background:linear-gradient(160deg,var(--deep),${s.bg});border:1.5px solid ${s.accent}33">
+          <div class="hf" style="font-size:13px;color:${s.accent};letter-spacing:1px;margin-bottom:12px;text-align:center">${s.name}</div>
+          <div class="g2" style="margin-bottom:12px">
+            ${[["Cervello",s.brain],["Altezza",s.height],["Strumenti",s.tool],["Fuoco",s.fire?"Si":"No"],["Linguaggio",s.lang?"Si":"No"],["Habitat",s.id==='sapiens'?'Tutto il mondo':s.id==='neander'?'Europa glaciale':s.id==='erectus'?'Africa, Asia, Europa':'Africa']].map(([l,v])=>`<div class="sb" style="border-left:2px solid ${s.accent}22"><div class="hf" style="font-size:8px;color:var(--stone);letter-spacing:1px">${l}</div><div style="font-size:13px">${v}</div></div>`).join('')}
+          </div>
+          <div class="hf" style="font-size:9px;color:${s.accent};letter-spacing:1px;margin-bottom:6px">CURIOSITÀ</div>
+          ${s.facts.map(f=>`<p style="color:#8a7b66;font-size:12px;margin-bottom:4px;line-height:1.4;padding-left:8px;border-left:1px solid ${s.accent}18">${f}</p>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center">${nav}</div>`;
+}
+
+function flipFC(e){if(!G.fcFlip[G.fcIdx]){G.fcFlip[G.fcIdx]=true;fx(10,e);R()}}
+
+/* ═══════ QUIZ ═══════ */
 function rQ(){
-  const an=Object.keys(G.qa).length,al=an===QZ.length;
-  const qs=QZ.map((q,i)=>{
-    const os=q.o.map((o,j)=>`<button class="qo ${G.qa[i]===j?'s':''}" onclick="G.qa[${i}]=${j};R()">${o}</button>`).join('');
-    return P(`<p style="font-size:14px;margin-bottom:10px;line-height:1.5"><span class="hf" style="font-size:9px;color:var(--sand);margin-right:8px;letter-spacing:1px">Q${i+1}</span>${q.q}</p><div class="g2">${os}</div>`,G.qa[i]!==undefined?'#2a2218':'var(--sand)');
-  }).join('');
-  app.innerHTML=hd('Fase IV','Verifica metacognitiva')+qs+`<div style="text-align:center;margin-top:16px">${B('Verifica risposte','sQ(event)','#C4A24E',!al)}${!al?`<p class="hf" style="font-size:9px;color:#3a3228;margin-top:8px;letter-spacing:1px">Rispondi a tutte le domande (${an}/${QZ.length})</p>`:''}</div>`;
+  if(G.qDone){rE();return}
+  app.innerHTML=`
+    ${topbar()}
+    <p class="hf" style="text-align:center;font-size:12px;color:var(--sand);letter-spacing:2px;margin-bottom:20px">QUIZ FINALE</p>
+    ${QUIZ.map((q,i)=>`<div class="card">
+      <p style="font-size:15px;margin-bottom:10px"><span class="hf" style="font-size:10px;color:var(--sand);margin-right:6px">${i+1}.</span>${q.q}</p>
+      <div style="display:grid;gap:6px">${q.o.map((o,j)=>`<button class="qopt ${G.qa[i]===j?'sel':''}" onclick="G.qa[${i}]=${j};R()">${o}</button>`).join('')}</div>
+    </div>`).join('')}
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn ${Object.keys(G.qa).length===QUIZ.length?'solid':''}" ${Object.keys(G.qa).length<QUIZ.length?'disabled':''} onclick="subQ(event)">Scopri i risultati</button>
+      ${Object.keys(G.qa).length<QUIZ.length?`<p style="font-size:12px;color:var(--stone);margin-top:8px">${Object.keys(G.qa).length}/${QUIZ.length}</p>`:''}
+    </div>`;
 }
 
-function sQ(e){if(Object.keys(G.qa).length<QZ.length)return;G.qs=QZ.reduce((a,q,i)=>a+(G.qa[i]===q.c?1:0),0);ax(G.qs*XV.q,e);G.qd=true;G.ph='res';R()}
+function subQ(ev){
+  G.qDone=true;
+  const sc=QUIZ.reduce((a,q,i)=>a+(G.qa[i]===q.c?1:0),0);
+  G.qs=sc;
+  fx(sc*30,ev);
+  G.ph='end';R();
+}
 
-function rR(){
-  const sc=G.qs,tx=G.xp;
-  const rv=QZ.map((q,i)=>{const ok=G.qa[i]===q.c;return`<div style="background:${ok?'#6B7F3B':'#A0522D'}0a;border:1px solid ${ok?'#6B7F3B':'#A0522D'}22;border-radius:6px;padding:12px"><div style="color:#8a7b66;font-size:14px;margin-bottom:4px">${q.q}</div><span class="hf" style="font-size:9px;color:${ok?'#9AAF5C':'#D2845A'};letter-spacing:1px">${ok?'Corretto':'Risposta corretta: '+q.o[q.c]}</span></div>`}).join('');
-  const bd=sc>=6?'SAPIENTE DELL\'EVOLUZIONE':sc>=4?'BUON ESPLORATORE':'CONTINUA A ESPLORARE';
-  const bc=sc>=6?'#6B7F3B':'#A0522D';
-  const mq=["Qual è la cosa più sorprendente che hai scoperto oggi?","Quale periodo della preistoria ti ha colpito di più? Perché?","Se dovessi vivere un giorno come Homo Erectus, cosa faresti per prima cosa?","Secondo te, qual è stata la scoperta più importante per l'evoluzione dell'uomo?"];
+/* ═══════ END ═══════ */
+function rE(){
+  const sc=G.qs||0;
+  const tot=G.xp;
 
-  app.innerHTML=hd('Risultati','')+
-    P(`<div style="text-align:center">
-      <svg width="52" height="52" viewBox="0 0 52 52" style="margin-bottom:10px"><circle cx="26" cy="26" r="22" fill="none" stroke="${sc>=6?'var(--sand)':'var(--stone)'}" stroke-width="1.5"/>${sc>=6?'<path d="M26 10l4 10h10l-8 6 3 10-9-6-9 6 3-10-8-6h10z" fill="var(--sand)" opacity=".35"/>':''}</svg>
-      <div class="hf" style="font-size:15px;color:var(--sand);letter-spacing:1px;margin-bottom:6px">${sc}/${QZ.length} risposte corrette</div>
-      <div class="hf" style="font-size:10px;padding:4px 16px;border-radius:20px;display:inline-block;letter-spacing:1px;background:${bc}22;color:${sc>=6?'#9AAF5C':'#D2845A'};border:1px solid ${bc}33">${bd}</div>
-    </div>`)+
-    `<div style="display:grid;gap:8px;margin-bottom:14px">${rv}</div>`+
-    P(`<div class="hf" style="font-size:11px;color:#BFA57A;letter-spacing:2px;margin-bottom:14px">RIFLESSIONE METACOGNITIVA</div>
-    <p style="font-size:15px;color:#8a7b66;margin-bottom:14px;line-height:1.7">Fermati un momento. Ripensa a tutto il viaggio che hai fatto oggi, dall'Australopiteco fino a te.</p>
-    <div style="display:grid;gap:12px">${mq.map(q=>`<div style="background:#0e0c0866;border-radius:6px;padding:12px;border-left:2px solid #7B5E3E33"><p style="color:#BFA57A;font-size:13px;margin-bottom:8px;font-weight:600">${q}</p><textarea rows="2" class="mta" placeholder="Scrivi qui la tua riflessione..."></textarea></div>`).join('')}</div>
-    <div style="margin-top:20px;text-align:center;padding-top:14px;border-top:1px solid #2a2218">
-      <div class="hf" style="font-size:14px;color:var(--sand);letter-spacing:2px;margin-bottom:4px">PUNTEGGIO FINALE: ${tx} XP</div>
-      <div class="hf" style="font-size:10px;color:var(--stone);letter-spacing:1px">${G.nm} — Livello ${Math.floor(tx/100)+1}</div>
-    </div>`,'#7B5E3E');
+  // Show quiz answers
+  const review=QUIZ.map((q,i)=>{
+    const ok=G.qa[i]===q.c;
+    return`<div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid #ffffff06">
+      <span style="font-size:18px">${ok?'✓':'✗'}</span>
+      <div><span style="font-size:13px;color:${ok?'var(--mossL)':'var(--fire)'}">${q.q}</span>
+      ${!ok?`<div style="font-size:12px;color:var(--stone);margin-top:2px">→ ${q.o[q.c]}</div>`:''}</div>
+    </div>`;
+  }).join('');
+
+  const badge=sc>=4?'SAPIENTE':sc>=3?'ESPLORATORE':'APPRENDISTA';
+  const bc=sc>=4?'var(--moss)':'var(--clay)';
+
+  const metaQs=["Qual è la cosa che ti ha sorpreso di più?","Quale specie ti piacerebbe incontrare? Perché?","Qual è stata la scoperta più importante per l'uomo?","Cosa diresti a un Australopiteco se potessi parlargli?"];
+
+  app.innerHTML=`
+    ${topbar()}
+    <div class="card" style="text-align:center">
+      <svg width="56" height="56" viewBox="0 0 56 56" style="margin-bottom:10px"><circle cx="28" cy="28" r="24" fill="none" stroke="var(--sand)" stroke-width="1.5"/>${sc>=4?'<path d="M28 10l4 11h11l-9 7 3 11-9-7-9 7 3-11-9-7h11z" fill="var(--sand)" opacity=".35"/>':''}</svg>
+      <div class="hf" style="font-size:18px;color:var(--sand);letter-spacing:2px;margin-bottom:4px">VIAGGIO COMPLETATO!</div>
+      <div class="hf" style="font-size:10px;padding:4px 16px;border-radius:20px;display:inline-block;background:${bc}22;color:${bc};border:1px solid ${bc}33;letter-spacing:1px;margin:8px 0">${badge} DELL'EVOLUZIONE</div>
+      <div style="margin-top:12px;font-size:14px;color:var(--stone)">Quiz: ${sc}/${QUIZ.length} · Cuori: ${G.hearts}/5 · Oggetti: ${G.inv.length}</div>
+    </div>
+
+    <div class="card">
+      <div class="hf" style="font-size:10px;color:var(--sand);letter-spacing:1px;margin-bottom:8px">RISPOSTE QUIZ</div>
+      ${review}
+    </div>
+
+    ${G.inv.length?`<div class="card">
+      <div class="hf" style="font-size:10px;color:var(--sand);letter-spacing:1px;margin-bottom:8px">I TUOI OGGETTI RACCOLTI</div>
+      <div class="inv">${G.inv.map(x=>`<div class="inv-item"><span style="color:var(--sand)">✦</span> ${x}</div>`).join('')}</div>
+    </div>`:''}
+
+    <div class="card" style="border-top:3px solid #7B5E3E33">
+      <div class="hf" style="font-size:11px;color:#BFA57A;letter-spacing:2px;margin-bottom:14px">RIFLESSIONE FINALE</div>
+      <p style="font-size:14px;color:var(--stone);margin-bottom:14px">Ripensa al viaggio. Dall'Australopiteco a te: milioni di anni di scoperte, fatiche e conquiste.</p>
+      ${metaQs.map(q=>`<div class="meta-box"><p style="color:#BFA57A;font-size:13px;margin-bottom:6px;font-weight:600">${q}</p><textarea rows="2" placeholder="Scrivi qui..."></textarea></div>`).join('')}
+      <div style="text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid #ffffff08">
+        <div class="hf" style="font-size:16px;color:var(--sand);letter-spacing:2px">${tot} XP TOTALI</div>
+        <div style="font-size:13px;color:var(--stone);margin-top:4px">${G.nm} — ${badge} dell'Evoluzione</div>
+      </div>
+    </div>`;
 }
 
 R();
