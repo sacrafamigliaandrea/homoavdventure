@@ -3,464 +3,1802 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Il Viaggio dell'Uomo</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<title>Il Viaggio dell'Uomo — Diario dell'Esploratore</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--hf:'Cinzel',serif;--bf:'Crimson Pro',serif;--text:#3B2F20;--textL:#5A4A38;--sand:#96782A;--earth:#7A6218;--clay:#8B4513;--moss:#4A6B2A;--mossL:#5A8030;--stone:#7A6B58;--parch:#F5ECD7;--parchD:#EAD9B8;--parchDD:#D8C8A4;--cream:#FBF6EC;--ice:#4A6A78;--iceL:#6A8A98;--fire:#B05A2A}
-body{font-family:var(--bf);color:var(--text);background:var(--cream);min-height:100vh;line-height:1.6;font-size:16px;overflow-x:hidden}
-input:focus,textarea:focus{outline:none;border-color:var(--sand)!important}
-.hf{font-family:var(--hf)}
-#app{max-width:720px;margin:0 auto;padding:20px}
+:root{
+  --hf:'Cormorant Garamond',serif;
+  --bf:'Atkinson Hyperlegible',sans-serif;
+  --ink:#2D2114;
+  --inkL:#5A4A34;
+  --inkLL:#887560;
+  --parch:#F5EBD4;
+  --parchD:#E8D9B5;
+  --parchDD:#D4C094;
+  --cream:#FBF5E4;
+  --ocra:#B8722E;
+  --ocraD:#8F5520;
+  --sand:#C19A56;
+  --earth:#8B6914;
+  --moss:#6B8142;
+  --mossL:#8BA25F;
+  --slate:#5A6A72;
+  --slateL:#8FA0A9;
+  --bone:#F0E6D0;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--bf);color:var(--ink);background:var(--cream);min-height:100vh;line-height:1.55;font-size:16px;overflow-x:hidden;background-image:radial-gradient(circle at 20% 10%,#C19A5612 0,transparent 40%),radial-gradient(circle at 80% 90%,#8B691410 0,transparent 40%)}
+.hf{font-family:var(--hf);font-weight:600;letter-spacing:.02em}
+input,textarea,button{font-family:inherit}
+input:focus,textarea:focus{outline:none;border-color:var(--ocra)!important;box-shadow:0 0 0 2px #B8722E22}
 
-/* Card */
-.card{background:var(--parch);border-radius:12px;padding:24px;position:relative;box-shadow:0 2px 8px #3B2F2015;overflow:hidden;margin-bottom:16px;border:1px solid var(--parchDD)}
+#app{max-width:760px;margin:0 auto;padding:20px 18px 60px}
 
-/* XP bar */
-.topbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--parchDD)}
-.xpt{flex:1;height:8px;background:var(--parchDD);border-radius:4px;overflow:hidden}
-.xpf{height:100%;background:linear-gradient(90deg,var(--earth),var(--sand));border-radius:4px;transition:width .8s}
+/* ═══ CARDS ═══ */
+.card{background:var(--parch);border-radius:10px;padding:22px;margin-bottom:14px;border:1px solid var(--parchDD);box-shadow:0 1px 3px #2D211410,0 4px 16px #2D211408;position:relative}
+.card.deep{background:linear-gradient(180deg,var(--parch) 0%,var(--parchD) 100%)}
+.card.bone{background:var(--bone);border-color:#E0D4B8}
 
-/* Survival hearts */
-.hearts{display:flex;gap:4px}
-.heart{width:22px;height:22px;transition:all .3s}
-.heart.lost{opacity:.2;transform:scale(.8)}
+/* ═══ TOP BAR ═══ */
+.topbar{display:flex;align-items:center;gap:14px;margin-bottom:18px;padding:10px 14px;background:var(--parch);border-radius:8px;border:1px solid var(--parchDD)}
+.tb-label{font-family:var(--hf);font-size:12px;letter-spacing:2px;color:var(--inkLL);text-transform:uppercase;flex-shrink:0}
+.tb-progress{flex:1;height:4px;background:var(--parchDD);border-radius:2px;overflow:hidden}
+.tb-fill{height:100%;background:linear-gradient(90deg,var(--ocra),var(--sand));border-radius:2px;transition:width .6s cubic-bezier(.4,0,.2,1)}
+.tb-meta{font-family:var(--hf);font-size:13px;color:var(--inkL);flex-shrink:0}
 
-/* Choices */
-.choices{display:grid;gap:10px;margin-top:16px}
-.choice{padding:14px 16px;border-radius:10px;border:1.5px solid var(--parchDD);background:var(--cream);cursor:pointer;transition:all .25s;display:flex;align-items:center;gap:12px;text-align:left;font-family:var(--bf);font-size:15px;color:var(--text)}
-.choice:hover{border-color:var(--sand);background:#C4A24E0a;transform:translateX(4px)}
-.choice .icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+/* ═══ BUTTONS ═══ */
+.btn{font-family:var(--hf);font-size:14px;font-weight:600;padding:12px 28px;letter-spacing:1.5px;background:transparent;border:1.5px solid var(--ocra);color:var(--ocraD);border-radius:6px;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block;text-decoration:none}
+.btn:hover:not(:disabled){background:var(--ocra);color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px #B8722E33}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+.btn.solid{background:var(--ocra);color:#fff}
+.btn.solid:hover:not(:disabled){background:var(--ocraD)}
+.btn.ghost{border-color:var(--inkLL);color:var(--inkL)}
+.btn.ghost:hover:not(:disabled){background:var(--inkL);color:#fff}
+.btn.sm{font-size:11px;padding:8px 18px;letter-spacing:1px}
 
-/* Feedback overlay */
-.feedback{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .3s}
-.feedback-card{background:var(--parch);border-radius:16px;padding:32px;max-width:440px;width:90%;text-align:center;border:2px solid;box-shadow:0 20px 60px #3B2F2044}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pop{0%{transform:scale(0)}60%{transform:scale(1.15)}100%{transform:scale(1)}}
-@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
-.pop{animation:pop .4s ease-out}
-.shake{animation:shake .4s}
+/* ═══ CHOICE BUTTONS ═══ */
+.choices{display:grid;gap:10px;margin-top:14px}
+.choice{padding:14px 16px;border-radius:8px;border:1.5px solid var(--parchDD);background:var(--cream);cursor:pointer;transition:all .2s;text-align:left;font-size:15px;color:var(--ink);line-height:1.45;font-family:inherit;width:100%;display:flex;align-items:center;gap:12px}
+.choice:hover{border-color:var(--ocra);background:#B8722E08;transform:translateX(3px)}
+.choice.selected{border-color:var(--ocra);background:#B8722E15}
+.choice-mark{flex-shrink:0;width:28px;height:28px;border-radius:50%;border:1.5px solid var(--parchDD);display:flex;align-items:center;justify-content:center;background:var(--parch);font-family:var(--hf);font-size:12px;color:var(--inkLL);transition:all .2s}
+.choice:hover .choice-mark,.choice.selected .choice-mark{border-color:var(--ocra);color:var(--ocra)}
 
-/* Scene */
-.scene{width:100%;height:200px;border-radius:10px;margin-bottom:16px;overflow:hidden;position:relative}
+/* ═══ SCENE ═══ */
+.scene{width:100%;height:230px;border-radius:10px;margin-bottom:14px;overflow:hidden;position:relative;border:1px solid var(--parchDD);background:#EAD9B5}
+.scene svg{display:block;width:100%;height:100%}
+.hotspot{position:absolute;cursor:pointer;transition:all .3s;filter:drop-shadow(0 0 0 transparent)}
+.hotspot:hover{filter:drop-shadow(0 0 8px #FFFFFF99)}
+.hotspot.found{opacity:.35;cursor:default}
+.hotspot .pulse{animation:pulse 2.2s ease-in-out infinite;transform-origin:center}
+@keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.15);opacity:1}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-/* Flash card */
-.fc{perspective:800px;cursor:pointer;margin:20px auto;max-width:400px}
-.fc-inner{position:relative;height:320px;transition:transform .6s;transform-style:preserve-3d}
-.fc-inner.flipped{transform:rotateY(180deg)}
-.fc-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.fc-back{transform:rotateY(180deg);overflow:auto;justify-content:flex-start!important;align-items:stretch!important}
+/* ═══ DOTS / STEPPER ═══ */
+.steps{display:flex;justify-content:center;gap:6px;margin-bottom:16px}
+.step{width:10px;height:10px;border-radius:50%;border:1.5px solid var(--parchDD);background:transparent;transition:all .3s}
+.step.done{background:var(--ocra);border-color:var(--ocra)}
+.step.active{border-color:var(--ocra);box-shadow:0 0 0 3px #B8722E22}
 
-/* Btn */
-.btn{font-family:var(--hf);font-size:12px;padding:12px 28px;letter-spacing:2px;background:transparent;border:1.5px solid var(--sand);color:var(--sand);border-radius:8px;cursor:pointer;transition:all .2s;text-transform:uppercase;display:inline-block}
-.btn:hover{background:#C4A24E12}
-.btn:disabled{opacity:.3;cursor:default}
-.btn.solid{background:var(--sand);color:#fff}
-.btn.solid:hover{background:var(--earth)}
+/* ═══ INVENTORY ═══ */
+.tools{display:flex;gap:6px;flex-wrap:wrap;padding:10px 12px;background:var(--cream);border-radius:6px;border:1px dashed var(--parchDD);margin-bottom:14px}
+.tools-label{font-family:var(--hf);font-size:11px;letter-spacing:2px;color:var(--inkLL);text-transform:uppercase;width:100%;margin-bottom:4px}
+.tool-item{background:var(--parch);border:1px solid var(--parchDD);border-radius:20px;padding:4px 10px 4px 6px;font-size:12px;display:flex;align-items:center;gap:6px;animation:fadeIn .4s}
+.tool-item svg{flex-shrink:0}
 
-/* Progress dots */
-.dots{display:flex;justify-content:center;gap:8px;margin-bottom:20px}
-.dot{width:12px;height:12px;border-radius:50%;border:1.5px solid var(--parchDD);transition:all .3s}
-.dot.done{background:var(--sand);border-color:var(--sand)}
-.dot.active{border-color:var(--sand);box-shadow:0 0 8px #C4A24E44}
+/* ═══ DIARY ═══ */
+.diary-page{background:var(--bone);padding:26px;border-radius:8px;border:1px solid #E0D4B8;position:relative;background-image:repeating-linear-gradient(0deg,transparent,transparent 27px,#D4C8A825 27px,#D4C8A825 28px)}
+.diary-page::before{content:'';position:absolute;left:42px;top:10px;bottom:10px;width:1px;background:#C49A6815}
+.diary-title{font-family:var(--hf);font-style:italic;font-size:20px;color:var(--ocraD);margin-bottom:14px;padding-left:14px;border-left:2px solid var(--ocra)}
+.diary-label{font-family:var(--hf);font-size:12px;letter-spacing:1.5px;color:var(--inkLL);text-transform:uppercase;margin:14px 0 6px}
+.diary-input{width:100%;padding:10px 12px;background:transparent;border:none;border-bottom:1.5px dotted var(--inkLL);font-family:var(--bf);font-size:15px;color:var(--ink);resize:vertical;font-style:italic;line-height:1.8}
+.diary-input:focus{border-bottom-color:var(--ocra);background:#FFFFFF44}
+.diary-input::placeholder{color:var(--inkLL);font-style:italic;opacity:.6}
+.diary-saved-hint{font-size:11px;color:var(--mossL);font-style:italic;text-align:right;margin-top:4px;opacity:0;transition:opacity .3s}
+.diary-saved-hint.show{opacity:1}
 
-/* Inventory */
-.inv{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.inv-item{background:var(--cream);border:1px solid var(--parchDD);border-radius:8px;padding:6px 10px;font-size:13px;display:flex;align-items:center;gap:6px;animation:pop .3s}
+/* ═══ TIMELINE ═══ */
+.tl-slot{min-height:86px;border:1.5px dashed var(--parchDD);border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:center;background:var(--cream);transition:all .2s;position:relative}
+.tl-slot.over{border-color:var(--ocra);background:#B8722E10}
+.tl-slot.correct{border-style:solid;border-color:var(--moss);background:#6B814215}
+.tl-slot.wrong{border-style:solid;border-color:var(--ocraD);background:#B8722E15}
+.tl-period{position:absolute;top:-9px;left:10px;background:var(--cream);padding:0 6px;font-family:var(--hf);font-size:11px;color:var(--inkLL);letter-spacing:1px}
+.tl-pool{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;padding:14px;background:var(--parch);border-radius:8px;border:1px solid var(--parchDD);min-height:90px}
+.tl-card{background:var(--cream);border:1.5px solid var(--parchDD);border-radius:8px;padding:8px 12px;cursor:grab;display:flex;align-items:center;gap:8px;font-size:13px;user-select:none;transition:transform .15s,box-shadow .15s;touch-action:none}
+.tl-card:hover{border-color:var(--ocra);transform:translateY(-2px);box-shadow:0 4px 10px #B8722E22}
+.tl-card.dragging{opacity:.5;cursor:grabbing}
 
-/* Float XP */
-.fxp{position:fixed;color:var(--earth);font-family:var(--hf);font-size:16px;font-weight:700;pointer-events:none;z-index:999;animation:floatUp 1s ease-out forwards;text-shadow:0 1px 3px #fff}
-@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(1.3)}}
-@keyframes breathe{0%,100%{opacity:.4}50%{opacity:1}}
+/* ═══ MATCHING ═══ */
+.match-row{display:grid;grid-template-columns:1fr 60px 1fr;gap:10px;align-items:center;margin-bottom:10px}
+.match-card{padding:12px 14px;background:var(--parch);border:1.5px solid var(--parchDD);border-radius:8px;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:10px;font-size:14px}
+.match-card:hover{border-color:var(--ocra)}
+.match-card.selected{border-color:var(--ocra);background:#B8722E15}
+.match-card.matched{border-color:var(--moss);background:#6B814215;cursor:default;opacity:.75}
+.match-line{height:2px;background:var(--parchDD);position:relative}
+.match-line.done{background:var(--moss)}
 
-/* Modern grid */
-.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
-.mcard{background:var(--parch);border:1.5px solid var(--parchDD);border-radius:10px;padding:14px;text-align:center;cursor:pointer;transition:all .3s}
-.mcard:hover{border-color:var(--sand)}
-.mcard.checked{border-color:var(--sand);background:#C4A24E12}
-.mcard .big{font-size:28px;margin-bottom:6px}
+/* ═══ MINI-GAMES ═══ */
+.mg-stage{background:var(--parch);border-radius:10px;padding:16px;border:1px solid var(--parchDD);min-height:280px;position:relative;overflow:hidden}
+.mg-hint{font-family:var(--hf);font-size:12px;letter-spacing:1px;color:var(--inkLL);text-transform:uppercase;text-align:center;padding:8px;background:var(--cream);border-radius:6px;margin-bottom:10px}
 
-/* Quiz */
-.qopt{padding:10px 14px;border-radius:8px;border:1.5px solid var(--parchDD);background:var(--cream);cursor:pointer;transition:all .2s;font-family:var(--bf);font-size:14px;color:var(--text);text-align:left}
-.qopt:hover{border-color:var(--sand)}
-.qopt.sel{border-color:var(--sand);background:#C4A24E15}
-.qopt.ok{border-color:var(--moss);background:#6B7F3B15;color:var(--moss)}
-.qopt.no{border-color:var(--clay);background:#A0522D15;color:var(--clay)}
+/* ═══ FEEDBACK OVERLAY ═══ */
+.overlay{position:fixed;inset:0;background:#2D211488;display:flex;align-items:center;justify-content:center;z-index:100;animation:fadeIn .25s;padding:20px}
+.overlay-card{background:var(--parch);border-radius:12px;padding:28px;max-width:440px;width:100%;text-align:center;border:2px solid var(--ocra);box-shadow:0 20px 60px #2D211466}
 
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.sb{background:var(--cream);border-radius:6px;padding:6px 8px}
-.meta-box{background:var(--cream);border-radius:8px;padding:14px;border-left:3px solid var(--parchDD);margin-bottom:10px}
-.meta-box textarea{width:100%;font-size:14px;font-family:var(--bf);background:var(--parch);border:1px solid var(--parchDD);border-radius:6px;color:var(--text);padding:8px;resize:vertical}
+/* ═══ FLOAT ANIMATIONS ═══ */
+.float-xp{position:fixed;color:var(--earth);font-family:var(--hf);font-size:18px;font-weight:700;pointer-events:none;z-index:999;animation:floatUp 1.2s ease-out forwards}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-60px) scale(1.2)}}
+
+/* ═══ LEVEL TOGGLE ═══ */
+.level-toggle{display:flex;gap:8px;justify-content:center;margin:16px 0}
+.level-btn{flex:1;padding:14px;background:var(--parch);border:1.5px solid var(--parchDD);border-radius:8px;cursor:pointer;text-align:center;transition:all .2s;max-width:180px}
+.level-btn:hover{border-color:var(--ocra)}
+.level-btn.active{border-color:var(--ocra);background:#B8722E15}
+.level-btn .hf{font-size:16px;color:var(--ocraD);display:block;margin-bottom:2px}
+.level-btn small{font-size:12px;color:var(--inkL)}
+
+/* ═══ MODERN DAY GRID ═══ */
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin:16px 0}
+.mcard{background:var(--parch);border:1.5px solid var(--parchDD);border-radius:8px;padding:14px 10px;text-align:center;cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:8px}
+.mcard:hover{border-color:var(--ocra);transform:translateY(-2px)}
+.mcard.checked{border-color:var(--ocra);background:#B8722E12;box-shadow:0 3px 10px #B8722E22}
+.mcard .mcard-icon{width:44px;height:44px}
+
+/* ═══ HEADINGS ═══ */
+h1.big{font-family:var(--hf);font-size:42px;font-weight:600;letter-spacing:.04em;color:var(--ocraD);line-height:1.1;margin-bottom:8px}
+h2.mid{font-family:var(--hf);font-size:26px;font-weight:600;color:var(--ocraD);line-height:1.2;margin-bottom:10px}
+.subtitle{font-family:var(--hf);font-style:italic;color:var(--inkL);font-size:16px;margin-bottom:6px}
+.eyebrow{font-family:var(--hf);font-size:11px;letter-spacing:3px;color:var(--inkLL);text-transform:uppercase;margin-bottom:10px}
+
+/* ═══ SPECIES HEADER ═══ */
+.sp-header{display:flex;align-items:center;gap:14px;margin-bottom:14px;padding-bottom:12px;border-bottom:1px solid var(--parchDD)}
+.sp-header .hf{font-size:22px}
+
+/* ═══ PAINT CANVAS ═══ */
+.paint-wrap{position:relative;border-radius:8px;overflow:hidden;border:2px solid var(--parchDD);background:#3B2A1A;touch-action:none}
+.paint-wrap canvas{display:block;width:100%;cursor:crosshair}
+.paint-toolbar{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.paint-swatch{width:32px;height:32px;border-radius:50%;border:2px solid var(--parchDD);cursor:pointer;transition:transform .15s}
+.paint-swatch.active{border-color:var(--ocra);transform:scale(1.1)}
+
+/* ═══ QUIZ/INPUT ═══ */
+.text-input{width:100%;padding:12px 14px;font-size:16px;font-family:var(--bf);background:var(--parch);border:1.5px solid var(--parchDD);border-radius:8px;color:var(--ink)}
+
+/* ═══ HELPERS ═══ */
+.text-center{text-align:center}
+.mt-16{margin-top:16px}
+.mt-20{margin-top:20px}
+.mb-12{margin-bottom:12px}
+.mb-20{margin-bottom:20px}
+.prose p{margin-bottom:10px;font-size:15.5px;line-height:1.65;color:var(--ink)}
+.prose p strong{color:var(--ocraD)}
+.small-note{font-size:13px;color:var(--inkL);font-style:italic}
+.tag{display:inline-block;font-family:var(--hf);font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:3px 10px;border-radius:12px;background:var(--ocra);color:#fff}
+.tag.ghost{background:transparent;color:var(--ocraD);border:1px solid var(--ocraD)}
+.tag.moss{background:var(--moss)}
+
+/* ═══ PRINT STYLES ═══ */
+@media print{
+  body{background:#fff;color:#000;font-size:12pt}
+  #app{max-width:none;padding:0;margin:0}
+  .no-print{display:none!important}
+  .card{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;background:#fff}
+  .diary-page{background:#fafafa;page-break-inside:avoid;page-break-after:always}
+  .diary-page:last-child{page-break-after:auto}
+  .diary-input{border-bottom:1px solid #888;color:#000}
+  .topbar,.overlay,.float-xp{display:none}
+  h1.big{font-size:22pt;color:#000}
+  h2.mid{font-size:16pt;color:#000}
+  .tag{background:#444!important;color:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media (max-width:500px){
+  #app{padding:14px 12px}
+  h1.big{font-size:32px}
+  h2.mid{font-size:22px}
+  .card{padding:18px}
+  .scene{height:180px}
+  .match-row{grid-template-columns:1fr 40px 1fr}
+  .mgrid{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 </head>
 <body>
 <div id="app"></div>
 <script>
-/* ═══════════════════ DATA ═══════════════════ */
-const SPECIES=[
-{id:"australo",name:"Australopiteco",short:"Australopiteco",period:"4 milioni di anni fa",color:"#8B6914",accent:"#C4A24E",bg:"#3D2B1F",brain:"400 cm³",height:"1,3 m",tool:"Nessuno",fire:false,lang:false,
-icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="16" r="7" fill="none" stroke="#C4A24E" stroke-width="1.5"/><path d="M18 26l6 14M30 26l-6 14" stroke="#C4A24E" stroke-width="1.5" fill="none"/><path d="M15 18c-2-3-1-8 3-10M33 18c2-3 1-8-3-10" stroke="#C4A24E" stroke-width="1" fill="none" opacity=".5"/><circle cx="22" cy="15" r="1" fill="#C4A24E"/><circle cx="27" cy="15" r="1" fill="#C4A24E"/></svg>`,
-scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky0" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D4A06A"/><stop offset="1" stop-color="#8B6914" stop-opacity=".3"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky0)"/><circle cx="620" cy="40" r="30" fill="#E8B84A" opacity=".6"/><ellipse cx="360" cy="170" rx="400" ry="40" fill="#6B5A30"/><path d="M100 160c10-40 20-60 30-80s15-20 10-10c5-20 15-30 20-20l-5 30c10-15 20-10 15 5l-10 25c15-10 20 5 10 20l-30 30z" fill="#4a6620" opacity=".4"/><path d="M500 130l5-40 3-20 8 25 4-15 6 30 3-10 5 30z" fill="#7a6830" opacity=".3"/></svg>`,
-scenarios:[
-  {text:"Hai fame! Cosa fai?",choices:[
-    {text:"Salgo sull'albero a cercare frutta",icon:"🌳",correct:true,fb:"Perfetto! Gli Australopitechi erano bravissimi ad arrampicarsi e mangiavano soprattutto frutta e radici!",item:"Frutta selvatica"},
-    {text:"Accendo il fuoco e cucino",icon:"🔥",correct:false,fb:"Il fuoco non esiste ancora! Mancano più di 2 milioni di anni alla sua scoperta!"},
-    {text:"Apro il frigorifero",icon:"🧊",correct:false,fb:"Il frigo?! Non esiste nemmeno una capanna! Siamo nella savana africana!"}
-  ]},
-  {text:"Arriva un leopardo! Come ti salvi?",choices:[
-    {text:"Chiamo la polizia",icon:"📞",correct:false,fb:"Il telefono non esisterà per altri 4 milioni di anni! E nemmeno la polizia!"},
-    {text:"Scappo sugli alberi col mio gruppo",icon:"🌿",correct:true,fb:"Giusto! Gli Australopitechi vivevano in gruppo e si rifugiavano sugli alberi dai predatori!",item:"Rifugio sugli alberi"},
-    {text:"Lo affronto con una lancia",icon:"🗡️",correct:false,fb:"Nessun'arma! L'Australopiteco non sapeva ancora costruire strumenti!"}
-  ]},
-  {text:"Vuoi dire al tuo gruppo che hai trovato cibo. Come fai?",choices:[
-    {text:"Mando un messaggio vocale",icon:"🎤",correct:false,fb:"Niente telefono, niente lingua parlata! Solo gesti e versi!"},
-    {text:"Scrivo un biglietto",icon:"✉️",correct:false,fb:"La scrittura arriverà tra quasi 4 milioni di anni!"},
-    {text:"Faccio gesti e grido versi",icon:"🙌",correct:true,fb:"Esatto! L'Australopiteco comunicava con gesti e suoni semplici, come fanno ancora oggi le scimmie!",item:"Comunicazione gestuale"}
-  ]}
-]},
-{id:"habilis",name:"Homo Habilis",short:"Habilis",period:"2,5 milioni di anni fa",color:"#6B7F3B",accent:"#9AAF5C",bg:"#2E3422",brain:"600 cm³",height:"1,4 m",tool:"Chopper (pietra scheggiata)",fire:false,lang:false,
-icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="14" r="8" fill="none" stroke="#9AAF5C" stroke-width="1.5"/><path d="M20 30l4 14M28 30l-4 14" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><path d="M32 28l6-2" stroke="#9AAF5C" stroke-width="1.5" fill="none"/><polygon points="38,24 40,28 36,27" fill="#9AAF5C" opacity=".5"/><circle cx="22" cy="13" r="1" fill="#9AAF5C"/><circle cx="27" cy="13" r="1" fill="#9AAF5C"/></svg>`,
-scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7A9A4A"/><stop offset="1" stop-color="#3E4A20" stop-opacity=".5"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky1)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#4A5030"/><ellipse cx="200" cy="140" rx="60" ry="25" fill="#6B6850" opacity=".5"/><ellipse cx="500" cy="130" rx="40" ry="20" fill="#7A7060" opacity=".5"/><polygon points="280,155 290,130 300,155" fill="#8A8A70" opacity=".4"/><polygon points="310,155 315,135 325,150 320,155" fill="#7A7A60" opacity=".5"/></svg>`,
-scenarios:[
-  {text:"Trovi un animale morto. Come prendi la carne?",choices:[
-    {text:"La strappo con le mani",icon:"🤲",correct:false,fb:"Troppo dura! Ma hai un'idea migliore..."},
-    {text:"Scheggio una pietra e la uso per tagliare",icon:"🪨",correct:true,fb:"Bravissimo! L'Homo Habilis è il PRIMO a usare strumenti! Scheggia le pietre per creare i 'chopper', i primi coltelli della storia!",item:"Chopper di pietra"},
-    {text:"La cucino sul fuoco",icon:"🔥",correct:false,fb:"Il fuoco non è stato ancora scoperto! Dovrai mangiare la carne cruda..."}
-  ]},
-  {text:"La notte fa freddo. Come ti proteggi?",choices:[
-    {text:"Mi costruisco un riparo con rami e pietre",icon:"🏕️",correct:true,fb:"Bravo! L'Habilis costruiva ripari semplici. Niente case, ma meglio di dormire all'aperto!",item:"Riparo di rami"},
-    {text:"Accendo il riscaldamento",icon:"🌡️",correct:false,fb:"Non esiste il riscaldamento! E nemmeno il fuoco! Brrr!"},
-    {text:"Mi metto il pigiama",icon:"👔",correct:false,fb:"I vestiti come li conosciamo non esistono ancora! Solo il tuo corpo e forse qualche foglia..."}
-  ]},
-  {text:"Il tuo chopper si è rotto. Cosa fai?",choices:[
-    {text:"Vado al negozio a comprarne uno nuovo",icon:"🏪",correct:false,fb:"I negozi non esisteranno per altri 2 milioni di anni!"},
-    {text:"Piango e rinuncio",icon:"😢",correct:false,fb:"No! L'Habilis non si arrende! È 'abile' nel costruire!"},
-    {text:"Cerco un'altra pietra e ne faccio uno nuovo",icon:"💪",correct:true,fb:"Esatto! L'Homo Habilis (uomo abile!) sapeva scegliere le pietre giuste e lavorarle. Era il primo artigiano della storia!",item:"Abilità artigianale"}
-  ]}
-]},
-{id:"erectus",name:"Homo Erectus",short:"Erectus",period:"1,8 milioni di anni fa",color:"#A0522D",accent:"#D2845A",bg:"#3A2215",brain:"900 cm³",height:"1,8 m",tool:"Amigdala (bifacciale)",fire:true,lang:false,
-icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#D2845A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#D2845A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#D2845A"/><circle cx="27" cy="11" r="1" fill="#D2845A"/><circle cx="38" cy="30" r="4" fill="#D2845A" opacity=".25"/><circle cx="37" cy="29" r="2" fill="#D2845A" opacity=".5"/></svg>`,
-scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C07840"/><stop offset="1" stop-color="#5A3018" stop-opacity=".5"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky2)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#5A4030"/><circle cx="550" cy="150" r="18" fill="#FF6B20" opacity=".3"/><circle cx="550" cy="148" r="12" fill="#FFa040" opacity=".4"/><circle cx="550" cy="145" r="7" fill="#FFcc60" opacity=".5"/><path d="M100 170c20-10 40-30 50-50s10-20 20-10c-5-15 10-20 15-5l5 20c5-10 15 0 10 15l-5 30z" fill="#6a5a30" opacity=".3"/></svg>`,
-scenarios:[
-  {text:"Hai scoperto qualcosa di incredibile: il FUOCO! Cosa ne fai?",choices:[
-    {text:"Lo spengo, mi fa paura!",icon:"💨",correct:false,fb:"Che errore! Il fuoco è la scoperta più importante della preistoria!"},
-    {text:"Lo uso per cuocere la carne e scaldarmi",icon:"🔥",correct:true,fb:"GENIALE! L'Homo Erectus è il primo a dominare il fuoco! Cuocere il cibo lo rende più nutriente e aiuta il cervello a crescere!",item:"Dominio del fuoco"},
-    {text:"Lo fotografo e lo metto su Instagram",icon:"📸",correct:false,fb:"Instagram?! Mancano 1,8 milioni di anni! Ma l'idea di condividere scoperte non è male..."}
-  ]},
-  {text:"Il cibo qui scarseggia. Cosa decidi?",choices:[
-    {text:"Ordino una pizza a domicilio",icon:"🍕",correct:false,fb:"La pizza arriverà tra circa 1,8 milioni di anni... a Napoli! Pazienza!"},
-    {text:"Parto con il mio gruppo verso nuove terre",icon:"🌍",correct:true,fb:"Proprio così! L'Homo Erectus è il PRIMO a lasciare l'Africa! Ha camminato fino in Asia e in Europa. Il primo grande esploratore!",item:"Spirito esploratore"},
-    {text:"Resto qui e aspetto",icon:"⏳",correct:false,fb:"Aspettare non funziona quando il cibo finisce! Bisogna muoversi!"}
-  ]},
-  {text:"Costruisci un nuovo strumento. Quale forma gli dai?",choices:[
-    {text:"Rotonda come una palla",icon:"⚽",correct:false,fb:"Una palla non taglia! Serve qualcosa di più furbo..."},
-    {text:"A goccia, lavorata su entrambi i lati",icon:"💧",correct:true,fb:"Perfetto! L'amigdala (bifacciale) è lo strumento simbolo dell'Erectus: lavorata su due lati, a forma di goccia. Potevi tagliare, raschiare, scavare!",item:"Amigdala bifacciale"},
-    {text:"Quadrata come un mattone",icon:"🧱",correct:false,fb:"Troppo pesante e poco pratica! La forma a goccia è molto più efficace."}
-  ]}
-]},
-{id:"neander",name:"Homo di Neanderthal",short:"Neanderthal",period:"400.000 anni fa",color:"#5A7D8B",accent:"#8AABB8",bg:"#1F2E34",brain:"1400 cm³",height:"1,65 m",tool:"Lance, aghi d'osso",fire:true,lang:true,
-icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><ellipse cx="24" cy="13" rx="8" ry="9" fill="none" stroke="#8AABB8" stroke-width="1.5"/><path d="M16 13c-1-5 2-10 8-11s9 6 8 11" stroke="#8AABB8" stroke-width="1" fill="none" opacity=".4"/><path d="M20 28l4 16M28 28l-4 16" stroke="#8AABB8" stroke-width="1.5" fill="none"/><circle cx="21" cy="13" r="1.2" fill="#8AABB8"/><circle cx="27" cy="13" r="1.2" fill="#8AABB8"/><path d="M21 17h6" stroke="#8AABB8" stroke-width="1" fill="none"/></svg>`,
-scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6080A0"/><stop offset="1" stop-color="#2A3A4A" stop-opacity=".6"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky3)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#D8D8E0"/><path d="M0 140l80-20 60 10 100-30 80 15 60-10 100-25 80 20 60-5 100-15v100H0z" fill="#A0A8B8" opacity=".3"/><path d="M150 170c10-40 30-70 50-80 10 5 20 30 25 80z" fill="#4A5A68" opacity=".4"/><ellipse cx="170" cy="150" rx="35" ry="20" fill="#3A4A58" opacity=".5"/></svg>`,
-scenarios:[
-  {text:"È inverno e fa un freddo terribile. Come sopravvivi?",choices:[
-    {text:"Cucio pellicce con aghi d'osso",icon:"🧥",correct:true,fb:"Esatto! Il Neanderthal sapeva cucire le pelli con aghi d'osso! Era il primo 'sarto' della preistoria, sopravvivendo alle ere glaciali!",item:"Pellicce cucite"},
-    {text:"Alzo il riscaldamento a 22 gradi",icon:"🌡️",correct:false,fb:"Il termostato arriverà tra 400.000 anni! Il Neanderthal usava pellicce, fuoco e grotte."},
-    {text:"Mi metto i pantaloni e la felpa",icon:"👖",correct:false,fb:"I tessuti non esistono ancora! Solo pelli di animale, cucite con grande abilità!"}
-  ]},
-  {text:"Un membro del tuo gruppo è morto. Cosa fai?",choices:[
-    {text:"Lo seppellisco con cura e fiori",icon:"🌸",correct:true,fb:"Commovente e vero! Il Neanderthal seppelliva i morti con fiori e oggetti. Aveva sentimenti profondi e rispetto per chi non c'era più.",item:"Sepoltura rituale"},
-    {text:"Non mi importa, vado avanti",icon:"🚶",correct:false,fb:"Il Neanderthal non la pensava così! Aveva un cuore grande e seppelliva i suoi cari con rispetto."},
-    {text:"Chiamo un'ambulanza",icon:"🚑",correct:false,fb:"Le ambulanze arriveranno molto dopo! Ma il Neanderthal sapeva curare i feriti con le erbe medicinali!"}
-  ]},
-  {text:"Trovi un compagno ferito. Come lo aiuti?",choices:[
-    {text:"Lo porto in ospedale",icon:"🏥",correct:false,fb:"Gli ospedali non esistono! Ma il Neanderthal aveva il suo rimedio..."},
-    {text:"Uso erbe medicinali per curarlo",icon:"🌿",correct:true,fb:"Proprio così! Il Neanderthal conosceva le proprietà curative delle piante! Era il primo 'dottore' della storia!",item:"Erbe medicinali"},
-    {text:"Gli do una pastiglia",icon:"💊",correct:false,fb:"Le medicine in pillola arriveranno molto dopo! Ma le erbe funzionavano davvero!"}
-  ]}
-]},
-{id:"sapiens",name:"Homo Sapiens",short:"Sapiens",period:"300.000 anni fa → oggi",color:"#7B5E3E",accent:"#BFA57A",bg:"#2A2218",brain:"1350 cm³",height:"1,7 m",tool:"Tutti!",fire:true,lang:true,
-icon:s=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48"><circle cx="24" cy="12" r="7" fill="none" stroke="#BFA57A" stroke-width="1.5"/><path d="M20 26l4 18M28 26l-4 18" stroke="#BFA57A" stroke-width="1.5" fill="none"/><circle cx="22" cy="11" r="1" fill="#BFA57A"/><circle cx="27" cy="11" r="1" fill="#BFA57A"/><path d="M22 15c1 1 3 1 4 0" stroke="#BFA57A" stroke-width="1" fill="none"/><path d="M18 8c0-4 4-6 6-6s6 2 6 6" stroke="#BFA57A" stroke-width="1" fill="none" opacity=".4"/></svg>`,
-scene:()=>`<svg viewBox="0 0 720 180" style="width:100%;height:100%"><defs><linearGradient id="sky4" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A7050"/><stop offset="1" stop-color="#4A3820" stop-opacity=".4"/></linearGradient></defs><rect width="720" height="180" fill="url(#sky4)"/><ellipse cx="360" cy="175" rx="400" ry="35" fill="#5A4A30"/><rect x="200" y="100" width="40" height="60" rx="3" fill="#6A5A40" opacity=".4"/><rect x="260" y="80" width="50" height="80" rx="3" fill="#7A6A50" opacity=".3"/><rect x="330" y="110" width="35" height="50" rx="3" fill="#6A5A40" opacity=".35"/><circle cx="500" cy="120" r="15" fill="#BFA57A" opacity=".15"/><path d="M480 140l10-30 8 10 12-20 6 15 10-10 5 35z" fill="#9A8A60" opacity=".2"/></svg>`,
-scenarios:[
-  {text:"Hai inventato il linguaggio! Cosa fai con questo superpotere?",choices:[
-    {text:"Racconto storie e insegno ai giovani",icon:"📖",correct:true,fb:"Il linguaggio è il nostro superpotere! Grazie alle storie, trasmettiamo conoscenze. Nessun altro animale può farlo così!",item:"Linguaggio complesso"},
-    {text:"Lo uso solo per dire 'ciao'",icon:"👋",correct:false,fb:"Troppo poco! Il linguaggio ci permette di trasmettere tutto: storie, istruzioni, sentimenti, idee!"},
-    {text:"Non mi serve, preferisco i gesti",icon:"🤷",correct:false,fb:"I gesti funzionano, ma il linguaggio ti permette di spiegare il passato, il futuro, i sogni!"}
-  ]},
-  {text:"Il tuo gruppo cresce. Come vi organizzate?",choices:[
-    {text:"Ognuno pensa per sé",icon:"🧍",correct:false,fb:"Da soli siamo deboli! Il segreto del Sapiens è la cooperazione!"},
-    {text:"Ci dividiamo i compiti e cooperiamo",icon:"🤝",correct:true,fb:"QUESTO è il segreto dell'Homo Sapiens! La cooperazione ci ha permesso di costruire villaggi, poi città, poi civiltà intere!",item:"Cooperazione"},
-    {text:"Eleggo un re che comanda tutti",icon:"👑",correct:false,fb:"I primi gruppi di Sapiens erano più democratici! La collaborazione veniva prima del comando."}
-  ]},
-  {text:"Vuoi lasciare un segno del tuo passaggio. Come?",choices:[
-    {text:"Dipingo sulle pareti della grotta",icon:"🎨",correct:true,fb:"L'arte rupestre! I Sapiens hanno inventato l'arte: dipinti, sculture, musica. Esprimere sé stessi è ciò che ci rende unici!",item:"Arte rupestre"},
-    {text:"Faccio una foto",icon:"📸",correct:false,fb:"La fotografia arriverà molto dopo! Ma l'idea è giusta: voler lasciare un ricordo. I Sapiens lo facevano con l'arte!"},
-    {text:"Non mi interessa",icon:"😐",correct:false,fb:"L'Homo Sapiens ha sempre voluto lasciare un segno! L'arte rupestre di 40.000 anni fa è ancora lì, nelle grotte!"}
-  ]}
-]}
-];
+/* ═══════════════════════════════════════════════════════════════
+   IL VIAGGIO DELL'UOMO — Diario dell'Esploratore
+   Versione costruttivista: Esplora → Ipotizza → Scopri → Agisci
+   ═══════════════════════════════════════════════════════════════ */
 
-const QUIZ=[
-{q:"Chi ha usato per primo gli strumenti di pietra?",o:["Australopiteco","Homo Habilis","Homo Erectus"],c:1},
-{q:"Chi ha scoperto il fuoco?",o:["Homo Habilis","Homo Erectus","Neanderthal"],c:1},
-{q:"Chi seppelliva i morti con i fiori?",o:["Homo Erectus","Neanderthal","Homo Sapiens"],c:1},
-{q:"Cosa significa 'bipede'?",o:["Mangiare carne","Camminare su due gambe","Usare il fuoco"],c:1},
-{q:"Qual è il superpotere dell'Homo Sapiens?",o:["La forza","Il linguaggio e la cooperazione","La velocità"],c:1}
-];
+/* ─────────── SVG LIBRARY (nessun emoji) ─────────── */
+const SVG = {
+  // Strumenti / oggetti
+  footprint:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><ellipse cx="12" cy="8" rx="4" ry="5"/><circle cx="7" cy="14" r="1.5"/><circle cx="10" cy="16" r="1.3"/><circle cx="13" cy="17" r="1.3"/><circle cx="16" cy="15" r="1.5"/><ellipse cx="12" cy="20" rx="2.5" ry="1.5"/></svg>`,
+  bone:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M5 7c-1.5 0-2.5 1-2.5 2.5S3.5 12 5 12l6-3 6 3c1.5 0 2.5-1 2.5-2.5S18.5 7 17 7c-.3-1.3-1.3-2-2.5-2s-2 .7-2.5 2c-.5-1.3-1.3-2-2.5-2S7.3 5.7 7 7H5z"/><path d="M5 12l2 5c.3 1.3 1.3 2 2.5 2s2-.7 2.5-2c.5 1.3 1.3 2 2.5 2s2-.7 2.5-2l2-5"/></svg>`,
+  leaf:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M17 3C10 3 5 8 5 15c0 2 .5 4 1.5 6C11 20 17 15 17 9V3z" opacity=".8"/><path d="M6 20L18 4" stroke="${c}" stroke-width="1" fill="none"/></svg>`,
+  stone:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"><path d="M4 14l3-8 6-2 7 4 1 7-5 6-8 1z"/><path d="M7 10l4 2 3-3" opacity=".5"/></svg>`,
+  spark:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M12 2l2 6 6 2-6 2-2 6-2-6-6-2 6-2z"/></svg>`,
+  fire:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M12 2c-1 4-5 6-5 12 0 4 2 7 5 7s5-3 5-7c0-3-2-5-3-8 0 2-1 3-2 3z"/></svg>`,
+  needle:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M3 21L18 6"/><circle cx="19" cy="5" r="2.5"/><circle cx="19" cy="5" r="1" fill="${c}"/></svg>`,
+  flower:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><circle cx="12" cy="12" r="2.5"/><ellipse cx="12" cy="6" rx="2.5" ry="3.5" opacity=".7"/><ellipse cx="12" cy="18" rx="2.5" ry="3.5" opacity=".7"/><ellipse cx="6" cy="12" rx="3.5" ry="2.5" opacity=".7"/><ellipse cx="18" cy="12" rx="3.5" ry="2.5" opacity=".7"/></svg>`,
+  herb:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M12 22V10"/><path d="M12 10c-3-1-5-4-4-8 4 0 6 3 4 8z"/><path d="M12 14c3-1 6-3 6-7-4-1-7 2-6 7z"/><path d="M12 18c-2-1-4-2-4-5 3 0 5 1 4 5z"/></svg>`,
+  hand:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5" stroke-linejoin="round"><path d="M7 14V8c0-1 .5-1.5 1.5-1.5S10 7 10 8v4V6c0-1 .5-1.5 1.5-1.5S13 5 13 6v6V5c0-1 .5-1.5 1.5-1.5S16 4 16 5v7V8c0-1 .5-1.5 1.5-1.5S19 7 19 8v7c0 4-3 7-7 7s-7-3-7-7c0-1 .5-2 2-2z"/></svg>`,
+  mouth:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M4 12c2-3 5-4 8-4s6 1 8 4c-2 3-5 4-8 4s-6-1-8-4z"/><path d="M8 12c1 0 2 0 4 0s3 0 4 0" opacity=".5"/><path d="M14 8c1-2 3-3 5-2" opacity=".4"/><path d="M14 16c1 2 3 3 5 2" opacity=".4"/></svg>`,
+  brush:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M3 21l7-7"/><path d="M10 14l5-5 5 1-1 5-5 5z" fill="${c}" opacity=".3"/><path d="M15 9l-5-5"/></svg>`,
+  cave:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M2 20c0-8 4-14 10-14s10 6 10 14H15c0-4-1-7-3-7s-3 3-3 7H2z"/></svg>`,
+  tree:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M12 2C8 5 6 8 7 12c-2 0-3 1-3 3s2 3 4 3h8c2 0 4-1 4-3s-1-3-3-3c1-4-1-7-5-10z"/><rect x="11" y="18" width="2" height="4"/></svg>`,
+  // UI
+  compass:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 6l2 5-2 5-2-5z" fill="${c}"/></svg>`,
+  book:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/><path d="M7 8h4M7 12h4M15 8h3M15 12h3"/></svg>`,
+  check:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>`,
+  arrow:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>`,
+  star:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="${c}"><path d="M12 2l3 7h7l-5.5 4 2 7L12 16l-6.5 4 2-7L2 9h7z"/></svg>`,
+  pencil:(s=24,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="1.5"><path d="M3 21l4-1 13-13-3-3L4 17z"/><path d="M14 4l3 3"/></svg>`,
+  // Modern day items (sostituiscono emoji)
+  fridge:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><rect x="10" y="6" width="24" height="34" rx="2"/><path d="M10 18h24"/><path d="M14 12v2M14 24v4"/></svg>`,
+  shirt:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><path d="M14 10l4-4 4 2 4-2 4 4 6 4-2 6-4-2v16H16V18l-4 2-2-6z"/></svg>`,
+  phone:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><rect x="14" y="4" width="16" height="36" rx="3"/><path d="M14 10h16M14 32h16"/><circle cx="22" cy="36" r=".5" fill="${c}"/></svg>`,
+  house:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><path d="M6 22L22 8l16 14v16H6z"/><rect x="18" y="28" width="8" height="10"/></svg>`,
+  car:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><path d="M6 28v-6l4-8h24l4 8v6"/><rect x="4" y="28" width="36" height="8" rx="2"/><circle cx="12" cy="36" r="3"/><circle cx="32" cy="36" r="3"/></svg>`,
+  lamp:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><path d="M22 6c-6 0-10 4-10 10 0 4 2 6 4 8v4h12v-4c2-2 4-4 4-8 0-6-4-10-10-10z"/><path d="M18 34h8M20 38h4"/></svg>`,
+  tap:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><path d="M10 18h10v-4c0-2 2-4 4-4h6"/><rect x="8" y="18" width="14" height="6"/><path d="M15 26v6M15 32l-3 4M15 32l3 4"/></svg>`,
+  school:(s=44,c='currentColor')=>`<svg width="${s}" height="${s}" viewBox="0 0 44 44" fill="none" stroke="${c}" stroke-width="1.5"><rect x="6" y="14" width="32" height="22"/><path d="M22 6l18 8H4z"/><rect x="18" y="24" width="8" height="12"/></svg>`,
+  // Specie (profili sintetici)
+  sp_australo:(s=44,c='#8B6914')=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none" stroke="${c}" stroke-width="1.5"><ellipse cx="24" cy="16" rx="7" ry="8"/><path d="M17 22c-1 2-3 6-1 10M31 22c1 2 3 6 1 10"/><path d="M20 28v10l-2 4M28 28v10l2 4"/><circle cx="21" cy="15" r="1" fill="${c}"/><circle cx="27" cy="15" r="1" fill="${c}"/></svg>`,
+  sp_habilis:(s=44,c='#6B8142')=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none" stroke="${c}" stroke-width="1.5"><ellipse cx="24" cy="14" rx="7" ry="7.5"/><path d="M18 26v16M30 26v16"/><path d="M32 24l6 2"/><path d="M18 22l-2 4M30 22l-4 2" opacity=".6"/><circle cx="22" cy="13" r="1" fill="${c}"/><circle cx="27" cy="13" r="1" fill="${c}"/></svg>`,
+  sp_erectus:(s=44,c='#B8722E')=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none" stroke="${c}" stroke-width="1.5"><ellipse cx="24" cy="13" rx="7" ry="7"/><path d="M18 24v18M30 24v18"/><circle cx="22" cy="12" r="1" fill="${c}"/><circle cx="27" cy="12" r="1" fill="${c}"/><path d="M35 30c2-1 4 1 3 3s-4 2-4 0" fill="${c}" opacity=".3"/></svg>`,
+  sp_neander:(s=44,c='#5A7A80')=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none" stroke="${c}" stroke-width="1.5"><ellipse cx="24" cy="14" rx="8" ry="8.5"/><path d="M16 14c-1-5 2-10 8-11" opacity=".4"/><path d="M18 26v16M30 26v16"/><path d="M20 18h8"/><circle cx="21" cy="13" r="1.2" fill="${c}"/><circle cx="27" cy="13" r="1.2" fill="${c}"/></svg>`,
+  sp_sapiens:(s=44,c='#8B6914')=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" fill="none" stroke="${c}" stroke-width="1.5"><ellipse cx="24" cy="12" rx="6.5" ry="7"/><path d="M18 24v18M30 24v18"/><circle cx="22" cy="11" r="1" fill="${c}"/><circle cx="27" cy="11" r="1" fill="${c}"/><path d="M22 15c1 1 3 1 4 0"/><path d="M18 8c0-4 4-6 6-6s6 2 6 6" opacity=".4"/></svg>`,
+};
 
-const MODERN=[
-{icon:"🍳",text:"Fai colazione dal frigo"},{icon:"👕",text:"Scegli i vestiti dall'armadio"},{icon:"📱",text:"Parli e scrivi con tutti"},{icon:"🏠",text:"Vivi in una casa sicura"},{icon:"🚗",text:"Vai a scuola in auto"},{icon:"💡",text:"Accendi la luce con un click"}
-];
+/* ─────────── SPECIES DATA ─────────── */
+/* Ogni specie ha 4 fasi: esplora (indizi + ipotesi), scopri (narrazione), agisci (mini-game), diario (frasi da completare) */
 
-/* ═══════ STATE ═══════ */
-let G={ph:"intro",nm:"",xp:0,hearts:5,sp:0,sc:0,inv:[],fb:null,modern:[],fcIdx:0,fcFlip:{},qa:{},qDone:false};
-const app=document.getElementById('app');
-
-function fx(a,e){
-  G.xp+=a;
-  if(e){const d=document.createElement('div');d.className='fxp';d.textContent='+'+a+' XP';d.style.left=(e.clientX||200)+'px';d.style.top=(e.clientY||200)+'px';document.body.appendChild(d);setTimeout(()=>d.remove(),1100)}
-}
-
-function heartSVG(full){return`<svg class="heart ${full?'':'lost'}" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="${full?'#B8860B':'#D8C8A4'}"/></svg>`}
-
-function topbar(){
-  const pct=Math.min(G.xp/400*100,100);
-  return`<div class="topbar">
-    <div class="hearts">${Array.from({length:5}).map((_,i)=>heartSVG(i<G.hearts)).join('')}</div>
-    <div class="xpt"><div class="xpf" style="width:${pct}%"></div></div>
-    <span class="hf" style="font-size:11px;color:var(--sand)">${G.xp} XP</span>
-  </div>`;
-}
-
-function dots(){
-  return`<div class="dots">${SPECIES.map((_,i)=>`<div class="dot ${i<G.sp?'done':''} ${i===G.sp?'active':''}"></div>`).join('')}</div>`;
-}
-
-function R(){
-  switch(G.ph){
-    case'intro':rI();break;
-    case'modern':rM();break;
-    case'play':rP();break;
-    case'fc':rFC();break;
-    case'quiz':rQ();break;
-    case'end':rE();break;
+const SPECIES = [
+  {
+    id:'australo',
+    name:'Australopiteco',
+    period:'4 milioni di anni fa',
+    where:'Savana africana',
+    color:'#B8722E',
+    icon:SVG.sp_australo,
+    scene:()=>`<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky-au" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#E8B879"/><stop offset=".6" stop-color="#D4A05A"/><stop offset="1" stop-color="#9A7140"/></linearGradient></defs><rect width="720" height="230" fill="url(#sky-au)"/><circle cx="580" cy="60" r="32" fill="#F4C770" opacity=".8"/><circle cx="580" cy="60" r="40" fill="#F4C770" opacity=".25"/><ellipse cx="360" cy="225" rx="500" ry="45" fill="#6B4E2A"/><ellipse cx="360" cy="210" rx="400" ry="18" fill="#8B6B40" opacity=".6"/><path d="M580 200c-2-18 5-35 14-40s14 12 10 25c8-2 12 10 6 18l-4 8h-34z" fill="#3B5020" opacity=".7"/><path d="M590 180c-4-12 2-22 8-25 5 2 7 10 4 18z" fill="#4A6025"/><rect x="603" y="195" width="3" height="12" fill="#5A3D1F"/><path d="M80 210c-2-30 8-55 22-60s18 20 14 35c10-4 18 12 8 22l-6 10H70z" fill="#3B5020" opacity=".6"/><rect x="95" y="200" width="4" height="15" fill="#5A3D1F"/><path d="M150 215l4-20 5 15z M240 218l3-12 4 10z M450 218l3-14 4 12z" fill="#9A8050" opacity=".5"/></svg>`,
+    hotspots:[
+      {x:'28%',y:'72%',r:24,key:'footprint',label:'Un\'impronta strana',reveal:{p:'Due orme affiancate, parallele. Chi le ha lasciate camminava su due gambe sole, come te.',pS:'Impronte bipedi perfettamente parallele. L\'andatura eretta è molto antica, 4 milioni di anni.'}},
+      {x:'72%',y:'52%',r:26,key:'tree',label:'Un albero alto',reveal:{p:'Un\'acacia: i suoi rami sono rifugio e dispensa. Frutti e foglie in alto, sicurezza dai leopardi.',pS:'Le acacie offrivano cibo (frutti, gemme) e scampo dai grandi predatori della savana.'}},
+      {x:'52%',y:'80%',r:22,key:'bone',label:'Un osso',pulse:true,label:'Un osso spezzato',reveal:{p:'Un osso di antilope. Qui è passato qualcuno che cercava il midollo: un pasto ricco di grassi.',pS:'Osso di antilope fratturato: resti di un pasto, probabilmente non cacciato ma trovato.'}}
+    ],
+    hypothesis:{
+      q:'Chi ha lasciato queste tracce viveva...',
+      qS:'Osservando gli indizi, dove passava la vita dell\'Australopiteco?',
+      options:[
+        {text:'Dentro grotte sicure, come in un rifugio',textS:'Stabilmente in caverne, come rifugio permanente'},
+        {text:'Sugli alberi e sul terreno, tra i due mondi',textS:'Tra gli alberi e il suolo della savana, in un equilibrio tra due habitat'},
+        {text:'In capanne di legno costruite dal gruppo',textS:'In strutture costruite con materiali lavorati'}
+      ]
+    },
+    discover:{
+      p:[
+        'L\'**Australopiteco** è uno dei nostri antenati più antichi. Viveva in Africa, nella savana, **4 milioni di anni fa**.',
+        'È stato il primo a camminare **in piedi** su due gambe (si dice "**bipede**"). Aveva mani libere e poteva guardare lontano nell\'erba alta.',
+        'Ma non aveva strumenti, non conosceva il fuoco e non parlava. Di giorno stava a terra, la notte **dormiva sugli alberi** per sfuggire ai leopardi.',
+        'Il suo cervello era piccolo: circa **400 cm³**, grande come un pugno chiuso. Mangiava frutti, radici, qualche insetto.'
+      ],
+      pS:[
+        'L\'**Australopiteco** (nome che significa "scimmia del sud") è vissuto in Africa orientale circa **4 milioni di anni fa**. Il fossile più famoso si chiama **Lucy**, scoperto in Etiopia nel 1974.',
+        'La sua novità rivoluzionaria è il **bipedismo**: camminava eretto. Questo gli liberava le mani e ampliava l\'orizzonte visivo — un enorme vantaggio nella savana.',
+        'Non produceva però **strumenti**, non controllava il **fuoco** e non possedeva **linguaggio** articolato. Di notte si rifugiava sugli alberi per sfuggire ai grandi predatori.',
+        'Volume cerebrale: **circa 400 cm³** (un terzo del nostro). Dieta mista: vegetali, tuberi, piccoli invertebrati, occasionale carcassa.'
+      ]
+    },
+    tool:{name:'Il passo eretto',key:'footprint',desc:'Camminare su due gambe ti libera le mani.'},
+    agisci:{
+      type:'climb',
+      title:'Arrampicati prima che scenda la notte',
+      hint:'Clicca i rami in ordine dal basso. Attento ai rami marci!',
+      hintS:'Seleziona i rami solidi in sequenza ascendente. Valuta quali non reggono il peso.'
+    },
+    diary:{
+      q1:'Prima pensavo che il più antico antenato dell\'uomo vivesse...',
+      q2:'Ora so che l\'Australopiteco...',
+      q3:'La cosa che mi ha più sorpreso è...'
+    }
+  },
+  {
+    id:'habilis',
+    name:'Homo Habilis',
+    period:'2,5 milioni di anni fa',
+    where:'Foreste e savane africane',
+    color:'#6B8142',
+    icon:SVG.sp_habilis,
+    scene:()=>`<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky-ha" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#B5C085"/><stop offset="1" stop-color="#5A7040"/></linearGradient></defs><rect width="720" height="230" fill="url(#sky-ha)"/><ellipse cx="360" cy="228" rx="500" ry="40" fill="#5A4A2A"/><path d="M60 220c-5-50 15-85 35-95s30 20 28 50c10-5 20 10 10 25l-8 15H40z" fill="#3B5020" opacity=".7"/><path d="M630 220c-4-40 12-70 28-78s25 15 22 40c8-4 15 8 8 20H615z" fill="#3B5020" opacity=".6"/><rect x="75" y="205" width="5" height="18" fill="#3A2510"/><path d="M280 215c30-6 55 3 65 8-10 3-45 5-65 0z" fill="#7A6540" opacity=".6"/><ellipse cx="312" cy="218" rx="8" ry="3" fill="#5A4030"/><circle cx="460" cy="215" r="5" fill="#6B5842"/><path d="M454 215l8-3 6 4-4 5-8-2z" fill="#9A8060"/></svg>`,
+    hotspots:[
+      {x:'45%',y:'82%',r:24,key:'stone',pulse:true,label:'Una pietra appuntita',reveal:{p:'Non è una pietra qualsiasi. È stata colpita con un\'altra pietra per farle un taglio affilato. Qualcuno l\'ha fabbricata.',pS:'Scheggiatura intenzionale: una pietra "nucleo" è stata percossa per staccare frammenti taglienti. Primo strumento della storia.'}},
+      {x:'65%',y:'78%',r:22,key:'bone',label:'Un cranio con tagli',reveal:{p:'Un cranio di gazzella. Ha dei graffi netti: qualcuno ha usato una lama per staccare la carne. Non era un predatore — era uno spazzino intelligente.',pS:'Tracce di taglio su ossa indicano macellazione. Gli Habilis si nutrivano di carcasse abbandonate dai carnivori: acqua, proteine, midollo.'}},
+      {x:'18%',y:'70%',r:24,key:'hand',label:'Un\'impronta di mano',reveal:{p:'Un\'impronta di mano più snella di quella delle scimmie. Un pollice capace di afferrare con precisione, tenere una pietra, lavorarla.',pS:'Il pollice opponibile e la presa di precisione rendono possibile la manipolazione fine degli oggetti: è la mano del primo artigiano.'}}
+    ],
+    hypothesis:{
+      q:'A cosa serviva questa pietra scheggiata?',
+      qS:'Qual è il significato di una pietra lavorata intenzionalmente?',
+      options:[
+        {text:'Era un sasso trovato così per caso',textS:'Il risultato di un processo naturale, non intenzionale'},
+        {text:'Era uno strumento per tagliare',textS:'Uno strumento costruito apposta per una funzione specifica'},
+        {text:'Era un gioiello decorativo',textS:'Un oggetto simbolico o ornamentale'}
+      ]
+    },
+    discover:{
+      p:[
+        'L\'**Homo Habilis** significa "**uomo abile**": il primo a costruire strumenti.',
+        'Non si limitava a raccogliere pietre: sceglieva quelle giuste, le colpiva con altre pietre per farle una **lama tagliente**. Nascevano così i **chopper**, i primi coltelli della storia.',
+        'Con i chopper poteva tagliare la carne trovata e rompere le ossa per prendere il midollo. Mangiava più proteine di prima e il suo **cervello cresceva**: era arrivato a **600 cm³**.',
+        'Non aveva ancora il fuoco, né il linguaggio. Ma aveva una cosa potentissima: l\'**idea** che un oggetto può essere trasformato per fare qualcosa.'
+      ],
+      pS:[
+        'L\'**Homo Habilis** (vissuto tra 2,5 e 1,5 milioni di anni fa) è il primo ominide della nostra linea evolutiva a produrre strumenti in modo sistematico.',
+        'La tecnica è chiamata **industria olduvaiana** (dal sito Olduvai in Tanzania): si sceglie un **nucleo** di pietra dura e lo si percuote con un **percussore**, staccando schegge taglienti chiamate **chopper**.',
+        'Questi strumenti permettono di macellare carcasse, spaccare ossa per il **midollo** — ricco di grassi e calorie — e lavorare vegetali duri. L\'alimentazione più energetica sostiene un cervello più grande: **circa 600 cm³**.',
+        'Non possedeva ancora fuoco né linguaggio strutturato. Ma la sua novità cognitiva è enorme: la **consapevolezza che un oggetto può essere modificato per una funzione**. Nasce la tecnologia.'
+      ]
+    },
+    tool:{name:'Il chopper',key:'stone',desc:'La pietra scheggiata: il primo strumento.'},
+    agisci:{
+      type:'knap',
+      title:'Scheggia la tua prima pietra',
+      hint:'Colpisci il nucleo con il percussore, ma non troppo vicino ai colpi precedenti.',
+      hintS:'Le percussioni devono essere distanziate: troppo ravvicinate frantumano il nucleo senza produrre schegge utili.'
+    },
+    diary:{
+      q1:'Prima pensavo che il primo strumento della storia fosse...',
+      q2:'Ora so che l\'Homo Habilis...',
+      q3:'Se dovessi costruire uno strumento come lui, la difficoltà più grande sarebbe...'
+    }
+  },
+  {
+    id:'erectus',
+    name:'Homo Erectus',
+    period:'1,8 milioni di anni fa',
+    where:'Africa, Asia, Europa meridionale',
+    color:'#B8722E',
+    icon:SVG.sp_erectus,
+    scene:()=>`<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky-er" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D68860"/><stop offset=".5" stop-color="#C06830"/><stop offset="1" stop-color="#5A3018"/></linearGradient><radialGradient id="glow-er" cx=".5" cy=".5"><stop offset="0" stop-color="#FFD870" stop-opacity=".8"/><stop offset="1" stop-color="#FFD870" stop-opacity="0"/></radialGradient></defs><rect width="720" height="230" fill="url(#sky-er)"/><ellipse cx="360" cy="228" rx="500" ry="40" fill="#4A2A18"/><circle cx="420" cy="175" r="40" fill="url(#glow-er)"/><path d="M408 178l4-15 3-5 2 10 4-8 2 15 4-10 3 18z" fill="#FF8030"/><path d="M406 185q12-20 24 0" fill="#FFB060"/><ellipse cx="418" cy="195" rx="18" ry="3" fill="#3A1A0A"/><circle cx="395" cy="200" r="4" fill="#4A2A15"/><circle cx="442" cy="197" r="3" fill="#4A2A15"/><circle cx="430" cy="203" r="5" fill="#3A1A0A"/><path d="M120 220c-3-40 10-70 26-78s22 15 20 35c10-3 16 8 10 20H100z" fill="#3B2215" opacity=".7"/><path d="M580 215l3-30 5 20 4-10 3 20z" fill="#2A1808" opacity=".5"/></svg>`,
+    hotspots:[
+      {x:'58%',y:'80%',r:28,key:'fire',pulse:true,label:'Un falò',reveal:{p:'Cenere e pietre annerite. Qui c\'è stato un **fuoco**, e non è arrivato dal cielo: qualcuno l\'ha acceso e tenuto vivo.',pS:'Focolare intenzionale: cerchio di pietre e carboni concentrati indicano un fuoco controllato nel tempo, non un incendio naturale.'}},
+      {x:'20%',y:'82%',r:26,key:'stone',label:'Una pietra a goccia',reveal:{p:'Questa pietra è lavorata su **entrambi i lati**, a forma di goccia. È molto più affilata del chopper. Si chiama **amigdala**.',pS:'Bifacciale o **amigdala**: pietra lavorata simmetricamente su entrambe le facce. Richiede pianificazione e abilità notevoli.'}},
+      {x:'80%',y:'65%',r:22,key:'footprint',label:'Orme verso nord',reveal:{p:'File di impronte che vanno lontano. Qualcuno è partito, non è tornato. Il viaggio era lungo.',pS:'Tracce di migrazione: l\'Erectus è il primo ominide a uscire dall\'Africa, popolando Asia ed Europa fino a Georgia e Cina.'}}
+    ],
+    hypothesis:{
+      q:'Cos\'era il fuoco per questi uomini?',
+      qS:'Che significato ebbe il controllo del fuoco nell\'evoluzione?',
+      options:[
+        {text:'Un pericolo da evitare',textS:'Una forza minacciosa, simile a come la vedono gli altri animali'},
+        {text:'Un compagno prezioso',textS:'Una tecnologia rivoluzionaria che modifica biologia e cultura'},
+        {text:'Un gioco senza importanza',textS:'Un fenomeno marginale, occasionale'}
+      ]
+    },
+    discover:{
+      p:[
+        'L\'**Homo Erectus** significa "uomo eretto". Era alto come te e camminava veloce per chilometri.',
+        'È stato il primo a **dominare il fuoco**. Il fuoco cambia tutto: scalda, difende dai predatori, allunga il giorno, e — soprattutto — permette di **cuocere il cibo**. Il cibo cotto è più digeribile e nutriente, e il cervello cresce: ora è a **900 cm³**.',
+        'Ha inventato l\'**amigdala**, una pietra a goccia lavorata su due lati. Più precisa del chopper, serve per tagliare, scavare, scuoiare.',
+        'Ed è stato il **primo a lasciare l\'Africa**. È andato fino in Cina, in Indonesia, in Europa. Un esploratore, un camminatore instancabile.'
+      ],
+      pS:[
+        'L\'**Homo Erectus** visse tra 1,9 milioni e 100.000 anni fa. Alto fino a 1,80 m, con una corporatura simile alla nostra, era un camminatore efficiente su lunghe distanze.',
+        'La sua conquista più rivoluzionaria è il **controllo del fuoco**. Questo ha implicazioni enormi: cottura del cibo (digestione più facile, più energia), protezione dai predatori, riscaldamento, socialità serale intorno al focolare. Il volume cerebrale sale a **~900 cm³**.',
+        'Produce il **bifacciale** (o **amigdala**), strumento lavorato simmetricamente: richiede una pianificazione mentale molto più complessa del chopper. È il primo oggetto con una forma standardizzata che persiste per oltre un milione di anni.',
+        'Prima specie del genere Homo a **uscire dall\'Africa**: fossili ritrovati in Georgia (Dmanisi), Cina (Zhoukoudian), Indonesia (Giava). Diventa un animale cosmopolita.'
+      ]
+    },
+    tool:{name:'Il dominio del fuoco',key:'fire',desc:'Scalda, difende, cuoce. Cambia tutto.'},
+    agisci:{
+      type:'fire',
+      title:'Accendi un fuoco',
+      hint:'Metti in ordine i passi giusti per accendere il fuoco.',
+      hintS:'Ordina correttamente la sequenza procedurale: ogni fase dipende da quella precedente.'
+    },
+    diary:{
+      q1:'Prima pensavo che il fuoco fosse arrivato nelle case dell\'uomo...',
+      q2:'Ora so che l\'Homo Erectus ha scoperto che il fuoco serviva a...',
+      q3:'La cosa più importante che il fuoco ha cambiato, secondo me, è...'
+    }
+  },
+  {
+    id:'neander',
+    name:'Homo di Neanderthal',
+    period:'400.000 anni fa',
+    where:'Europa e Asia occidentale',
+    color:'#5A7A80',
+    icon:SVG.sp_neander,
+    scene:()=>`<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky-ne" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7090A8"/><stop offset="1" stop-color="#405060"/></linearGradient></defs><rect width="720" height="230" fill="url(#sky-ne)"/><ellipse cx="360" cy="228" rx="500" ry="40" fill="#C8D0D8"/><path d="M0 170l60-15 80 5 90-20 80 10 70-12 100 8 80-15 60 10 100-5v90H0z" fill="#A0AAB8" opacity=".55"/><path d="M100 210c10-40 25-68 45-76 10 5 18 28 20 76z" fill="#3A4A58" opacity=".55"/><ellipse cx="115" cy="195" rx="32" ry="18" fill="#2A3A48" opacity=".5"/><path d="M580 215l10-40 15 10 12-15 10 15 12-10 8 40z" fill="#556878" opacity=".4"/><circle cx="420" cy="205" r="5" fill="#B890A0" opacity=".7"/><circle cx="430" cy="208" r="4" fill="#C8A0B0" opacity=".7"/><circle cx="410" cy="210" r="5" fill="#A87890" opacity=".7"/><path d="M418 210l2 6M425 210l1 5M408 212l-1 5" stroke="#6A4858" stroke-width=".8"/></svg>`,
+    hotspots:[
+      {x:'58%',y:'85%',r:26,key:'flower',pulse:true,label:'Fiori posati con cura',reveal:{p:'Fiori freschi, messi intorno a una tomba. Non un gesto casuale: qualcuno ha **seppellito** un suo caro, con rispetto.',pS:'Resti floreali in contesti sepolcrali (es. Shanidar, Iraq): i Neanderthal praticavano **inumazioni intenzionali**, indice di pensiero simbolico ed elaborazione della morte.'}},
+      {x:'16%',y:'72%',r:24,key:'cave',label:'L\'ingresso di una grotta',reveal:{p:'Una grotta asciutta, con segni di focolare dentro. Qui un gruppo si rifugiava dal gelo. Fuori, ghiaccio ovunque.',pS:'Rifugi grotta durante le glaciazioni: vita strutturata attorno al focolare, divisione interna degli spazi, continuità di uso per generazioni.'}},
+      {x:'75%',y:'78%',r:22,key:'needle',label:'Un oggetto lungo e sottile',reveal:{p:'Un **ago** di osso. Forato in cima per farci passare un filo di tendine. Serviva per cucire le pellicce: vestiti caldi, su misura.',pS:'Ago d\'osso con cruna: consente la confezione di abbigliamento cucito (non solo drappeggiato), essenziale per sopravvivere alle glaciazioni europee.'}}
+    ],
+    hypothesis:{
+      q:'Il Neanderthal aveva un cervello PIÙ grande del nostro. Perché?',
+      qS:'A cosa potrebbe essere dovuta la maggiore capacità cranica del Neanderthal?',
+      options:[
+        {text:'Perché era più intelligente di noi',textS:'Un cervello più grande implica necessariamente un\'intelligenza superiore'},
+        {text:'Perché aveva un corpo molto robusto da controllare',textS:'La massa corporea richiede più tessuto nervoso per il controllo motorio e sensoriale'},
+        {text:'Perché non lo usava davvero',textS:'Un organo sviluppato ma non funzionalmente attivo'}
+      ]
+    },
+    discover:{
+      p:[
+        'Il **Neanderthal** è un nostro cugino. Non un antenato diretto: è un\'altra specie di uomo, vissuta in **Europa fredda** durante le glaciazioni.',
+        'Aveva il cervello più grande di tutti: **1.400 cm³**. Un corpo robusto, tozzo, muscoloso, adatto al freddo.',
+        'Sapeva fare molte cose: costruire lance da caccia, **cucire pellicce** con aghi d\'osso, curare i feriti con **erbe medicinali**. Ma soprattutto — ed è meraviglioso — **seppelliva i suoi morti**, a volte con fiori. Provava **sentimenti**.',
+        'È scomparso **40.000 anni fa**. Non sappiamo esattamente perché. Ma qualcosa di lui è rimasto: nel DNA di ogni europeo, circa **il 2% viene dal Neanderthal**. Una piccola parte di lui è dentro di te.'
+      ],
+      pS:[
+        'L\'**Homo neanderthalensis** visse tra 400.000 e 40.000 anni fa in Europa e Asia occidentale, attraversando varie fasi glaciali.',
+        'Volume cerebrale medio **1.400 cm³** (superiore al nostro di ~1.350). Corporatura compatta, massiccia, **adattata al freddo** (corollario della regola di Bergmann-Allen).',
+        'Cultura sofisticata: **industria musteriana** (lame, raschiatoi, punte Levallois), **aghi d\'osso**, abbigliamento cucito, caccia organizzata di grandi animali. Evidenze di **cure ai feriti** (individui con lesioni sopravvissuti a lungo) e di **sepolture rituali** con corredi.',
+        'Si estinguono circa 40.000 anni fa, probabilmente per una combinazione di cambiamenti climatici, competizione con l\'Homo Sapiens e ibridazione: il **~2% del genoma** dei non-africani moderni è di origine neanderthaliana.'
+      ]
+    },
+    tool:{name:'L\'ago d\'osso',key:'needle',desc:'Cucire pellicce: vestiti su misura per il freddo.'},
+    agisci:{
+      type:'sew',
+      title:'Cuci una pelliccia',
+      hint:'Segui i punti numerati in ordine per formare il cucito.',
+      hintS:'Traccia la sequenza di perforazione rispettando la numerazione. Ogni punto è una cucitura.'
+    },
+    diary:{
+      q1:'Prima pensavo che i Neanderthal fossero...',
+      q2:'Ora so che il Neanderthal è stato il primo a...',
+      q3:'Il fatto che il 2% del mio DNA venga dai Neanderthal mi fa pensare che...'
+    }
+  },
+  {
+    id:'sapiens',
+    name:'Homo Sapiens',
+    period:'300.000 anni fa → oggi',
+    where:'Tutto il pianeta',
+    color:'#8B6914',
+    icon:SVG.sp_sapiens,
+    scene:()=>`<svg viewBox="0 0 720 230" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="sky-sa" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#A88860"/><stop offset="1" stop-color="#4A3820"/></linearGradient></defs><rect width="720" height="230" fill="url(#sky-sa)"/><ellipse cx="360" cy="228" rx="500" ry="40" fill="#5A4530"/><rect x="100" y="140" width="180" height="80" rx="6" fill="#3A2A15" opacity=".5"/><path d="M85 145l95-35 95 35" fill="#5A3520"/><g transform="translate(140 165)"><path d="M0 20q10-15 25-18 10 5 10 18" fill="#B8722E" opacity=".55"/><circle cx="30" cy="10" r="4" fill="#B8722E" opacity=".55"/><path d="M45 22q5-10 18-8 8 8 0 15" fill="#B8722E" opacity=".55"/><path d="M75 22q-3-12 8-15 10 3 8 15" fill="#B8722E" opacity=".55"/><path d="M0 38l18-3 15 4 18-3 20 4 18-2" stroke="#B8722E" stroke-width="1.5" fill="none" opacity=".5"/></g><circle cx="500" cy="195" r="14" fill="#FF9840" opacity=".5"/><path d="M490 210l8-18 4 8 5-12 4 10 5-8 6 20z" fill="#FFA860" opacity=".6"/><circle cx="510" cy="180" r="3" fill="#5A4A30" opacity=".8"/><circle cx="520" cy="175" r="3" fill="#5A4A30" opacity=".8"/><circle cx="488" cy="178" r="3" fill="#5A4A30" opacity=".8"/></svg>`,
+    hotspots:[
+      {x:'26%',y:'80%',r:28,key:'brush',pulse:true,label:'Animali dipinti sulla parete',reveal:{p:'Figure di animali dipinti in **ocra rossa** sulla parete. Qualcuno ha voluto **rappresentare**: trasformare un\'idea in un\'immagine visibile da tutti.',pS:'Pittura parietale: raffigurazione di fauna (bovidi, cavalli, felini). Non decorativa ma **simbolica** — possibile valore narrativo, rituale, mnemonico.'}},
+      {x:'70%',y:'85%',r:24,key:'fire',label:'Un cerchio di persone',reveal:{p:'Un gruppo intorno al fuoco. Stanno **parlando** — raccontano, ricordano, immaginano il domani. Il linguaggio permette di pensare a ciò che non c\'è.',pS:'Narrazione orale: il linguaggio articolato consente trasmissione culturale, coordinazione cooperativa e rappresentazione di entità astratte (passato, futuro, finzione).'}},
+      {x:'52%',y:'65%',r:22,key:'stone',label:'Strumenti diversi tra loro',reveal:{p:'Non una sola pietra, ma **molti strumenti** diversi: lame sottili, punte, raschiatoi, ami. Ogni cosa per un lavoro preciso.',pS:'Industrie **Aurignaziano, Solutreano, Magdaleniano**: diversificazione tipologica e funzionale. Uso sistematico di osso, avorio, conchiglia come materie prime.'}}
+    ],
+    hypothesis:{
+      q:'Qual è la cosa che distingue il Sapiens dagli altri?',
+      qS:'Quale capacità cognitiva spiega il dominio dell\'Homo Sapiens?',
+      options:[
+        {text:'Essere più forte degli altri',textS:'Vantaggi fisici: forza, velocità, resistenza'},
+        {text:'Saper raccontare storie e collaborare',textS:'Cognizione simbolica, linguaggio, cooperazione su grande scala'},
+        {text:'Essere il più veloce in natura',textS:'Prestazioni motorie superiori alle altre specie'}
+      ]
+    },
+    discover:{
+      p:[
+        'L\'**Homo Sapiens** sei **tu**. Siamo apparsi in Africa circa **300.000 anni fa**.',
+        'Il nostro cervello è leggermente più piccolo di quello dei Neanderthal (1.350 cm³), ma **organizzato diversamente**. La nostra grande forza è altrove.',
+        'Abbiamo il **linguaggio complesso**: possiamo raccontare storie, insegnare, immaginare cose che non esistono. Abbiamo l\'**arte**: pittura, scultura, musica. E sappiamo **cooperare in grandi gruppi**, anche con chi non conosciamo.',
+        'Siamo usciti dall\'Africa e abbiamo conquistato il pianeta. Un Sapiens di 30.000 anni fa aveva lo **stesso cervello** che hai tu adesso. Scrittura, numeri, scuola, tecnologia: tutto il resto **l\'abbiamo inventato nel tempo**, insegnandoci a vicenda.'
+      ],
+      pS:[
+        '**Homo sapiens** (letteralmente "uomo sapiente") emerge in Africa **~300.000 anni fa** (fossili di Jebel Irhoud, Marocco).',
+        'Volume cerebrale **~1.350 cm³**: leggermente inferiore al Neanderthal, ma con **riorganizzazione neurale** differente (lobi frontali e temporali più sviluppati, migliore integrazione).',
+        'Vantaggi cognitivi distintivi: **linguaggio simbolico e ricorsivo**, **cognizione narrativa** (costruzione di realtà condivise), **cooperazione su larga scala** anche tra estranei, **produzione artistica** (grotte di Lascaux, Chauvet, Altamira).',
+        'Espansione globale a partire da ~60-70.000 anni fa (out of Africa). Anatomicamente fermo da ~200.000 anni: **scrittura, agricoltura, città, matematica, scienza** sono tutte innovazioni **culturali** trasmesse per apprendimento, non mutazioni biologiche.'
+      ]
+    },
+    tool:{name:'La parola e il segno',key:'mouth',desc:'Raccontare storie, lasciare segni: nasce la cultura.'},
+    agisci:{
+      type:'paint',
+      title:'Lascia il tuo segno sulla parete',
+      hint:'Disegna un animale o una scena con l\'ocra. Come un vero Sapiens di 30.000 anni fa.',
+      hintS:'Componi una raffigurazione con il tratto rupestre. Rifletti: come renderla riconoscibile con segni essenziali?'
+    },
+    diary:{
+      q1:'Prima pensavo che la cosa più importante dell\'uomo fosse...',
+      q2:'Ora so che il segreto dell\'Homo Sapiens è...',
+      q3:'Quello che noi sappiamo fare, ma un Sapiens di 30.000 anni fa non sapeva, è...'
+    }
   }
+];
+
+/* ─────────── MODERN DAY ITEMS ─────────── */
+const MODERN = [
+  {key:'fridge',text:'Apri il frigo e fai colazione'},
+  {key:'shirt',text:'Scegli i vestiti dall\'armadio'},
+  {key:'phone',text:'Parli e scrivi con chi vuoi'},
+  {key:'house',text:'Vivi in una casa sicura'},
+  {key:'car',text:'Vai a scuola in auto o in bus'},
+  {key:'lamp',text:'Accendi la luce con un click'},
+  {key:'tap',text:'Apri l\'acqua dal rubinetto'},
+  {key:'school',text:'Vai a scuola a imparare'}
+];
+
+/* ─────────── STATE ─────────── */
+const LS_KEY = 'viaggiouomo_v2';
+const EMPTY_STATE = ()=>({
+  phase:'intro',          // intro | setup | modern | species | timeline | matching | export
+  name:'',
+  level:'primaria',       // primaria | secondaria
+  modern:[],              // indici MODERN selezionati
+  spIdx:0,                // indice specie corrente
+  spStep:'esplora',       // esplora | ipotesi | scopri | agisci | diario
+  found:{},               // { spIdx: [hotspotIdx, ...] }
+  hyp:{},                 // { spIdx: optionIdx }
+  tools:[],               // chiavi strumenti raccolti
+  mg:{},                  // stati dei mini-game per specie
+  diary:{},               // { spIdx: {q1,q2,q3} }
+  timelineDone:false,
+  matchingDone:false,
+  painting:null           // dataURL della pittura rupestre
+});
+
+let G = loadState();
+const app = document.getElementById('app');
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(LS_KEY);
+    if(!raw) return EMPTY_STATE();
+    return {...EMPTY_STATE(), ...JSON.parse(raw)};
+  }catch(e){ return EMPTY_STATE(); }
 }
 
-/* ═══════ INTRO ═══════ */
-function rI(){
-  app.innerHTML=`
-  <div style="text-align:center;padding-top:30px">
-    <svg width="80" height="80" viewBox="0 0 80 80" style="opacity:.7;margin-bottom:12px"><circle cx="40" cy="40" r="34" fill="none" stroke="var(--sand)" stroke-width="1" stroke-dasharray="3 4"/><path d="M40 16c-7 12-20 18-16 38 3 12 20 16 28 10s9-18 0-34c-2 7-7 11-11 9s-6-10-1-23z" fill="var(--earth)" opacity=".25"/></svg>
-    <h1 class="hf" style="font-size:20px;color:var(--sand);letter-spacing:3px;margin-bottom:4px">IL VIAGGIO DELL'UOMO</h1>
-    <p class="hf" style="font-size:9px;color:var(--stone);letter-spacing:4px;margin-bottom:28px;animation:breathe 3s infinite">UN'AVVENTURA NELLA PREISTORIA</p>
-    <div class="card" style="text-align:left;max-width:500px;margin:0 auto 24px">
-      <p style="font-size:16px;line-height:1.8;margin-bottom:16px">Stai per viaggiare indietro nel tempo di <strong style="color:var(--sand)">4 milioni di anni</strong>. Dovrai sopravvivere come i nostri antenati: trovare cibo, ripararti, comunicare... senza nulla di quello che hai oggi!</p>
-      <p style="font-size:14px;color:var(--textL);margin-bottom:20px">Fai le scelte giuste per sopravvivere. Ogni errore ti costa un cuore!</p>
-      <div style="text-align:center">
-        <input id="ni" type="text" placeholder="Come ti chiami, esploratore?" style="width:100%;max-width:280px;padding:10px 16px;font-size:16px;font-family:var(--bf);background:var(--parch);border:1.5px solid var(--parchDD);border-radius:8px;color:var(--text);text-align:center;margin-bottom:16px">
-        <br><button class="btn solid" onclick="go()">Inizia il viaggio</button>
-      </div>
-    </div>
-  </div>`;
+function saveState(){
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(G)); }catch(e){}
 }
 
-function go(){const v=document.getElementById('ni').value.trim();if(!v)return;G.nm=v;G.ph='modern';R()}
-
-/* ═══════ MODERN DAY ═══════ */
-function rM(){
-  app.innerHTML=`
-    ${topbar()}
-    <div style="text-align:center;margin-bottom:16px">
-      <p class="hf" style="font-size:12px;color:var(--sand);letter-spacing:2px;margin-bottom:8px">PRIMA DI PARTIRE...</p>
-      <p style="font-size:16px;color:var(--text)">Ecco cosa fai ogni giorno <strong style="color:var(--sand)">oggi</strong>. Tocca per confermare:</p>
-    </div>
-    <div class="mgrid">${MODERN.map((m,i)=>`
-      <div class="mcard ${G.modern.includes(i)?'checked':''}" onclick="togM(${i},event)">
-        <div class="big">${m.icon}</div>
-        <div style="font-size:13px;color:${G.modern.includes(i)?'var(--sand)':'var(--stone)'}">${m.text}</div>
-      </div>`).join('')}
-    </div>
-    <div style="text-align:center;margin-top:16px">
-      <p style="font-size:14px;color:var(--textL);margin-bottom:12px">${G.modern.length<4?`Seleziona almeno 4 cose (${G.modern.length}/4)`:'Tutto questo tra poco non esisterà più...'}</p>
-      <button class="btn ${G.modern.length>=4?'solid':''}" ${G.modern.length<4?'disabled':''} onclick="G.ph='play';R()">Viaggia nel tempo</button>
-    </div>`;
-}
-
-function togM(i,e){const idx=G.modern.indexOf(i);if(idx>-1)G.modern.splice(idx,1);else{G.modern.push(i);fx(5,e)}R()}
-
-/* ═══════ PLAY ═══════ */
-function rP(){
-  if(G.sp>=SPECIES.length){G.ph='fc';G.fcIdx=0;R();return}
-  const s=SPECIES[G.sp];
-  const sc=s.scenarios[G.sc];
-  if(!sc){G.sp++;G.sc=0;R();return}
-
-  app.innerHTML=`
-    ${topbar()}${dots()}
-    <div class="scene">${s.scene()}</div>
-    <div class="card">
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px">
-        ${s.icon(36)}
-        <div>
-          <div class="hf" style="font-size:13px;color:${s.accent};letter-spacing:1px">${s.name}</div>
-          <div style="font-size:12px;color:var(--textL)">${s.period}</div>
-        </div>
-      </div>
-      ${G.inv.length?`<div class="inv">${G.inv.map(x=>`<div class="inv-item"><span style="font-size:14px">✦</span> ${x}</div>`).join('')}</div>`:''}
-    </div>
-    <div class="card">
-      <p style="font-size:17px;font-weight:600;margin-bottom:4px;color:var(--text)">${sc.text}</p>
-      <div class="choices">${sc.choices.map((ch,i)=>`
-        <div class="choice" onclick="pick(${i},event)">
-          <div class="icon" style="background:var(--cream);border:1px solid ${s.accent}33">${ch.icon}</div>
-          <div>${ch.text}</div>
-        </div>`).join('')}
-      </div>
-    </div>`;
-}
-
-function pick(i,ev){
-  const s=SPECIES[G.sp];
-  const sc=s.scenarios[G.sc];
-  const ch=sc.choices[i];
-  if(ch.correct){fx(25,ev);if(ch.item&&!G.inv.includes(ch.item))G.inv.push(ch.item)}
-  else{G.hearts=Math.max(0,G.hearts-1)}
-  showFB(ch,s);
-}
-
-function showFB(ch,s){
-  const ok=ch.correct;
-  const el=document.createElement('div');
-  el.className='feedback';
-  el.style.background='#3B2F2066';
-  el.innerHTML=`<div class="feedback-card ${ok?'pop':'shake'}" style="border-color:${ok?'var(--moss)':'var(--clay)'}">
-    <div style="font-size:48px;margin-bottom:12px">${ok?'✓':'✗'}</div>
-    <p style="font-size:16px;line-height:1.7;color:var(--text);margin-bottom:16px">${ch.fb}</p>
-    ${ch.item?`<div style="background:var(--moss);color:#fff;display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-family:var(--hf);letter-spacing:1px;margin-bottom:12px">✦ ${ch.item}</div>`:(!ok?`<div style="color:var(--clay);font-size:13px;margin-bottom:12px">-1 ❤️</div>`:'')}
-    <br><button class="btn" style="border-color:${ok?'var(--moss)':'var(--clay)'};color:${ok?'var(--mossL)':'var(--fire)'}" onclick="closeFB()">Avanti</button>
-  </div>`;
-  document.body.appendChild(el);
-}
-
-function closeFB(){
-  document.querySelector('.feedback')?.remove();
-  G.sc++;
-  if(G.sc>=SPECIES[G.sp].scenarios.length){G.sp++;G.sc=0}
+function resetAll(){
+  if(!confirm('Vuoi davvero ricominciare il viaggio da capo? Perderai il diario attuale.')) return;
+  localStorage.removeItem(LS_KEY);
+  G = EMPTY_STATE();
   R();
 }
 
-/* ═══════ FLASHCARDS ═══════ */
-function rFC(){
-  const s=SPECIES[G.fcIdx];
-  const fl=G.fcFlip[G.fcIdx];
-  const nav=G.fcIdx<SPECIES.length-1
-    ?`<button class="btn" onclick="G.fcIdx++;R()">Prossima</button>`
-    :`<button class="btn solid" onclick="G.ph='quiz';R()">Vai al quiz finale!</button>`;
+/* ─────────── UTILITIES ─────────── */
+function floatPlus(text,e){
+  if(!e) return;
+  const d = document.createElement('div');
+  d.className = 'float-xp';
+  d.textContent = text;
+  d.style.left = (e.clientX||200)+'px';
+  d.style.top = (e.clientY||200)+'px';
+  document.body.appendChild(d);
+  setTimeout(()=>d.remove(),1300);
+}
 
-  app.innerHTML=`
+function txt(primary, secondary){
+  return G.level==='secondaria' && secondary ? secondary : primary;
+}
+
+function bold(s){
+  // Converte **parola** in <strong>
+  return String(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+}
+
+function progressPct(){
+  // Calcolo progressione complessiva
+  const total = 5 /*specie*/ * 4 /*step per specie*/ + 3 /*modern + timeline + matching*/;
+  let done = 0;
+  if(G.modern.length>=4) done++;
+  const stepOrder = ['esplora','ipotesi','scopri','agisci','diario'];
+  for(let i=0;i<G.spIdx;i++) done += 4;
+  if(G.phase==='species'){
+    const stepIdx = stepOrder.indexOf(G.spStep);
+    if(stepIdx>=0) done += Math.min(stepIdx, 4);
+  } else if(G.phase==='timeline' || G.phase==='matching' || G.phase==='export'){
+    done += 20;
+  }
+  if(G.timelineDone) done++;
+  if(G.matchingDone) done++;
+  return Math.min(100, Math.round(done/total*100));
+}
+
+function topbar(){
+  return `<div class="topbar no-print">
+    <span class="tb-label">${txt('Viaggio','Percorso')}</span>
+    <div class="tb-progress"><div class="tb-fill" style="width:${progressPct()}%"></div></div>
+    <span class="tb-meta">${G.name || 'Esploratore'}</span>
+    <button class="btn sm ghost" onclick="resetAll()" title="Ricomincia">${SVG.compass(14)}</button>
+  </div>`;
+}
+
+function toolbar(){
+  if(!G.tools.length) return '';
+  return `<div class="tools">
+    <div class="tools-label">Strumenti del Viaggiatore</div>
+    ${G.tools.map(t=>{
+      const species = SPECIES.find(s=>s.tool.key===t);
+      const tool = species?species.tool:null;
+      const iconKey = tool?tool.key:'star';
+      const iconFn = SVG[iconKey] || SVG.star;
+      const color = species?species.color:'var(--ocra)';
+      return `<div class="tool-item" title="${tool?tool.desc:''}">${iconFn(18,color)} ${tool?tool.name:t}</div>`;
+    }).join('')}
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ROUTER
+   ═══════════════════════════════════════════════════════════════ */
+function R(){
+  saveState();
+  window.scrollTo(0,0);
+  switch(G.phase){
+    case 'intro': rIntro(); break;
+    case 'setup': rSetup(); break;
+    case 'modern': rModern(); break;
+    case 'species': rSpecies(); break;
+    case 'timeline': rTimeline(); break;
+    case 'matching': rMatching(); break;
+    case 'export': rExport(); break;
+    default: rIntro();
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INTRO
+   ═══════════════════════════════════════════════════════════════ */
+function rIntro(){
+  const hasProgress = G.spIdx>0 || G.modern.length>0 || G.name;
+  app.innerHTML = `
+    <div style="text-align:center;padding-top:40px">
+      <div style="margin-bottom:20px;opacity:.6">${SVG.compass(64,'var(--ocra)')}</div>
+      <p class="eyebrow">Un'avventura nel tempo</p>
+      <h1 class="big">Il Viaggio dell'Uomo</h1>
+      <p class="subtitle">Diario dell'Esploratore</p>
+      <div class="card deep" style="max-width:540px;margin:28px auto;text-align:left">
+        <p style="font-size:16px;margin-bottom:14px">Stai per viaggiare indietro di <strong>4 milioni di anni</strong>. Seguirai le tracce di chi è venuto prima: l'Australopiteco, l'Habilis, l'Erectus, il Neanderthal, fino al Sapiens — cioè a te.</p>
+        <p style="color:var(--inkL);font-size:15px;margin-bottom:14px">Non è un quiz: è un'esplorazione. <strong>Osserva</strong> le tracce, <strong>immagina</strong> cosa significassero, <strong>scopri</strong> come andò davvero, e <strong>prova</strong> con le tue mani. Ogni tappa lascia una pagina nel tuo diario.</p>
+        <p style="font-size:14px;color:var(--inkL);font-style:italic">Alla fine, potrai stampare il tuo diario di viaggio.</p>
+      </div>
+      <div style="text-align:center;margin-top:28px">
+        <button class="btn solid" onclick="G.phase='setup';R()">${hasProgress?'Continua il viaggio':'Inizia il viaggio'}</button>
+        ${hasProgress?`<div style="margin-top:14px"><button class="btn ghost sm" onclick="resetAll()">Oppure ricomincia da capo</button></div>`:''}
+      </div>
+    </div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SETUP — nome + livello
+   ═══════════════════════════════════════════════════════════════ */
+function rSetup(){
+  app.innerHTML = `
     ${topbar()}
-    <p class="hf" style="text-align:center;font-size:11px;color:var(--sand);letter-spacing:2px;margin-bottom:16px">SCHEDE — ${G.fcIdx+1}/${SPECIES.length}</p>
-    <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px">
-      ${SPECIES.map((x,i)=>`<div onclick="G.fcIdx=${i};R()" style="width:32px;height:32px;border-radius:50%;border:1.5px solid ${i===G.fcIdx?x.accent:'var(--parchDD)'};background:${i===G.fcIdx?x.bg:'transparent'};cursor:pointer;display:flex;align-items:center;justify-content:center">${x.icon(18)}</div>`).join('')}
-    </div>
-    <div class="fc" onclick="flipFC(event)">
-      <div class="fc-inner ${fl?'flipped':''}">
-        <div class="fc-face" style="background:var(--parch);border:1.5px solid ${s.accent}33">
-          <div style="margin-bottom:12px">${s.icon(72)}</div>
-          <div class="hf" style="font-size:16px;color:${s.accent};letter-spacing:2px;margin-bottom:4px">${s.name}</div>
-          <div style="font-size:13px;color:var(--textL)">${s.period}</div>
-          <div class="hf" style="font-size:9px;color:var(--parchDD);margin-top:20px;animation:breathe 3s infinite;letter-spacing:2px">TOCCA PER GIRARE</div>
+    <div class="card deep text-center">
+      <p class="eyebrow">Prima di partire</p>
+      <h2 class="mid">Come ti chiami, esploratore?</h2>
+      <input id="iname" class="text-input" style="max-width:320px;margin:14px auto;text-align:center" type="text" placeholder="Il tuo nome" value="${G.name||''}">
+      <p class="eyebrow" style="margin-top:24px">Scegli il livello</p>
+      <div class="level-toggle">
+        <div class="level-btn ${G.level==='primaria'?'active':''}" onclick="G.level='primaria';R()">
+          <span class="hf">Primaria</span>
+          <small>3ª elementare</small>
         </div>
-        <div class="fc-face fc-back" style="background:var(--cream);border:1.5px solid ${s.accent}33">
-          <div class="hf" style="font-size:13px;color:${s.accent};letter-spacing:1px;margin-bottom:12px;text-align:center">${s.name}</div>
-          <div class="g2" style="margin-bottom:12px">
-            ${[["Cervello",s.brain],["Altezza",s.height],["Strumenti",s.tool],["Fuoco",s.fire?"Si":"No"],["Linguaggio",s.lang?"Si":"No"],["Habitat",s.id==='sapiens'?'Tutto il mondo':s.id==='neander'?'Europa glaciale':s.id==='erectus'?'Africa, Asia, Europa':'Africa']].map(([l,v])=>`<div class="sb" style="border-left:2px solid ${s.accent}44;background:var(--parch)"><div class="hf" style="font-size:8px;color:var(--textL);letter-spacing:1px">${l}</div><div style="font-size:13px">${v}</div></div>`).join('')}
-          </div>
-          <div class="hf" style="font-size:9px;color:${s.accent};letter-spacing:1px;margin-bottom:6px">CURIOSITÀ</div>
-          ${s.facts.map(f=>`<p style="color:var(--textL);font-size:12px;margin-bottom:4px;line-height:1.4;padding-left:8px;border-left:1px solid ${s.accent}18">${f}</p>`).join('')}
+        <div class="level-btn ${G.level==='secondaria'?'active':''}" onclick="G.level='secondaria';R()">
+          <span class="hf">Secondaria</span>
+          <small>1° media</small>
         </div>
       </div>
-    </div>
-    <div style="text-align:center">${nav}</div>`;
+      <div style="margin-top:24px">
+        <button class="btn solid" onclick="confirmSetup()">Avanti</button>
+      </div>
+    </div>`;
+  setTimeout(()=>{
+    const i = document.getElementById('iname');
+    if(i) i.focus();
+  },50);
 }
 
-function flipFC(e){if(!G.fcFlip[G.fcIdx]){G.fcFlip[G.fcIdx]=true;fx(10,e);R()}}
+function confirmSetup(){
+  const v = document.getElementById('iname').value.trim();
+  if(!v){
+    const i = document.getElementById('iname');
+    i.style.borderColor = 'var(--ocraD)';
+    i.focus();
+    return;
+  }
+  G.name = v;
+  G.phase = 'modern';
+  R();
+}
 
-/* ═══════ QUIZ ═══════ */
-function rQ(){
-  if(G.qDone){rE();return}
-  app.innerHTML=`
+/* ═══════════════════════════════════════════════════════════════
+   MODERN — cosa devi lasciare
+   ═══════════════════════════════════════════════════════════════ */
+function rModern(){
+  const enough = G.modern.length>=4;
+  app.innerHTML = `
     ${topbar()}
-    <p class="hf" style="text-align:center;font-size:12px;color:var(--sand);letter-spacing:2px;margin-bottom:20px">QUIZ FINALE</p>
-    ${QUIZ.map((q,i)=>`<div class="card">
-      <p style="font-size:15px;margin-bottom:10px"><span class="hf" style="font-size:10px;color:var(--sand);margin-right:6px">${i+1}.</span>${q.q}</p>
-      <div style="display:grid;gap:6px">${q.o.map((o,j)=>`<button class="qopt ${G.qa[i]===j?'sel':''}" onclick="G.qa[${i}]=${j};R()">${o}</button>`).join('')}</div>
-    </div>`).join('')}
-    <div style="text-align:center;margin-top:16px">
-      <button class="btn ${Object.keys(G.qa).length===QUIZ.length?'solid':''}" ${Object.keys(G.qa).length<QUIZ.length?'disabled':''} onclick="subQ(event)">Scopri i risultati</button>
-      ${Object.keys(G.qa).length<QUIZ.length?`<p style="font-size:12px;color:var(--textL);margin-top:8px">${Object.keys(G.qa).length}/${QUIZ.length}</p>`:''}
+    <div class="card deep">
+      <p class="eyebrow text-center">Ultima tappa nel presente</p>
+      <h2 class="mid text-center">Cosa stai per lasciare dietro di te?</h2>
+      <p class="prose text-center" style="font-style:italic;color:var(--inkL);margin-top:8px">${txt(
+        'Seleziona almeno 4 cose che fai ogni giorno. Nel viaggio non le troverai più.',
+        'Individua almeno 4 elementi del tuo quotidiano. Ti accompagneranno nel confronto con la preistoria.'
+      )}</p>
+      <div class="mgrid">
+        ${MODERN.map((m,i)=>{
+          const checked = G.modern.includes(i);
+          return `<div class="mcard ${checked?'checked':''}" onclick="toggleM(${i},event)">
+            <div class="mcard-icon" style="color:${checked?'var(--ocra)':'var(--inkLL)'}">${SVG[m.key](44, checked?'var(--ocra)':'var(--inkLL)')}</div>
+            <div style="font-size:13px;color:${checked?'var(--ocraD)':'var(--inkL)'};line-height:1.3">${m.text}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="text-center mt-20">
+        <p style="color:var(--inkL);font-size:13px;margin-bottom:12px">${G.modern.length}/4 ${G.modern.length<4?'minimi richiesti':'selezionati — puoi continuare'}</p>
+        <button class="btn ${enough?'solid':''}" ${enough?'':'disabled'} onclick="G.phase='species';G.spIdx=0;G.spStep='esplora';R()">Viaggia nel tempo</button>
+      </div>
     </div>`;
 }
 
-function subQ(ev){
-  G.qDone=true;
-  const sc=QUIZ.reduce((a,q,i)=>a+(G.qa[i]===q.c?1:0),0);
-  G.qs=sc;
-  fx(sc*30,ev);
-  G.ph='end';R();
+function toggleM(i, ev){
+  const idx = G.modern.indexOf(i);
+  if(idx>-1){ G.modern.splice(idx,1); }
+  else{
+    G.modern.push(i);
+    floatPlus('+', ev);
+  }
+  R();
 }
 
-/* ═══════ END ═══════ */
-function rE(){
-  const sc=G.qs||0;
-  const tot=G.xp;
+/* ═══════════════════════════════════════════════════════════════
+   SPECIES — router interno
+   ═══════════════════════════════════════════════════════════════ */
+function rSpecies(){
+  if(G.spIdx >= SPECIES.length){
+    G.phase = 'timeline';
+    R();
+    return;
+  }
+  switch(G.spStep){
+    case 'esplora': rEsplora(); break;
+    case 'ipotesi': rIpotesi(); break;
+    case 'scopri': rScopri(); break;
+    case 'agisci': rAgisci(); break;
+    case 'diario': rDiarioSpecie(); break;
+    default: G.spStep='esplora'; rEsplora();
+  }
+}
 
-  // Show quiz answers
-  const review=QUIZ.map((q,i)=>{
-    const ok=G.qa[i]===q.c;
-    return`<div style="display:flex;gap:8px;align-items:center;padding:8px 0;border-bottom:1px solid var(--parchDD)">
-      <span style="font-size:18px">${ok?'✓':'✗'}</span>
-      <div><span style="font-size:13px;color:${ok?'var(--mossL)':'var(--fire)'}">${q.q}</span>
-      ${!ok?`<div style="font-size:12px;color:var(--textL);margin-top:2px">→ ${q.o[q.c]}</div>`:''}</div>
-    </div>`;
-  }).join('');
-
-  const badge=sc>=4?'SAPIENTE':sc>=3?'ESPLORATORE':'APPRENDISTA';
-  const bc=sc>=4?'var(--moss)':'var(--clay)';
-
-  const metaQs=["Qual è la cosa che ti ha sorpreso di più?","Quale specie ti piacerebbe incontrare? Perché?","Qual è stata la scoperta più importante per l'uomo?","Cosa diresti a un Australopiteco se potessi parlargli?"];
-
-  app.innerHTML=`
-    ${topbar()}
-    <div class="card" style="text-align:center">
-      <svg width="56" height="56" viewBox="0 0 56 56" style="margin-bottom:10px"><circle cx="28" cy="28" r="24" fill="none" stroke="var(--sand)" stroke-width="1.5"/>${sc>=4?'<path d="M28 10l4 11h11l-9 7 3 11-9-7-9 7 3-11-9-7h11z" fill="var(--sand)" opacity=".35"/>':''}</svg>
-      <div class="hf" style="font-size:18px;color:var(--sand);letter-spacing:2px;margin-bottom:4px">VIAGGIO COMPLETATO!</div>
-      <div class="hf" style="font-size:10px;padding:4px 16px;border-radius:20px;display:inline-block;background:${bc}22;color:${bc};border:1px solid ${bc}33;letter-spacing:1px;margin:8px 0">${badge} DELL'EVOLUZIONE</div>
-      <div style="margin-top:12px;font-size:14px;color:var(--textL)">Quiz: ${sc}/${QUIZ.length} · Cuori: ${G.hearts}/5 · Oggetti: ${G.inv.length}</div>
+function speciesHeader(sp){
+  return `<div class="sp-header">
+    <div style="flex-shrink:0">${sp.icon(48, sp.color)}</div>
+    <div style="flex:1">
+      <div class="hf" style="color:${sp.color}">${sp.name}</div>
+      <div style="font-size:13px;color:var(--inkL)">${sp.period} · ${sp.where}</div>
     </div>
+    <div class="tag" style="background:${sp.color}">${G.spIdx+1}/${SPECIES.length}</div>
+  </div>`;
+}
 
+function speciesSteps(){
+  const steps = ['esplora','ipotesi','scopri','agisci','diario'];
+  const idx = steps.indexOf(G.spStep);
+  return `<div class="steps">${steps.map((s,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'active':''}"></div>`).join('')}</div>`;
+}
+
+/* ─── ESPLORA (indizi cliccabili) ─── */
+function rEsplora(){
+  const sp = SPECIES[G.spIdx];
+  const found = G.found[G.spIdx] || [];
+  const allFound = found.length >= sp.hotspots.length;
+
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    ${speciesHeader(sp)}
+    ${speciesSteps()}
     <div class="card">
-      <div class="hf" style="font-size:10px;color:var(--sand);letter-spacing:1px;margin-bottom:8px">RISPOSTE QUIZ</div>
-      ${review}
+      <p class="eyebrow">Tappa 1 · Esplora</p>
+      <h2 class="mid" style="font-size:22px">${txt('Cerca gli indizi nella scena','Individua le tracce significative')}</h2>
+      <p class="small-note mt-16">${txt('Tocca le zone che brillano per scoprire cosa raccontano.','Seleziona i punti attivi per analizzare ogni indizio.')}</p>
     </div>
+    <div class="scene">
+      ${sp.scene()}
+      ${sp.hotspots.map((h,i)=>{
+        const isFound = found.includes(i);
+        return `<div class="hotspot ${isFound?'found':''}" style="left:${h.x};top:${h.y};transform:translate(-50%,-50%)" onclick="findHotspot(${i},event)">
+          <div class="${!isFound?'pulse':''}" style="width:${h.r*2}px;height:${h.r*2}px;border-radius:50%;background:${isFound?'#FFFFFF40':'#FFFFFF88'};border:2px solid #FFFFFFcc;display:flex;align-items:center;justify-content:center;color:var(--ocraD)">
+            ${SVG[h.key](h.r, 'var(--ocraD)')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="card">
+      <p class="hf" style="font-size:13px;color:var(--ocraD);letter-spacing:1px;margin-bottom:10px">INDIZI RACCOLTI — ${found.length}/${sp.hotspots.length}</p>
+      ${sp.hotspots.map((h,i)=>{
+        const isFound = found.includes(i);
+        return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--parchDD);opacity:${isFound?'1':'.35'}">
+          <div style="flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:${isFound?sp.color:'var(--inkLL)'}">${SVG[h.key](22)}</div>
+          <div style="font-size:14px;color:var(--ink);flex:1">${isFound?`<strong>${h.label}</strong>`:'?'}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="text-center mt-16">
+      <button class="btn ${allFound?'solid':''}" ${allFound?'':'disabled'} onclick="G.spStep='ipotesi';R()">
+        ${allFound?'Formula la tua ipotesi':`Trova tutti gli indizi (${found.length}/${sp.hotspots.length})`}
+      </button>
+    </div>`;
+}
 
-    ${G.inv.length?`<div class="card">
-      <div class="hf" style="font-size:10px;color:var(--sand);letter-spacing:1px;margin-bottom:8px">I TUOI OGGETTI RACCOLTI</div>
-      <div class="inv">${G.inv.map(x=>`<div class="inv-item"><span style="color:var(--sand)">✦</span> ${x}</div>`).join('')}</div>
+function findHotspot(i, ev){
+  const sp = SPECIES[G.spIdx];
+  if(!G.found[G.spIdx]) G.found[G.spIdx] = [];
+  if(G.found[G.spIdx].includes(i)) return;
+  G.found[G.spIdx].push(i);
+  floatPlus('Indizio!', ev);
+  const h = sp.hotspots[i];
+  showHotspotModal(h, sp);
+}
+
+function showHotspotModal(h, sp){
+  const ov = document.createElement('div');
+  ov.className = 'overlay';
+  ov.innerHTML = `
+    <div class="overlay-card" style="border-color:${sp.color}">
+      <div style="width:64px;height:64px;margin:0 auto 14px;border-radius:50%;background:${sp.color}22;display:flex;align-items:center;justify-content:center;color:${sp.color}">
+        ${SVG[h.key](36, sp.color)}
+      </div>
+      <div class="hf" style="font-size:18px;color:${sp.color};margin-bottom:10px">${h.label}</div>
+      <p style="font-size:15px;line-height:1.6;color:var(--inkL);margin-bottom:18px">${bold(txt(h.reveal.p, h.reveal.pS))}</p>
+      <button class="btn solid" onclick="this.closest('.overlay').remove();R()">Continua</button>
+    </div>`;
+  ov.addEventListener('click', e=>{ if(e.target===ov){ ov.remove(); R(); } });
+  document.body.appendChild(ov);
+}
+
+/* ─── IPOTESI (scelta senza giusto/sbagliato) ─── */
+function rIpotesi(){
+  const sp = SPECIES[G.spIdx];
+  const selected = G.hyp[G.spIdx];
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    ${speciesHeader(sp)}
+    ${speciesSteps()}
+    <div class="card deep">
+      <p class="eyebrow">Tappa 2 · Ipotizza</p>
+      <h2 class="mid" style="font-size:22px">${bold(txt(sp.hypothesis.q, sp.hypothesis.qS))}</h2>
+      <p class="small-note mt-16">${txt(
+        'Non c\'è una risposta "giusta" qui: segna cosa pensi tu. Potrai confrontarla con la realtà tra poco.',
+        'Formula la tua ipotesi sulla base degli indizi raccolti. Nella fase successiva la confronterai con le evidenze scientifiche.'
+      )}</p>
+      <div class="choices mt-16">
+        ${sp.hypothesis.options.map((o,i)=>{
+          const sel = selected===i;
+          return `<button class="choice ${sel?'selected':''}" onclick="pickHyp(${i})">
+            <div class="choice-mark">${sel?SVG.check(14,'var(--ocra)'):String.fromCharCode(65+i)}</div>
+            <div>${txt(o.text, o.textS)}</div>
+          </button>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="text-center mt-16">
+      <button class="btn ${selected!=null?'solid':''}" ${selected!=null?'':'disabled'} onclick="G.spStep='scopri';R()">
+        ${selected!=null?'Ora scopri come andò davvero':'Scegli un\'ipotesi'}
+      </button>
+    </div>`;
+}
+
+function pickHyp(i){
+  G.hyp[G.spIdx] = i;
+  R();
+}
+
+/* ─── SCOPRI (narrazione) ─── */
+function rScopri(){
+  const sp = SPECIES[G.spIdx];
+  const paragraphs = txt(sp.discover.p, sp.discover.pS);
+  const hypIdx = G.hyp[G.spIdx];
+  const hypText = hypIdx!=null ? txt(sp.hypothesis.options[hypIdx].text, sp.hypothesis.options[hypIdx].textS) : '';
+
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    ${speciesHeader(sp)}
+    ${speciesSteps()}
+    <div class="card">
+      <p class="eyebrow">Tappa 3 · Scopri</p>
+      <h2 class="mid" style="font-size:22px;color:${sp.color}">Come andò davvero</h2>
+      ${hypText?`<div style="background:var(--cream);border-left:3px solid var(--parchDD);padding:10px 14px;margin:14px 0;border-radius:0 6px 6px 0">
+        <div class="hf" style="font-size:11px;letter-spacing:1.5px;color:var(--inkLL);margin-bottom:4px">LA TUA IPOTESI</div>
+        <div style="font-style:italic;color:var(--inkL);font-size:14px">"${hypText}"</div>
+      </div>`:''}
+      <div class="prose mt-16">
+        ${paragraphs.map(p=>`<p>${bold(p)}</p>`).join('')}
+      </div>
+      <div style="background:${sp.color}15;border:1px dashed ${sp.color};border-radius:8px;padding:14px;margin-top:18px">
+        <div class="hf" style="font-size:11px;letter-spacing:2px;color:${sp.color};margin-bottom:6px">STRUMENTO IN ARRIVO</div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="color:${sp.color}">${SVG[sp.tool.key](28, sp.color)}</div>
+          <div>
+            <div style="font-weight:700;color:${sp.color}">${sp.tool.name}</div>
+            <div style="font-size:13px;color:var(--inkL)">${sp.tool.desc}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-16">
+      <button class="btn solid" onclick="G.spStep='agisci';R()">Ora prova tu</button>
+    </div>`;
+}
+
+/* ─── AGISCI (mini-game specifico) ─── */
+function rAgisci(){
+  const sp = SPECIES[G.spIdx];
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    ${speciesHeader(sp)}
+    ${speciesSteps()}
+    <div class="card">
+      <p class="eyebrow">Tappa 4 · Agisci</p>
+      <h2 class="mid" style="font-size:22px">${sp.agisci.title}</h2>
+      <div class="mg-hint">${txt(sp.agisci.hint, sp.agisci.hintS)}</div>
+      <div class="mg-stage" id="mgstage"></div>
+      <div id="mgfeedback" class="mt-16"></div>
+    </div>`;
+  
+  // Mount mini-game
+  const stage = document.getElementById('mgstage');
+  switch(sp.agisci.type){
+    case 'climb': mgClimb(stage); break;
+    case 'knap': mgKnap(stage); break;
+    case 'fire': mgFire(stage); break;
+    case 'sew': mgSew(stage); break;
+    case 'paint': mgPaint(stage); break;
+  }
+}
+
+function completeAgisci(){
+  const sp = SPECIES[G.spIdx];
+  if(!G.tools.includes(sp.tool.key)) G.tools.push(sp.tool.key);
+  const fb = document.getElementById('mgfeedback');
+  fb.innerHTML = `
+    <div style="background:var(--moss);color:#fff;border-radius:8px;padding:14px;display:flex;align-items:center;gap:12px;animation:fadeIn .4s">
+      <div style="flex-shrink:0">${SVG.check(28,'#fff')}</div>
+      <div style="flex:1">
+        <strong>${sp.tool.name} acquisito!</strong>
+        <div style="font-size:13px;opacity:.9">${sp.tool.desc}</div>
+      </div>
+    </div>
+    <div class="text-center mt-16">
+      <button class="btn solid" onclick="G.spStep='diario';R()">Scrivi la pagina del diario</button>
+    </div>`;
+  fb.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MINI-GAMES
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ─── CLIMB: clicca i rami in ordine dal basso, evita i marci ─── */
+function mgClimb(stage){
+  // Rami: [y%, solido]
+  const branches = [
+    {y:85, solid:true,  label:'Radice'},
+    {y:70, solid:false, label:'Ramo marcio'},
+    {y:72, solid:true,  label:'Ramo solido'},
+    {y:55, solid:true,  label:'Ramo solido'},
+    {y:40, solid:false, label:'Ramo marcio'},
+    {y:42, solid:true,  label:'Ramo solido'},
+    {y:25, solid:true,  label:'Vetta'}
+  ];
+  // Distribuzione orizzontale alternata
+  branches.forEach((b,i)=>b.x = 20 + (i%2===0 ? 10 : 60) + (i*4));
+
+  if(!G.mg.climb) G.mg.climb = {pos:-1, fails:0, solidIdx:branches.map((b,i)=>b.solid?i:null).filter(x=>x!==null)};
+  const mg = G.mg.climb;
+
+  const targetSolidOrder = mg.solidIdx;
+  const nextTarget = targetSolidOrder[mg.pos+1];
+
+  stage.innerHTML = `
+    <div style="position:relative;height:320px;background:linear-gradient(180deg,#D4A36A 0,#8B6420 100%);border-radius:8px;overflow:hidden">
+      <!-- Palma -->
+      <rect x="48%" y="0" style="width:4%;height:100%;background:#5A3D1F;position:absolute;left:48%;top:0;"></rect>
+      <div style="position:absolute;left:48%;top:0;width:4%;height:100%;background:#5A3D1F"></div>
+      <!-- Foglie cima -->
+      <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:200px;height:80px">
+        <svg viewBox="0 0 200 80" style="width:100%;height:100%"><path d="M100 80c-20-20-50-50-90-50 30 0 60 10 70 30M100 80c20-20 50-50 90-50-30 0-60 10-70 30M100 80c-10-30-30-60-50-70 10 20 30 40 40 70M100 80c10-30 30-60 50-70-10 20-30 40-40 70" fill="#3B5020"/></svg>
+      </div>
+      ${branches.map((b,i)=>{
+        const climbed = i<=mg.pos && mg.solidIdx.includes(i);
+        const isNext = i===nextTarget;
+        const bgColor = climbed ? '#6B8142' : (b.solid ? 'transparent' : 'transparent');
+        return `<div onclick="climbBranch(${i})" style="position:absolute;top:${b.y}%;left:${b.x}%;transform:translateY(-50%);cursor:pointer;z-index:5">
+          <svg width="80" height="24" viewBox="0 0 80 24">
+            <path d="M5 12 Q 40 ${b.solid?8:18} 75 12" stroke="${b.solid?'#5A3D1F':'#8B4500'}" stroke-width="6" fill="none" stroke-linecap="round"/>
+            ${climbed?`<circle cx="40" cy="12" r="6" fill="#6B8142"/>`:''}
+            ${isNext?`<circle cx="40" cy="12" r="10" fill="none" stroke="#B8722E" stroke-width="2"><animate attributeName="r" values="8;14;8" dur="1.5s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.3;1" dur="1.5s" repeatCount="indefinite"/></circle>`:''}
+            ${!b.solid?`<path d="M30 10 L40 14 M35 8 L45 14" stroke="#3A2010" stroke-width="1.5" opacity=".6"/>`:''}
+          </svg>
+        </div>`;
+      }).join('')}
+      <!-- Esploratore -->
+      ${mg.pos>=0?(()=>{
+        const solidIdx = mg.solidIdx[mg.pos];
+        const b = branches[solidIdx];
+        return `<div style="position:absolute;top:${b.y-5}%;left:${b.x+2}%;transform:translate(-50%,-100%);transition:all .5s">${SVG.sp_australo(36,'#3B2010')}</div>`;
+      })():''}
+      ${mg.pos<0?`<div style="position:absolute;bottom:4%;left:10%">${SVG.sp_australo(40,'#3B2010')}</div>`:''}
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:var(--inkL);text-align:center">
+      ${mg.pos<0?'Parti dal basso: tocca il ramo successivo.':`Posizione: ${mg.pos+1}/${mg.solidIdx.length} ${mg.fails?`· Scivolate: ${mg.fails}`:''}`}
+    </div>`;
+  
+  if(mg.pos === mg.solidIdx.length-1){
+    setTimeout(()=>completeAgisci(), 400);
+  }
+}
+
+function climbBranch(i){
+  const mg = G.mg.climb;
+  const expected = mg.solidIdx[mg.pos+1];
+  if(i===expected){
+    mg.pos++;
+    R();
+  } else {
+    mg.fails = (mg.fails||0)+1;
+    // Animazione di scivolamento
+    const fb = document.getElementById('mgfeedback');
+    fb.innerHTML = `<div style="background:var(--parch);border:1.5px solid var(--ocraD);border-radius:8px;padding:12px;animation:fadeIn .3s">
+      <strong style="color:var(--ocraD)">Attento!</strong> Ramo marcio o troppo distante. <em style="color:var(--inkL)">Rivaluta con calma il percorso.</em>
+    </div>`;
+    setTimeout(()=>{ fb.innerHTML=''; }, 2500);
+  }
+}
+
+/* ─── KNAP: Scheggia la pietra ─── */
+function mgKnap(stage){
+  if(!G.mg.knap) G.mg.knap = {flakes:0, strikes:[], broken:false};
+  const mg = G.mg.knap;
+  const target = 3;
+
+  stage.innerHTML = `
+    <div id="knapArea" style="position:relative;height:280px;background:radial-gradient(circle at 50% 60%,#6B5840 0,#3B2A1A 100%);border-radius:8px;overflow:hidden;cursor:crosshair">
+      <!-- Pietra nucleo -->
+      <svg viewBox="0 0 400 240" style="position:absolute;inset:0;width:100%;height:100%" id="knapSvg">
+        <defs>
+          <radialGradient id="stoneGrad" cx=".4" cy=".4">
+            <stop offset="0" stop-color="#A8937A"/>
+            <stop offset="1" stop-color="#4A3A26"/>
+          </radialGradient>
+        </defs>
+        <path id="stoneShape" d="M120 90 Q 100 70 120 50 Q 180 30 240 50 Q 290 70 285 130 Q 280 180 230 190 Q 150 200 110 170 Q 90 130 120 90 Z" fill="url(#stoneGrad)" stroke="#2A1A0A" stroke-width="1.5"/>
+        ${mg.strikes.map((s,i)=>`<g><circle cx="${s.x}" cy="${s.y}" r="12" fill="none" stroke="#E8D8C0" stroke-width="2"/><path d="M${s.x-8} ${s.y-8}L${s.x+8} ${s.y+8}M${s.x+8} ${s.y-8}L${s.x-8} ${s.y+8}" stroke="#E8D8C0" stroke-width="1.5"/></g>`).join('')}
+      </svg>
+      <div style="position:absolute;bottom:8px;right:12px;color:#E8D8C0;font-family:var(--hf);font-size:14px;letter-spacing:1px">
+        Schegge utili: ${mg.flakes}/${target}
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:var(--inkL);text-align:center">
+      Clicca sul <strong>bordo della pietra</strong> per colpirla. Distanzia i colpi o la frantumi.
+    </div>`;
+  
+  const area = document.getElementById('knapArea');
+  area.onclick = (e)=>{
+    if(mg.flakes>=target) return;
+    const rect = area.getBoundingClientRect();
+    const svgW = 400, svgH = 240;
+    const x = (e.clientX-rect.left) / rect.width * svgW;
+    const y = (e.clientY-rect.top) / rect.height * svgH;
+    
+    // Punto dentro la pietra (semplice hit test su ellisse circoscrivente)
+    const cx=200, cy=120, rx=90, ry=75;
+    const dx=(x-cx)/rx, dy=(y-cy)/ry;
+    const inside = dx*dx+dy*dy <= 1;
+    const onEdge = inside && dx*dx+dy*dy > 0.55; // zona bordo
+    
+    if(!onEdge){
+      const fb = document.getElementById('mgfeedback');
+      fb.innerHTML = `<div style="background:var(--parch);border:1.5px solid var(--ocraD);border-radius:8px;padding:12px;animation:fadeIn .3s"><strong style="color:var(--ocraD)">Colpo mancato.</strong> La pietra va colpita <em>sul bordo</em>, con angolazione: lì si staccano le schegge.</div>`;
+      setTimeout(()=>fb.innerHTML='',2500);
+      return;
+    }
+    
+    // Troppo vicino a un colpo precedente?
+    const tooClose = mg.strikes.some(s => Math.hypot(s.x-x, s.y-y) < 30);
+    
+    if(tooClose){
+      const fb = document.getElementById('mgfeedback');
+      fb.innerHTML = `<div style="background:var(--parch);border:1.5px solid var(--ocraD);border-radius:8px;padding:12px;animation:fadeIn .3s"><strong style="color:var(--ocraD)">Colpo troppo vicino al precedente!</strong> La pietra si spezza male. <em>Distanzia i colpi lungo il bordo.</em></div>`;
+      setTimeout(()=>fb.innerHTML='',2800);
+      return;
+    }
+    
+    mg.strikes.push({x,y});
+    mg.flakes++;
+    R();
+    
+    if(mg.flakes>=target){
+      setTimeout(()=>completeAgisci(), 600);
+    }
+  };
+}
+
+/* ─── FIRE: ordina i 4 passi ─── */
+function mgFire(stage){
+  const correctSeq = [
+    {k:'wood', label:'Raccogli legna secca', desc:'Rametti piccoli prima, legna grossa dopo.'},
+    {k:'circle', label:'Disponi le pietre a cerchio', desc:'Contengono il fuoco e lo proteggono dal vento.'},
+    {k:'strike', label:'Sfrega/batti le pietre focaie', desc:'Le scintille cadono sul muschio secco.'},
+    {k:'blow', label:'Soffia piano sulla scintilla', desc:'L\'ossigeno nutre la fiamma.'}
+  ];
+  
+  if(!G.mg.fire) G.mg.fire = {order:[], done:false};
+  const mg = G.mg.fire;
+  
+  // Pool = passi non ancora messi in ordine
+  const pool = correctSeq.filter(s => !mg.order.includes(s.k));
+  
+  stage.innerHTML = `
+    <div id="fireWrap">
+      <div style="display:grid;gap:8px;margin-bottom:16px">
+        ${[0,1,2,3].map(i=>{
+          const placed = mg.order[i];
+          const step = placed ? correctSeq.find(s=>s.k===placed) : null;
+          const isCorrect = mg.done && step && correctSeq[i].k===placed;
+          const isWrong = mg.done && step && correctSeq[i].k!==placed;
+          return `<div class="tl-slot ${isCorrect?'correct':''} ${isWrong?'wrong':''}" data-slot="${i}" onclick="fireUnplace(${i})" style="padding:14px">
+            <span class="tl-period">Passo ${i+1}</span>
+            ${step?`<div style="display:flex;align-items:center;gap:10px;width:100%">
+              ${iconForFireStep(step.k,22)}
+              <div style="flex:1"><strong>${step.label}</strong>${mg.done?`<div style="font-size:12px;color:var(--inkL);margin-top:2px">${step.desc}</div>`:''}</div>
+              ${!mg.done?`<span style="color:var(--inkLL);font-size:11px">tocca per tornare indietro</span>`:''}
+            </div>`:`<span style="color:var(--inkLL);font-size:13px">Tocca un passo qui sotto</span>`}
+          </div>`;
+        }).join('')}
+      </div>
+      ${pool.length?`<div style="background:var(--cream);border-radius:8px;padding:12px;border:1px dashed var(--parchDD)">
+        <div class="hf" style="font-size:11px;letter-spacing:1.5px;color:var(--inkLL);margin-bottom:8px">PASSI DA ORDINARE</div>
+        ${pool.map(s=>`<div onclick="firePlace('${s.k}')" style="background:var(--parch);border:1.5px solid var(--parchDD);border-radius:6px;padding:10px;margin-bottom:6px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:all .2s" onmouseover="this.style.borderColor='var(--ocra)'" onmouseout="this.style.borderColor='var(--parchDD)'">
+          ${iconForFireStep(s.k,22)}
+          <strong>${s.label}</strong>
+        </div>`).join('')}
+      </div>`:''}
+      ${mg.order.length===4 && !mg.done?`<div class="text-center mt-16"><button class="btn solid" onclick="fireCheck()">Accendi</button></div>`:''}
+    </div>`;
+}
+
+function iconForFireStep(k,s){
+  const map = {wood:SVG.tree, circle:SVG.stone, strike:SVG.spark, blow:SVG.fire};
+  const col = {wood:'#5A4020', circle:'#6B5842', strike:'#C4A65A', blow:'#B8722E'};
+  return (map[k]||SVG.star)(s, col[k]||'var(--ocra)');
+}
+
+function firePlace(k){
+  G.mg.fire.order.push(k);
+  R();
+}
+function fireUnplace(i){
+  if(G.mg.fire.done) return;
+  G.mg.fire.order.splice(i,1);
+  R();
+}
+function fireCheck(){
+  const correct = ['wood','circle','strike','blow'];
+  const mg = G.mg.fire;
+  const ok = mg.order.every((k,i)=>k===correct[i]);
+  mg.done = true;
+  R();
+  
+  const fb = document.getElementById('mgfeedback');
+  if(ok){
+    fb.innerHTML = `<div style="background:var(--moss);color:#fff;border-radius:8px;padding:14px;animation:fadeIn .4s">
+      <strong>Fuoco acceso!</strong> Hai seguito la sequenza corretta. Ogni passo prepara il successivo.
+    </div>`;
+    setTimeout(()=>completeAgisci(), 1200);
+  } else {
+    fb.innerHTML = `<div style="background:var(--parch);border:1.5px solid var(--ocraD);border-radius:8px;padding:14px;animation:fadeIn .3s">
+      <strong style="color:var(--ocraD)">L\'ordine non è quello giusto.</strong> Guarda i passi evidenziati in rosso: riconsiderali e riprova.
+      <div class="text-center mt-16"><button class="btn sm" onclick="resetFire()">Riprova</button></div>
+    </div>`;
+  }
+}
+function resetFire(){
+  G.mg.fire = {order:[], done:false};
+  document.getElementById('mgfeedback').innerHTML='';
+  R();
+}
+
+/* ─── SEW: collega i puntini in ordine ─── */
+function mgSew(stage){
+  const dots = [
+    {x:120,y:60},{x:170,y:50},{x:220,y:55},{x:260,y:80},{x:280,y:120},
+    {x:275,y:160},{x:250,y:195},{x:210,y:210},{x:160,y:210},{x:115,y:195},
+    {x:85,y:165},{x:80,y:125},{x:95,y:85},{x:120,y:60}
+  ];
+  if(!G.mg.sew) G.mg.sew = {next:1};
+  const mg = G.mg.sew;
+  
+  const lines = [];
+  for(let i=0;i<mg.next-1;i++){
+    lines.push(`<line x1="${dots[i].x}" y1="${dots[i].y}" x2="${dots[i+1].x}" y2="${dots[i+1].y}" stroke="#8B6914" stroke-width="2.5" stroke-dasharray="4 3"/>`);
+  }
+  
+  stage.innerHTML = `
+    <div style="background:#E0C8A0;border-radius:8px;padding:20px;position:relative">
+      <svg viewBox="0 0 360 260" style="width:100%;height:auto;display:block">
+        <!-- Sagoma pelliccia (ombra) -->
+        <path d="M120 60 Q 190 40 260 80 Q 290 130 270 190 Q 200 220 100 200 Q 70 140 90 80 Z" fill="#8A6240" opacity=".35"/>
+        ${lines.join('')}
+        ${dots.map((d,i)=>{
+          if(i===dots.length-1 && mg.next<dots.length) return '';
+          const visited = i < mg.next-1 || (i===0 && mg.next>0);
+          const isNext = i===mg.next;
+          return `<g onclick="sewDot(${i})" style="cursor:pointer">
+            <circle cx="${d.x}" cy="${d.y}" r="${isNext?11:8}" fill="${visited?'#6B8142':isNext?'#B8722E':'#F0E6D0'}" stroke="#3B2A15" stroke-width="1.5"/>
+            <text x="${d.x}" y="${d.y+4}" text-anchor="middle" font-family="Cormorant Garamond" font-size="10" fill="${visited?'#fff':'#3B2A15'}" font-weight="700">${i+1}</text>
+            ${isNext?`<circle cx="${d.x}" cy="${d.y}" r="14" fill="none" stroke="#B8722E" stroke-width="1.5" opacity=".5"><animate attributeName="r" values="11;18;11" dur="1.5s" repeatCount="indefinite"/></circle>`:''}
+          </g>`;
+        }).join('')}
+      </svg>
+    </div>
+    <div style="margin-top:10px;font-size:13px;color:var(--inkL);text-align:center">
+      Prossimo punto: <strong>${mg.next+1}</strong> ${mg.next>=dots.length-1?'· Completato!':''}
+    </div>`;
+  
+  if(mg.next>=dots.length-1){
+    setTimeout(()=>completeAgisci(), 800);
+  }
+}
+
+function sewDot(i){
+  if(i===G.mg.sew.next){
+    G.mg.sew.next++;
+    R();
+  } else {
+    const fb = document.getElementById('mgfeedback');
+    fb.innerHTML = `<div style="background:var(--parch);border:1.5px solid var(--ocraD);border-radius:8px;padding:12px;animation:fadeIn .3s"><strong style="color:var(--ocraD)">Punto saltato.</strong> Segui la sequenza numerica: l\'ago entra ed esce sempre nell\'ordine.</div>`;
+    setTimeout(()=>fb.innerHTML='',2200);
+  }
+}
+
+/* ─── PAINT: pittura rupestre ─── */
+function mgPaint(stage){
+  stage.innerHTML = `
+    <div class="paint-wrap">
+      <canvas id="paintCanvas" width="600" height="360"></canvas>
+    </div>
+    <div class="paint-toolbar">
+      <div class="paint-swatch active" data-color="#B8722E" style="background:#B8722E"></div>
+      <div class="paint-swatch" data-color="#3B2A15" style="background:#3B2A15"></div>
+      <div class="paint-swatch" data-color="#8B4513" style="background:#8B4513"></div>
+      <div class="paint-swatch" data-color="#E8D0A0" style="background:#E8D0A0"></div>
+      <button class="btn sm ghost" onclick="paintClear()" style="margin-left:auto">Cancella</button>
+      <button class="btn sm solid" onclick="paintDone()">Ho finito</button>
+    </div>
+    <p class="small-note mt-16 text-center">${G.level==='secondaria'?'Non serve realismo: il Sapiens di 30.000 anni fa rappresentava l\'essenza, non la copia fedele.':'Disegna come vuoi. Un animale, una scena di caccia, una stella... come i Sapiens di 30.000 anni fa.'}</p>`;
+  
+  const canvas = document.getElementById('paintCanvas');
+  const ctx = canvas.getContext('2d');
+  
+  // Sfondo caverna
+  const grd = ctx.createRadialGradient(300,180,50,300,180,400);
+  grd.addColorStop(0,'#5A4030');
+  grd.addColorStop(1,'#2A1810');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  // Texture roccia: punti random
+  for(let i=0;i<300;i++){
+    ctx.fillStyle = `rgba(${120+Math.random()*40},${90+Math.random()*30},${60+Math.random()*30},${0.15+Math.random()*0.25})`;
+    ctx.beginPath();
+    ctx.arc(Math.random()*canvas.width, Math.random()*canvas.height, Math.random()*4, 0, Math.PI*2);
+    ctx.fill();
+  }
+  
+  // Se c'è una pittura salvata, ripristinala
+  if(G.painting){
+    const img = new Image();
+    img.onload = ()=>ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    img.src = G.painting;
+  }
+  
+  let drawing = false, color = '#B8722E', last=null;
+  
+  function getPos(e){
+    const r = canvas.getBoundingClientRect();
+    const sx = canvas.width/r.width, sy = canvas.height/r.height;
+    const x = (e.touches?e.touches[0].clientX:e.clientX) - r.left;
+    const y = (e.touches?e.touches[0].clientY:e.clientY) - r.top;
+    return {x:x*sx, y:y*sy};
+  }
+  function start(e){ e.preventDefault(); drawing = true; last = getPos(e); }
+  function move(e){
+    if(!drawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 5;
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+    ctx.beginPath();
+    ctx.moveTo(last.x,last.y);
+    ctx.lineTo(p.x,p.y);
+    ctx.stroke();
+    last = p;
+  }
+  function end(){ drawing = false; }
+  
+  canvas.addEventListener('mousedown',start);
+  canvas.addEventListener('mousemove',move);
+  canvas.addEventListener('mouseup',end);
+  canvas.addEventListener('mouseleave',end);
+  canvas.addEventListener('touchstart',start);
+  canvas.addEventListener('touchmove',move);
+  canvas.addEventListener('touchend',end);
+  
+  // Swatches
+  document.querySelectorAll('.paint-swatch').forEach(sw=>{
+    sw.onclick = ()=>{
+      document.querySelectorAll('.paint-swatch').forEach(s=>s.classList.remove('active'));
+      sw.classList.add('active');
+      color = sw.dataset.color;
+    };
+  });
+  
+  // Memorizza il ctx per i controlli esterni
+  window._paintCtx = ctx;
+  window._paintCanvas = canvas;
+}
+
+function paintClear(){
+  if(!window._paintCtx) return;
+  const c = window._paintCanvas, ctx = window._paintCtx;
+  ctx.clearRect(0,0,c.width,c.height);
+  const grd = ctx.createRadialGradient(300,180,50,300,180,400);
+  grd.addColorStop(0,'#5A4030');
+  grd.addColorStop(1,'#2A1810');
+  ctx.fillStyle = grd;
+  ctx.fillRect(0,0,c.width,c.height);
+  for(let i=0;i<300;i++){
+    ctx.fillStyle = `rgba(${120+Math.random()*40},${90+Math.random()*30},${60+Math.random()*30},${0.15+Math.random()*0.25})`;
+    ctx.beginPath();
+    ctx.arc(Math.random()*c.width, Math.random()*c.height, Math.random()*4, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function paintDone(){
+  if(window._paintCanvas){
+    G.painting = window._paintCanvas.toDataURL('image/png');
+  }
+  completeAgisci();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DIARIO SPECIE
+   ═══════════════════════════════════════════════════════════════ */
+function rDiarioSpecie(){
+  const sp = SPECIES[G.spIdx];
+  if(!G.diary[G.spIdx]) G.diary[G.spIdx] = {q1:'',q2:'',q3:''};
+  const d = G.diary[G.spIdx];
+  
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    ${speciesHeader(sp)}
+    ${speciesSteps()}
+    <div class="diary-page">
+      <div class="diary-title">Pagina ${G.spIdx+1} · ${sp.name}</div>
+      <div class="prose" style="font-style:italic;color:var(--inkL);font-size:14px;margin-bottom:14px">
+        ${txt(
+          'Ripensa a quello che hai scoperto. Completa le tre frasi con parole tue.',
+          'Rifletti sul percorso appena compiuto. Le riflessioni personali sono parte fondante del viaggio.'
+        )}
+      </div>
+      <div class="diary-label">Prima...</div>
+      <textarea class="diary-input" rows="2" placeholder="${sp.diary.q1}" onblur="saveDiary(${G.spIdx},'q1',this.value)" oninput="showSaved(this)">${d.q1}</textarea>
+      
+      <div class="diary-label">Ora...</div>
+      <textarea class="diary-input" rows="2" placeholder="${sp.diary.q2}" onblur="saveDiary(${G.spIdx},'q2',this.value)" oninput="showSaved(this)">${d.q2}</textarea>
+      
+      <div class="diary-label">Una cosa in più...</div>
+      <textarea class="diary-input" rows="2" placeholder="${sp.diary.q3}" onblur="saveDiary(${G.spIdx},'q3',this.value)" oninput="showSaved(this)">${d.q3}</textarea>
+      
+      <div class="diary-saved-hint" id="saveHint">Salvato automaticamente</div>
+    </div>
+    <div class="text-center mt-20">
+      <button class="btn solid" onclick="nextSpecies()">
+        ${G.spIdx<SPECIES.length-1?`Prossima specie · ${SPECIES[G.spIdx+1].name}`:'Vai alla sintesi finale'}
+      </button>
+    </div>`;
+}
+
+let saveTimeout;
+function showSaved(el){
+  const hint = document.getElementById('saveHint');
+  if(hint){
+    clearTimeout(saveTimeout);
+    hint.classList.add('show');
+    saveTimeout = setTimeout(()=>hint.classList.remove('show'), 1500);
+  }
+  // Salva subito anche per oninput, così se la pagina si chiude
+  const key = el.previousElementSibling?.textContent;
+  // Non affidabile, meglio salvare per campo specifico su blur (già c'è)
+}
+
+function saveDiary(idx, key, val){
+  if(!G.diary[idx]) G.diary[idx] = {q1:'',q2:'',q3:''};
+  G.diary[idx][key] = val;
+  saveState();
+  const hint = document.getElementById('saveHint');
+  if(hint){
+    hint.classList.add('show');
+    setTimeout(()=>hint.classList.remove('show'), 1500);
+  }
+}
+
+function nextSpecies(){
+  G.spIdx++;
+  G.spStep = 'esplora';
+  if(G.spIdx >= SPECIES.length){
+    G.phase = 'timeline';
+  }
+  R();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE — ordina le specie
+   ═══════════════════════════════════════════════════════════════ */
+function rTimeline(){
+  const correctOrder = ['australo','habilis','erectus','neander','sapiens'];
+  const periods = ['4 mln','2,5 mln','1,8 mln','400.000','300.000 → oggi'];
+  
+  if(!G.mg.timeline) G.mg.timeline = {slots:[null,null,null,null,null], pool:['sapiens','neander','australo','erectus','habilis'], done:false, correct:0};
+  const mg = G.mg.timeline;
+  
+  app.innerHTML = `
+    ${topbar()}
+    ${toolbar()}
+    <div class="card deep">
+      <p class="eyebrow text-center">Sintesi · 1 di 2</p>
+      <h2 class="mid text-center">La linea del tempo</h2>
+      <p class="small-note text-center mt-16">${txt(
+        'Trascina ogni specie al suo posto, dalla più antica alla più recente.',
+        'Colloca ogni ominide sulla linea temporale, dal più antico al più recente.'
+      )}</p>
+      
+      <div style="margin-top:24px;display:grid;gap:10px">
+        ${mg.slots.map((s,i)=>{
+          const sp = s ? SPECIES.find(x=>x.id===s) : null;
+          const isCorrect = mg.done && s===correctOrder[i];
+          const isWrong = mg.done && s!==correctOrder[i];
+          return `<div class="tl-slot ${isCorrect?'correct':''} ${isWrong?'wrong':''}" 
+            data-slot="${i}" 
+            ondragover="tlDragOver(event,${i})" 
+            ondrop="tlDrop(event,${i})"
+            ondragleave="event.currentTarget.classList.remove('over')">
+            <span class="tl-period">${periods[i]}</span>
+            ${sp?`<div style="display:flex;align-items:center;gap:10px;width:100%" ${!mg.done?`onclick="tlUnplace(${i})"`:''} style="cursor:${mg.done?'default':'pointer'}">
+              ${sp.icon(32, sp.color)}
+              <div><strong style="color:${sp.color}">${sp.name}</strong><div style="font-size:12px;color:var(--inkL)">${sp.where}</div></div>
+            </div>`:`<span style="color:var(--inkLL);font-size:13px">Trascina o tocca una specie</span>`}
+          </div>`;
+        }).join('')}
+      </div>
+      
+      ${mg.pool.length?`<div class="tl-pool">
+        ${mg.pool.map(id=>{
+          const sp = SPECIES.find(x=>x.id===id);
+          return `<div class="tl-card" draggable="true" 
+            ondragstart="tlDragStart(event,'${id}')" 
+            ondragend="event.target.classList.remove('dragging')"
+            onclick="tlClickPlace('${id}')">
+            ${sp.icon(28, sp.color)}
+            <div><strong style="color:${sp.color};font-size:14px">${sp.name}</strong><div style="font-size:11px;color:var(--inkL)">${sp.period}</div></div>
+          </div>`;
+        }).join('')}
+      </div>`:''}
+      
+      ${mg.slots.every(s=>s!==null) && !mg.done?`<div class="text-center mt-20"><button class="btn solid" onclick="tlCheck()">Verifica</button></div>`:''}
+      
+      ${mg.done?`<div style="background:${mg.correct===5?'var(--moss)':'var(--parch)'};color:${mg.correct===5?'#fff':'var(--ink)'};border:${mg.correct<5?'1.5px solid var(--ocraD)':'none'};border-radius:8px;padding:14px;margin-top:16px;animation:fadeIn .4s">
+        ${mg.correct===5?
+          `<strong>Linea del tempo corretta!</strong> Hai ordinato tutti i nostri antenati.` :
+          `<strong style="color:var(--ocraD)">${mg.correct}/5 corretti.</strong> Guarda le caselle rosse: quelle specie vanno al posto giusto. Tocca la casella per rimuoverla e riprova.`
+        }
+      </div>
+      <div class="text-center mt-16">
+        ${mg.correct===5?
+          `<button class="btn solid" onclick="G.timelineDone=true;G.phase='matching';R()">Prossima sfida</button>`:
+          `<button class="btn" onclick="tlReset()">Riprova</button>`
+        }
+      </div>`:''}
+    </div>`;
+}
+
+function tlDragStart(ev, id){
+  ev.dataTransfer.setData('text/plain', id);
+  ev.target.classList.add('dragging');
+}
+function tlDragOver(ev, i){
+  ev.preventDefault();
+  if(!G.mg.timeline.slots[i]) ev.currentTarget.classList.add('over');
+}
+function tlDrop(ev, i){
+  ev.preventDefault();
+  ev.currentTarget.classList.remove('over');
+  if(G.mg.timeline.slots[i]) return;
+  const id = ev.dataTransfer.getData('text/plain');
+  placeInSlot(id, i);
+}
+function tlClickPlace(id){
+  // Mette nel primo slot libero
+  const mg = G.mg.timeline;
+  for(let i=0;i<mg.slots.length;i++){
+    if(!mg.slots[i]){
+      placeInSlot(id, i);
+      return;
+    }
+  }
+}
+function placeInSlot(id, i){
+  const mg = G.mg.timeline;
+  mg.slots[i] = id;
+  const pIdx = mg.pool.indexOf(id);
+  if(pIdx>-1) mg.pool.splice(pIdx,1);
+  R();
+}
+function tlUnplace(i){
+  const mg = G.mg.timeline;
+  if(mg.done) return;
+  const id = mg.slots[i];
+  if(!id) return;
+  mg.slots[i] = null;
+  mg.pool.push(id);
+  R();
+}
+function tlCheck(){
+  const correct = ['australo','habilis','erectus','neander','sapiens'];
+  const mg = G.mg.timeline;
+  mg.correct = mg.slots.reduce((acc,s,i)=>acc+(s===correct[i]?1:0),0);
+  mg.done = true;
+  R();
+}
+function tlReset(){
+  const mg = G.mg.timeline;
+  const placed = mg.slots.filter(s=>s!==null);
+  mg.pool = [...mg.pool, ...placed];
+  mg.slots = [null,null,null,null,null];
+  mg.done = false;
+  mg.correct = 0;
+  R();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MATCHING — strumenti ↔ specie
+   ═══════════════════════════════════════════════════════════════ */
+function rMatching(){
+  if(!G.mg.match){
+    G.mg.match = {
+      toolsOrder: shuffle(['footprint','stone','fire','needle','mouth']),
+      speciesOrder: shuffle(SPECIES.map(s=>s.id)),
+      matches: {},
+      selTool: null,
+      selSpecies: null,
+      done: false,
+      correct: 0
+    };
+  }
+  const mg = G.mg.match;
+  const correctMap = {footprint:'australo', stone:'habilis', fire:'erectus', needle:'neander', mouth:'sapiens'};
+  const toolNames = {footprint:'Il passo eretto', stone:'Il chopper', fire:'Il dominio del fuoco', needle:'L\'ago d\'osso', mouth:'La parola e il segno'};
+  
+  app.innerHTML = `
+    ${topbar()}
+    <div class="card deep">
+      <p class="eyebrow text-center">Sintesi · 2 di 2</p>
+      <h2 class="mid text-center">Chi inventò cosa?</h2>
+      <p class="small-note text-center mt-16">${txt(
+        'Tocca uno strumento a sinistra e poi la specie a destra che l\'ha inventato.',
+        'Associa ciascuna invenzione al suo inventore. Ogni strumento ha una specie precisa.'
+      )}</p>
+      
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px">
+        <div>
+          <div class="hf" style="font-size:11px;letter-spacing:2px;color:var(--inkLL);margin-bottom:10px">STRUMENTI</div>
+          ${mg.toolsOrder.map(tk=>{
+            const matched = mg.matches[tk];
+            const sel = mg.selTool===tk;
+            const correct = mg.done && correctMap[tk]===matched;
+            const wrong = mg.done && matched && correctMap[tk]!==matched;
+            return `<div class="match-card ${sel?'selected':''} ${matched?'matched':''}" 
+                      style="${correct?'border-color:var(--moss);background:#6B814215':''}${wrong?'border-color:var(--ocraD);background:#B8722E15':''}"
+                      onclick="matchPickTool('${tk}')">
+              ${SVG[tk](24,'var(--ocra)')}
+              <strong>${toolNames[tk]}</strong>
+            </div>`;
+          }).join('')}
+        </div>
+        <div>
+          <div class="hf" style="font-size:11px;letter-spacing:2px;color:var(--inkLL);margin-bottom:10px">SPECIE</div>
+          ${mg.speciesOrder.map(sid=>{
+            const sp = SPECIES.find(x=>x.id===sid);
+            const matchedTool = Object.keys(mg.matches).find(k=>mg.matches[k]===sid);
+            const sel = mg.selSpecies===sid;
+            return `<div class="match-card ${sel?'selected':''} ${matchedTool?'matched':''}"
+                      onclick="matchPickSpecies('${sid}')">
+              ${sp.icon(24, sp.color)}
+              <div>
+                <strong style="color:${sp.color}">${sp.name}</strong>
+                ${matchedTool?`<div style="font-size:11px;color:var(--inkL);margin-top:2px">← ${toolNames[matchedTool]}</div>`:''}
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      
+      ${Object.keys(mg.matches).length===5 && !mg.done?`<div class="text-center mt-20"><button class="btn solid" onclick="matchCheck()">Verifica</button></div>`:''}
+      
+      ${mg.done?`<div style="background:${mg.correct===5?'var(--moss)':'var(--parch)'};color:${mg.correct===5?'#fff':'var(--ink)'};border:${mg.correct<5?'1.5px solid var(--ocraD)':'none'};border-radius:8px;padding:14px;margin-top:20px">
+        ${mg.correct===5?
+          `<strong>Tutti abbinati correttamente!</strong> Conosci gli strumenti dei nostri antenati.`:
+          `<strong style="color:var(--ocraD)">${mg.correct}/5 abbinamenti corretti.</strong> Guarda quelli in rosso: non appartengono a quella specie.`
+        }
+      </div>
+      <div class="text-center mt-16">
+        ${mg.correct===5?
+          `<button class="btn solid" onclick="G.matchingDone=true;G.phase='export';R()">Vedi il tuo diario</button>`:
+          `<button class="btn" onclick="matchReset()">Riprova</button>`
+        }
+      </div>`:''}
+    </div>`;
+}
+
+function shuffle(a){ a=[...a]; for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a; }
+
+function matchPickTool(tk){
+  const mg = G.mg.match;
+  if(mg.done || mg.matches[tk]) return;
+  mg.selTool = tk;
+  if(mg.selSpecies){
+    mg.matches[tk] = mg.selSpecies;
+    mg.selTool = null;
+    mg.selSpecies = null;
+  }
+  R();
+}
+function matchPickSpecies(sid){
+  const mg = G.mg.match;
+  if(mg.done) return;
+  // Se c'è già un abbinamento a questa specie, non si può
+  const already = Object.values(mg.matches).includes(sid);
+  if(already) return;
+  mg.selSpecies = sid;
+  if(mg.selTool){
+    mg.matches[mg.selTool] = sid;
+    mg.selTool = null;
+    mg.selSpecies = null;
+  }
+  R();
+}
+function matchCheck(){
+  const correct = {footprint:'australo', stone:'habilis', fire:'erectus', needle:'neander', mouth:'sapiens'};
+  const mg = G.mg.match;
+  mg.correct = Object.keys(mg.matches).reduce((acc,k)=>acc+(mg.matches[k]===correct[k]?1:0),0);
+  mg.done = true;
+  R();
+}
+function matchReset(){
+  G.mg.match.matches = {};
+  G.mg.match.done = false;
+  G.mg.match.correct = 0;
+  G.mg.match.selTool = null;
+  G.mg.match.selSpecies = null;
+  R();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXPORT — diario stampabile
+   ═══════════════════════════════════════════════════════════════ */
+function rExport(){
+  const date = new Date().toLocaleDateString('it-IT',{day:'numeric',month:'long',year:'numeric'});
+  
+  app.innerHTML = `
+    ${topbar()}
+    <div class="no-print text-center mb-20">
+      <h2 class="mid">Il tuo diario è pronto</h2>
+      <p class="small-note mt-16" style="max-width:460px;margin:12px auto">${txt(
+        'Ecco tutte le pagine del tuo viaggio. Puoi stamparle o salvarle in PDF.',
+        'Il diario completo raccoglie le tue riflessioni, i tuoi artefatti e la sintesi finale. Stampabile o esportabile in PDF.'
+      )}</p>
+      <div class="mt-16">
+        <button class="btn solid" onclick="window.print()">Stampa o salva in PDF</button>
+        <button class="btn ghost sm" onclick="resetAll()" style="margin-left:8px">Ricomincia tutto</button>
+      </div>
+    </div>
+    
+    <!-- CONTENUTO STAMPABILE -->
+    <div class="diary-page" style="page-break-after:always">
+      <div style="text-align:center;padding:30px 0 20px">
+        <div style="margin-bottom:16px">${SVG.compass(56,'var(--ocra)')}</div>
+        <h1 class="big" style="font-size:36px">Il Viaggio dell'Uomo</h1>
+        <p class="subtitle">Diario dell'Esploratore</p>
+        <div style="margin-top:30px;padding-top:20px;border-top:1px solid var(--parchDD)">
+          <p style="font-size:14px;color:var(--inkL);letter-spacing:1px">Esploratore</p>
+          <p class="hf" style="font-size:28px;color:var(--ocraD);margin:4px 0">${G.name}</p>
+          <p style="font-size:13px;color:var(--inkLL);margin-top:10px">${date} · ${G.level==='primaria'?'Scuola primaria':'Scuola secondaria'}</p>
+        </div>
+      </div>
+    </div>
+    
+    ${SPECIES.map((sp,i)=>{
+      const d = G.diary[i] || {q1:'',q2:'',q3:''};
+      const hypIdx = G.hyp[i];
+      const hypText = hypIdx!=null ? txt(sp.hypothesis.options[hypIdx].text, sp.hypothesis.options[hypIdx].textS) : '—';
+      return `<div class="diary-page" style="page-break-after:always">
+        <div style="display:flex;align-items:center;gap:14px;padding-bottom:14px;border-bottom:1.5px solid ${sp.color}">
+          <div>${sp.icon(52, sp.color)}</div>
+          <div>
+            <div class="hf" style="font-size:11px;letter-spacing:2px;color:var(--inkLL)">PAGINA ${i+1}</div>
+            <div class="hf" style="font-size:26px;color:${sp.color}">${sp.name}</div>
+            <div style="font-size:13px;color:var(--inkL)">${sp.period}</div>
+          </div>
+        </div>
+        
+        <div style="margin-top:18px">
+          <div class="hf" style="font-size:10px;letter-spacing:1.5px;color:var(--inkLL);margin-bottom:4px">LA MIA IPOTESI INIZIALE</div>
+          <div style="font-style:italic;color:var(--inkL);padding:10px 12px;background:var(--cream);border-radius:6px">"${hypText}"</div>
+        </div>
+        
+        <div style="margin-top:18px">
+          <div class="hf" style="font-size:10px;letter-spacing:1.5px;color:var(--inkLL);margin-bottom:4px">STRUMENTO ACQUISITO</div>
+          <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;background:${sp.color}18;border-left:3px solid ${sp.color};border-radius:0 6px 6px 0">
+            ${SVG[sp.tool.key](22, sp.color)}
+            <strong style="color:${sp.color}">${sp.tool.name}</strong>
+            <span style="font-size:13px;color:var(--inkL)">· ${sp.tool.desc}</span>
+          </div>
+        </div>
+        
+        <div style="margin-top:20px">
+          <div class="diary-label">Prima pensavo che...</div>
+          <div style="min-height:36px;padding:8px 0;border-bottom:1.5px dotted var(--inkLL);font-style:italic;color:var(--ink);font-size:15px;line-height:1.8">${d.q1||'<span style="color:var(--inkLL);opacity:.4">(non compilato)</span>'}</div>
+          
+          <div class="diary-label">Ora so che...</div>
+          <div style="min-height:36px;padding:8px 0;border-bottom:1.5px dotted var(--inkLL);font-style:italic;color:var(--ink);font-size:15px;line-height:1.8">${d.q2||'<span style="color:var(--inkLL);opacity:.4">(non compilato)</span>'}</div>
+          
+          <div class="diary-label">Una cosa in più...</div>
+          <div style="min-height:36px;padding:8px 0;border-bottom:1.5px dotted var(--inkLL);font-style:italic;color:var(--ink);font-size:15px;line-height:1.8">${d.q3||'<span style="color:var(--inkLL);opacity:.4">(non compilato)</span>'}</div>
+        </div>
+      </div>`;
+    }).join('')}
+    
+    ${G.painting?`<div class="diary-page" style="page-break-after:always;text-align:center">
+      <div class="hf" style="font-size:11px;letter-spacing:2px;color:var(--inkLL);margin-bottom:4px">IL MIO SEGNO RUPESTRE</div>
+      <div class="hf" style="font-size:22px;color:var(--ocraD);margin-bottom:16px">Come un Sapiens di 30.000 anni fa</div>
+      <img src="${G.painting}" style="max-width:100%;border:2px solid var(--parchDD);border-radius:8px">
+      <p style="font-style:italic;color:var(--inkL);font-size:13px;margin-top:12px">${G.name}, ${date}</p>
     </div>`:''}
-
-    <div class="card" style="border-top:3px solid var(--parchDD)">
-      <div class="hf" style="font-size:11px;color:var(--sand);letter-spacing:2px;margin-bottom:14px">RIFLESSIONE FINALE</div>
-      <p style="font-size:14px;color:var(--textL);margin-bottom:14px">Ripensa al viaggio. Dall'Australopiteco a te: milioni di anni di scoperte, fatiche e conquiste.</p>
-      ${metaQs.map(q=>`<div class="meta-box"><p style="color:var(--sand);font-size:13px;margin-bottom:6px;font-weight:600">${q}</p><textarea rows="2" placeholder="Scrivi qui..."></textarea></div>`).join('')}
-      <div style="text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--parchDD)">
-        <div class="hf" style="font-size:16px;color:var(--sand);letter-spacing:2px">${tot} XP TOTALI</div>
-        <div style="font-size:13px;color:var(--textL);margin-top:4px">${G.nm} — ${badge} dell'Evoluzione</div>
+    
+    <div class="diary-page">
+      <div class="diary-title">Sintesi del viaggio</div>
+      <div class="prose" style="margin-top:14px">
+        <p><strong>Ho viaggiato</strong> attraverso <strong>5 specie</strong> di ominidi, da 4 milioni di anni fa a oggi.</p>
+        <p>Ho raccolto <strong>${G.tools.length} strumenti</strong>: ${G.tools.map(t=>{const sp=SPECIES.find(s=>s.tool.key===t);return sp?sp.tool.name:'';}).filter(Boolean).join(', ')}.</p>
+        <p>Ho formulato <strong>${Object.keys(G.hyp).length} ipotesi</strong> prima di scoprire le risposte.</p>
+        <p>Ho scritto <strong>${Object.values(G.diary).reduce((a,d)=>a+['q1','q2','q3'].filter(k=>d[k]&&d[k].trim()).length,0)} riflessioni</strong> nel diario.</p>
+      </div>
+      <div style="margin-top:28px;padding-top:16px;border-top:1px solid var(--parchDD);text-align:center">
+        <p style="font-style:italic;color:var(--inkL);max-width:440px;margin:0 auto;line-height:1.7">${txt(
+          'Un giorno qualcuno leggerà di te come oggi tu leggi dell\'Australopiteco. Scrivi bene la tua storia.',
+          'La linea che va da Lucy fino a te continua ogni giorno. La storia che racconterai dipende dalle scelte che fai.'
+        )}</p>
       </div>
     </div>`;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   START
+   ═══════════════════════════════════════════════════════════════ */
 R();
 </script>
 </body>
